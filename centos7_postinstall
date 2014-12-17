@@ -1,0 +1,118 @@
+#==================================================
+'Réglages initiaux après installation de CentOs 7'
+#==================================================
+
+1) Pour changer le nom d'hôte de façon permanente, éditez le fichier suivant :
+# vim /etc/hostname
+centos7_server
+
+Après cela, éditez le fichier hosts :
+# vim /etc/hosts
+127.0.0.0.1 centos7_server localhost localhost.localdomain localhost4.localdomain4
+Après le redémarrage, il affichera le nouveau nom d'hôte.
+
+&======&
+
+2) Après vous être loggé dans l'installation minimale du serveur CentOs7 vous constaterez que la commande ifconfig n'est pas présente :
+# ifconfig
+
+Il faut installer le paquet "net-tools" qui contient ifconfig :
+# yum install net-tools
+
+Essayez à nouveau la commande ifconfig :
+# ifconfig
+
+&======&
+
+3) Changer le nom par defaut de la carte réseau par "eth0"
+CentOs 7 propose par défaut des noms du type "enpS..", Pour changer ceci déplacer vous dans :
+# vim /etc/default/grub
+Cherchez la ligne "GRUB_CMDLINE_LINUX" et ajoutez à la fin :
+net.ifnames=0 biosdevname=0
+
+Créer une nouvelle configuration basée sur le système en cours d'exécution en utilisant la commande grub2-mkconfig :
+# grub2-mkconfig -o /boot/grub2/grub.cfg
+
+Renommer le fichier "ifcfg-enp2s0.." en "eth0"
+# mv ifcfg-enp2s0 ifcfg-eth0
+
+Redemarrer
+# reboot
+
+Après le redémarrage vérifier que la modification a bien été prise en compte.
+# ifconfig
+
+&======&
+
+4) Configurer l'adresse statique du serveur :
+
+Editer le fichier : /etc/sysconfig/network-scripts/ifcfg-eth0
+# vim /etc/sysconfig/network-scripts/ifcfg-eth0
+
+Utiliser ces paramètres : à adapter en fonction du contexte
+DEVICE="eth0"
+ONBOOT=yes
+BOOTPROTO=static
+IPADDR=192.168.2.10
+NETMASK=255.255.255.0
+GATEWAY=192.168.2.1
+# Ici le serveur qui est au dessus dans le réseau sert de seveur dns
+DNS1=192.168.2.1
+
+Arrêter et désactiver le "NetworkManager" parce que nous n'en avons pas besoin sur le serveur.
+# systemctl stop NetworkManager 
+# systemctl disable NetworkManager
+
+Relancer le service "network"
+Attention, si vous vous connectez à distance, parce que vous serez déconnecté après l'émission de cette commande.
+# service network restart
+
+Vérifiez que la nouvelle adresse est bien attribuée :
+# ifconfig
+inet 192.168.2.10
+
+&======&
+
+5) Désactiver l'IPv6
+
+Vérifier si l'IPv6 est activé ou non
+# lsmod | grep -i ipv6
+
+Si c'est le cas, éditer le fichier :
+# vim /etc/default/grub
+Cherchez la ligne "GRUB_CMDLINE_LINUX" et ajoutez au début :
+ipv6.disable=1
+
+Créer une nouvelle configuration basée sur le système en cours d'exécution en utilisant la commande grub2-mkconfig :
+# grub2-mkconfig -o /boot/grub2/grub.cfg
+Testez à nouveau si l'IPv6 est activé
+# lsmod | grep -i ipv6
+
+&======&
+
+6) Ajouter le dépot EPEL
+# cd /root
+# mkdir RPMS
+# cd RPMS
+# rpm --import http://mirrors.nayatel.com/epel//RPM-GPG-KEY-EPEL-7
+# rpm -Uvh http://mirrors.nayatel.com/epel/7/x86_64/e/epel-release-7-1.noarch.rpm
+
+Lister les nouveaux dépots
+# yum repolist
+
+&======&
+
+7) Activer les services iptables (au lieu de firewalld) :
+
+Lorsque vous essayer de démarrer / redémarrer iptables sur le serveur nouvellement installé, vous obtiendrais cette erreur:
+# service iptables restart
+Redirecting to /bin/systemctl restart iptables.service
+Failed to issues method call: Unit iptables.service failed to load: No such file or directory.
+
+Pour corriger cette erreur, installez le paquet iptables-services :
+# yum install iptables-services
+
+Relancer la commande précédante :
+# service iptables restart
+
+&===End===&
