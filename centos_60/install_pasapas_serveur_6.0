@@ -1,0 +1,337 @@
+#-----------------------------
+'Installation CentOs 6 serveur'
+#----------------------------
+
+Juillet 2011
+
+Plus qu'une installation serveur proprement dite, il s'agit plutot d'une installation minimale
+en vue de servir de base à un serveur.
+
+
+Installation de CentOS 6
+# ----------------------
+L'installation se fait en mode graphique
+Choix de la langue
+Choix du clavier
+etc...
+
+Le partitionnement se fait en graphique également :
+Les disques, même IDE, sont reconnus comme /dev/sda
+
+Dans le choix des paquets rien n'est coché sauf le support de lanque française.
+L'install de base compte 197 paquets
+------------------------------------------------------------
+
+Après installation de base :
+# cd /boot/grub/
+# vi menu.lst
+
+Résolution console
+-----------------
+Mode	0x0314:		800x600		16 bits
+Mode	0x0315:		800x600		24 bits
+Mode	0x0317:		1024x768	16 bits
+Mode	0x0318:		1024x768	24 bits
+
+Faire des essais avec l'option vga=ask pour adapter la résolution de la console pour un peu plus de confort.
+Sur le portable Acer Aspire 1350, le meilleur choix est 1024x768 qui s'écrit comme ceci dans la ligne kernel :
+
+'1024x768 = vga=0x317'
+#-------------------
+kernel /vmlinuz-2.6.32-71.29.1.el6.i686 ro root=UUID=8e5406d2-7e30-4572-b08a-df81dbc145e3 rd_NO_LUKS rd_NO_LVM rd_NO_MD rd_NO_DM LANG=fr_FR.UTF-8 SYSFONT=latarcyrheb-sun16 KEYBOARDTYPE=pc KEYTABLE=fr-latin9 crashkernel=auto vga=0x317 quiet
+
+Cette procédure est valable pour un serveur sans interface graphique.
+Par contre sur un poste de travail cette option ne suffit pas. Il faut rajouter "nomodeset".
+
+Attention toutefois, cela marchait avec le noyau 2.6.32-71.29.1.el6 avec les effets de bureau
+Mais depuis la mise à jour vers 2.6.32-131.21.1, le bureau était au ralenti, la console s'affichait de manière aléatoire, les effets de bureau ne fonctionnaient plus.
+
+Traitement :
+	- Suppression de l'option "nomodeset" dans menu.lst
+	- Suppression des deux dossiers .gconf et .gconfd de l'utilisateur "jpantinoux"
+	Ceci à cause des difficultés rencontré avec la console et nautilus...
+	- Je n'active plus les effets de bureau (cubes, fenêtres flotantes
+
+Mise à jour du 29/12/2011
+Installation du noyau :
+	2.6.32-220.2.1.el6.i686
+	Tout semble rentré dans l'ordre.
+
+Résumé :
+	Bon comportement avec :		2.6.32-71.29.1.el6
+	Mauvais comportement avec :	2.6.32-131.21.1.el6
+	Bon comportement avec :		2.6.32-220.2.1.el6.
+
+------------------------------------------------------------
+
+'Désactiver SELinux'
+#------------------
+CentOS 5.5 : system-config-secutitylevel-tui
+CentOs 6.0 :
+Pour savoir quel est l'état actuel de SELinux
+[jpantinoux@prunelle:~] $ /usr/sbin/getenforce
+Enforcing
+
+Il faut éditer le fichier /etc/sysconfig/selinux
+#SELINUX=enforcing
+SELINUX=disabled
+Commenter enforcing et ajouter disabled
+
+# reboot
+
+------------------------------------------------------------
+
+'Gérer les ports du firewall'
+#---------------------------
+
+Il faut installer 'system-config-firewall-tui'
+Celui-ci n'étant pas installé par défaut
+# yum install system-config-firewall-tui
+
+Voir quel sont quelle sont les règles appliquées par iptables
+http://www.linux-france.org/prj/inetdoc/guides/iptables-tutorial/
+
+[root@prunelle:~] # service iptables status
+Table : filter
+Chain INPUT (policy ACCEPT)
+num  target     prot opt source               destination         
+1    ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           state RELATED,ESTABLISHED 
+2    ACCEPT     icmp --  0.0.0.0/0            0.0.0.0/0           
+3    ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
+4    ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0           state NEW tcp dpt:22 
+5    REJECT     all  --  0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited 
+
+Chain FORWARD (policy ACCEPT)
+num  target     prot opt source               destination         
+1    REJECT     all  --  0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited 
+
+Chain OUTPUT (policy ACCEPT)
+num  target     prot opt source               destination         
+
+On voit que seul le port 22 (ssh) est ouvert dans le filtrage
+
+Pour ajouter un port :
+# system-config-firewall-tui
+La fenêtre 'services de confiance' s'ouvre avec ncurses
+S'il s'agit d'ouvrir les ports pour utiliser Samba, il suffit de cocher [*] Samba
+Si l'on souhaite ouvrir un port non listé :
+	'Suivant'
+		'Autres ports'
+			'Ajouter'
+Port / Intervalle des ports :	18525
+Protocole :			tcp
+
+
+'Installer quelques outils de base :'
+#-----------------------------------
+	vim-enhanced
+	wget
+	subversion
+	lynx
+	ntp
+	man
+	man-pages
+	man-pages-fr
+	yum-plugin-priorities
+	tree
+	pinfo
+
+
+Pour automatiser :
+°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+# yum install vim-enhanced wget subversion lynx ntp man man-pages man-pages-fr yum-plugin-priorities tree pinfo
+°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+ 
+'Syncronisation de l'horloge'
+#----------------------------
+
+Synchronisation l'horloge système avec un serveur d'horloge
+atomique :
+        
+        # ntpdate pool.ntp.org 
+
+Activer le démon NTP.
+        
+        # chkconfig ntpd on 
+        # service ntpd start
+
+	
+'Personnaliser la console (couleurs)'
+#--------------------------------
+
+Récupérer ma documentation :
+basics : svn co svn://svn.tuxfamily.org/svnroot/slocentos/basics
+centos : svn co svn://svn.tuxfamily.org/svnroot/slocentos/centos
+
+Dans basics/maintenance/invites_commande_couleur
+# ./script_install_invites.sh
+
+
+------------------------------------------------------------
+
+'Créer un dossier'
+#----------------
+
+Créer un dossier "RPMS" dans "root" pour y placer les paquetages téléchargés.
+# mkdir RPMS
+
+------------------------------------------------------------
+
+Petite liste des commandes pour vim
+Sélectionner des lignes :
+"shift + v" puis avec h,j,k,l étendre la sélection
+"y" pour copier
+"p" pour coller
+
+Coller des lignes d'un fichier dans un autre
+Fractionner l'écran (spliter)
+:split chemin_fichier/nom_fichier
+
+Passer d'une fenêtre à l'autre
+ctrl+w ctrl+w (2 fois)
+
+Insérer le contenu d'un fichier :
+:r nom_fichier
+
+Enregistrer sous :
+:sav nom_fichier
+
+------------------------------------------------------------
+
+Effectuer une mise à jour complète du système avec la commande :
+# yum update
+
+Redémarrer par "shutdown -r now" ou la combinaison de touches : ctrl+alt+Suppr
+
+------------------------------------------------------------
+
+'Suppression ancien kernel :'
+#---------------------------
+
+1 - vérification des kernels disponibles :
+# rpm -qa | grep kernel
+Retourne la listes des kernels
+
+2 - vérification du kernel actif :
+# uname -r
+Retourne le nom du kernel utilisé
+
+3 - suppression du kernel non utilisé :
+# rpm -e kernel-nom_du_kernel
+
+------------------------------------------------------------
+
+'Ajout et configuration du dépot "rpmforge"'
+#-------------------------------------------
+
+# lynx apt.sw.be
+Aller dans le dossier : "redhat" --> "el6" --> "en" --> "i386" --> "RPMSrpmforge"
+Après avoir tapé : shift + / pour définir la requète : rechercher "rpmforge-release"
+Choisir la version la plus récente.
+Taper "d" pour charger le fichier, puis flèche du bas "Enregistrer le fichier",
+--> flèche de droite et enfin "Entrée" pour confirmer.
+
+Retour dans le dossier RPMS
+	Avant d'installer le dépot rpmforge
+	Importer la clé GPG
+	# rpm --import http://apt.sw.be/RPM-GPG-KEY.dag.txt
+	Vérifier le paquet du dépot
+	[root@prunelle:~/RPMS] # rpm -K rpmforge-release-0.5.2-2.el6.rf.*.rpm
+	rpmforge-release-0.5.2-2.el6.rf.i686.rpm: (sha1) dsa sha1 md5 gpg OK
+	Installer le paquet !
+	# rpm -ivh rpmforge-release-0.5.2-2.el6.rf.i686.rpm
+
+Pour automatiser
+°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+# wget http://apt.sw.be/redhat/el6/en/i386/rpmforge/RPMS/rpmforge-release-0.5.2-2.el6.rf.i686.rpm
+# rpm --import http://apt.sw.be/RPM-GPG-KEY.dag.txt
+# rpm -K rpmforge-release-0.5.2-2.el6.rf.*.rpm
+# rpm -ivh rpmforge-release-0.5.2-2.el6.rf.i686.rpm
+°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+
+Se déplacer dans le dossier : /etc/yum.repos.d
+# /etc/yum.repos.d
+# vim rpmforge.repo
+
+	Supprimer la ligne :
+	protect = 1
+	Ajout de la ligne :
+	priority = 10
+	:wq
+
+----------------------------------------------------------
+
+'Ajout et configuration du dépot "elrepo"'
+#-----------------------------------------
+
+# rpm --import http://elrepo.org/RPM-GPG-KEY-elrepo.org
+# rpm -Uvh http://elrepo.org/elrepo-release-6-4.el6.elrepo.noarch.rpm
+
+Se déplacer dans le dossier : /etc/yum.repos.d
+# /etc/yum.repos.d
+# vim elrepo.repo
+
+	Ajout de la ligne :
+	priority=10
+	:wq
+
+----------------------------------------------------------
+
+'Configurer le dépot Base'
+#------------------------
+
+Ouvrir le fichier CentOS-Base.repo
+Dans toutes les stances ajouter "enabled=0" au-dessous du titre.
+Pour	"base"
+	enabled=1
+	priority=1
+
+	"update"
+	enabled=1
+	priority=1
+
+	"extras"
+	enabled=1
+	priority=1
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+Si l'on souhaite exclure un ou plusieurs paquets de la mise à jour :
+# vim yum.conf
+Ajouter la ligne "exclude" au dessous de la ligne plugins
+	...
+	plugins=1
+	exclude=kernel samba*
+	...
+Dans cet exemple on ne met pas à jour les paquets "kernel" et tous les paquets commençant par "samba*"
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
+Un petit nettoyage :
+# yum clean all
+puis
+# yum check-update
+Pour vérifier que les modifications ont bien été prises en compte.
+
+Recherche dans les paquets installés et leur provenance
+#-----------------------------------------------------
+
+Ecrire la liste de tous les paquets dans un fichier
+# yum list installed >> ~/installed.txt
+
+Tous les paquets installés par anaconda
+# yum list installed | grep @anaconda*
+
+Tous les paquets installés à partir du dépot "base"
+# yum list installed | grep @base
+
+Tous les paquets installés à partir du dépot "updates"
+# yum list installed | grep @updates
+
+Tous les paquets installés à partir d'un dépot tiers
+# yum list installed | grep rpmforge
+# yum list installed | grep elrepo
+
+Tous les paquets installés manuelement
+# yum list installed | grep installed
+
+

@@ -1,0 +1,25 @@
+#--------------------------------------
+'Evolution de Centos 5.5 vers Centos 6'
+#--------------------------------------
+
+Redhat recommande d'utiliser la méthode graphique d'installation
+Les installations kickstart fonctionnent comme précédemment et offrent la totalité des fonctionnalités d'Anaconda.
+
+Le processus init est maintenant pris en charge par upstart. Upstart pilote la séquence de démarrage par événements. Le fichier/etc/inittab est quasiment vide et ne contient plus que le niveau d'exécution par défaut; tous les autres éléments sont configurés dans /etc/init/*.conf. Toutefois, les services System V sont toujours contrôlés avec chkconfig et system-config-services. Le processus de démarrage. graphique (appelé plymouth) utilise le Kernel-based mode-setting; il faut alors utiliser la touche flèche vers le bas pour voir les messages détaillés du processus de boot.
+
+Désignation				CentOs 5.5 - 5.6				CentOs 6.0
+#-----------------------------------------------------------------------------------------------------------------------#
+Désactiver SELinux			system-config-securitylevel-tui			/etc/sysconfig/selinux
+											SELinux=disbled
+
+Réglage pare feu			system-config-securitylevel-tui			system-config-firewall-tui
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Priorités des dépots			yum install yum-priorities			yum install yum-plugin-priorities
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+
+

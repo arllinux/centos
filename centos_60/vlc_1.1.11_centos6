@@ -1,0 +1,298 @@
+#--------------------------------#
+'Installation de vlc sur CentOs 6'
+#--------------------------------#
+
+Aout 2011
+
+SYNOPSIS
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+Par défaut avec le dépot rpmforge, l'installation de vlc échoue
+IL faut télécharger et installer une dépendance plus récente que celle proposée dans les dépots
+Dépot rpmforge :	vlc-1.1.11-1.el6.rf.i686 (rpmforge)
+Dépot rpmforge :	libmodplug-0.8.7-1.el6.rf.i686 (rpmforge)	-->	libmodplug.so.0
+rpmbone.net :		libmodplug0-2.04-kb1.i386.rpm			-->	libmodplug.so.0
+Installer le module :	# rpm -ivh libmodplug0-2.04-kb1.i386.rpm
+Installer vlc :		# yum install vlc
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+DÉTAILS
+#------
+
+1 - Par : yum install vlc l'installation échoue à cause d'une dépendance manquante
+
+Error: Package: vlc-1.1.11-1.el6.rf.i686 (rpmforge)
+           Requires: libmodplug.so.0
+Available: libmodplug-0.8.7-1.el6.rf.i686 (rpmforge)
+               libmodplug.so.0
+Celle-ci ne semble pas assez récente pour pourvoir faire fonctionner la version actuelle de vlc
+
+J'ai donc suivi les conseils donné sur ce site :
+http://blog.ask4itsolutions.com/2011/07/25/how-to-install-vlc-player-on-rhel-6-x-centos-6-x-32-bit-64-bit-x86_64-using-script/
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+2 - J'ai chargé les deux scripts écrit par l'auteur du site :
+
+-rw-rw-r--  1  jpantinoux jpantinoux      3617 10 août  23:48 avrc6-tejas-barot-linux-0.1.0-1.el6.i386.rpm
+-rw-rw-r--   1 jpantinoux jpantinoux     18913 10 août  23:49 vlc6-installation.sh
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+3 - J'ai installé le premier
+
+[root@prunelle:/home/jpantinoux/Téléchargements] # rpm -ivh avrc6-tejas-barot-linux-0.1.0-1.el6.i386.rpm 
+Préparation...              ########################################### [100%]
+   1:avrc6-tejas-barot-linux########################################### [100%]
+
+
+To Remove RPM Execute Following Command as root:
+rpm -e avrc6-tejas-barot-linux-0.1.0-1.el6.i386
+
+RPM Created by Tejas Barot ( All Linux User's Blog)
+URL:- http://blog.ask4itsolutions.com
+
+Please Don't Forget to Comment if it works for you.
+For Feedback and Errors mail me on <blog@ask4itsolutions.com>
+
+Thanks for Using RPM, Enjoy Linux and Open Source
+
+Rendu exécutable le second
+[root@prunelle:/home/jpantinoux/Téléchargements] # chmod =x vlc6-installation.sh 
+
+Puis lancé l'exécution du script
+[root@prunelle:/home/jpantinoux/Téléchargements] # ./vlc6-installation.sh 
+
+
+
+
+	Press (R32) to Install VLC on RHEL 6.x on 32bit
+	Press (R64) to Install VLC on RHEL 6.x on 64bit
+
+	Press (C32) to Install VLC on CentOS 6.x on 32bit
+        Press (C64) to Install VLC on CentOS 6.x on 64bit
+	Press (E) to Exit anytime
+
+Please Enter your Selection:C32
+You have selected VLC Installation for CentOS 6.x.... Just Sit back and Relax.....
+You are running as a root, Moving to next step.....
+You can continue, Your CentOS Linux version is 6.0
+Creating Temp Directories.....
+Configuring New Repositories......
+NON GUI Download Client is already installed.
+You are good to go, All Repository is already configured....
+Loaded plugins: fastestmirror, priorities, refresh-packagekit
+Loading mirror speeds from cached hostfile
+ * rpmforge: ftp-stud.fht-esslingen.de
+tejas-barot-vlc                                                                                         | 3.7 kB     00:00     
+tejas-barot-vlc/primary_db                                                                              | 3.3 MB     00:05     
+Setting up Install Process
+Resolving Dependencies
+--> Running transaction check
+---> Package vlc.i686 0:1.1.11-1.el6.rf set to be updated
+--> Processing Dependency: libva-x11.so.1 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libportaudio.so.2 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libml.so.2.0 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libcxcore.so.2.0 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libzvbi.so.0 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libass.so.4 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libthreadutil.so.2 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libva.so.1 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libmodplug.so.0 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libebml.so.2 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libupnp.so.3 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libcvaux.so.2.0 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libhighgui.so.2.0 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libcv.so.2.0 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libcddb.so.2 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libSDL_image-1.2.so.0 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libixml.so.2 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libdvbpsi.so.6 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libmatroska.so.2 for package: vlc-1.1.11-1.el6.rf.i686
+--> Running transaction check
+---> Package SDL_image.i686 0:1.2.10-1.el6.rf set to be updated
+---> Package libass.i686 0:0.9.11-1.el6.rf set to be updated
+---> Package libcddb.i686 0:1.3.1-1.el6.rf set to be updated
+---> Package libdvbpsi.i686 0:0.1.7-1.el6.rf set to be updated
+---> Package libebml.i686 0:1.0.0-1.el6.rf set to be updated
+---> Package libmatroska.i686 0:1.0.0-1.el6.rf set to be updated
+---> Package libupnp.i686 0:1.6.6-1.el6.rf set to be updated
+---> Package libva.i686 0:1.0.6-1.el6.rf set to be updated
+---> Package opencv.i686 0:2.0.0-9.el6 set to be updated
+--> Processing Dependency: libucil.so.2 for package: opencv-2.0.0-9.el6.i686
+--> Processing Dependency: libunicap.so.2 for package: opencv-2.0.0-9.el6.i686
+---> Package portaudio.i686 0:19-1.20071207.el6.rf set to be updated
+---> Package vlc.i686 0:1.1.11-1.el6.rf set to be updated
+--> Processing Dependency: libmodplug.so.0 for package: vlc-1.1.11-1.el6.rf.i686
+---> Package zvbi.i686 0:0.2.33-2.el6.rf set to be updated
+--> Running transaction check
+---> Package unicap.i686 0:0.9.5-4.el6 set to be updated
+---> Package vlc.i686 0:1.1.11-1.el6.rf set to be updated
+--> Processing Dependency: libmodplug.so.0 for package: vlc-1.1.11-1.el6.rf.i686
+--> Finished Dependency Resolution
+Error: Package: vlc-1.1.11-1.el6.rf.i686 (rpmforge)
+           Requires: libmodplug.so.0
+           Available: libmodplug-0.8.7-1.el6.rf.i686 (rpmforge)
+               libmodplug.so.0
+ You could try using --skip-broken to work around the problem
+ You could try running: rpm -Va --nofiles --nodigest
+There is something wrong with your Internet Connection..Or You forgot some step.
+Restoring your Previous repositories......
+
+# Toujours le même problème. Cette manipulation ne résoud rien.
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+4 - Recherche d'un version plus récente du module :
+
+Après avoir téléchargé "libmodplug0-2.04-kb1.i386.rpm" sur le site rpmpbone.net
+http://rpm.pbone.net/index.php3/stat/4/idpl/12730476/dir/other/com/libmodplug0-2.04-kb1.i386.rpm.html
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+5 - J'ai vérifié que le rpm contenait bien libmodplug.so.0
+
+[root@prunelle:/home/jpantinoux/Téléchargements] # rpm -qpl libmodplug0-2.04-kb1.i386.rpm 
+/usr/lib/libmodplug.so.0
+/usr/lib/libmodplug.so.0.0.0
+/usr/share/doc/libmodplug0-2.04
+/usr/share/doc/libmodplug0-2.04/COPYING
+/usr/share/doc/libmodplug0-2.04/README
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+6 - Installation du module
+[root@prunelle:/home/jpantinoux/Téléchargements] # rpm -ivh libmodplug0-2.04-kb1.i386.rpm 
+Préparation...              ########################################### [100%]
+   1:libmodplug0            ########################################### [100%]
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+6 - Enfin installation de vlc
+
+[root@prunelle:/home/jpantinoux/Téléchargements] # yum install vlc
+Loaded plugins: fastestmirror, priorities, refresh-packagekit
+Loading mirror speeds from cached hostfile
+ * base: mirrors.ircam.fr
+ * elrepo: elrepo.reloumirrors.net
+ * extras: mirrors.ircam.fr
+ * rpmforge: ftp-stud.fht-esslingen.de
+ * updates: mirrors.ircam.fr
+0 packages excluded due to repository priority protections
+Setting up Install Process
+Resolving Dependencies
+--> Running transaction check
+---> Package vlc.i686 0:1.1.11-1.el6.rf set to be updated
+--> Processing Dependency: libva-x11.so.1 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libportaudio.so.2 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libml.so.2.0 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libcxcore.so.2.0 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libzvbi.so.0 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libass.so.4 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libthreadutil.so.2 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libva.so.1 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libebml.so.2 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libupnp.so.3 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libcvaux.so.2.0 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libhighgui.so.2.0 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libcv.so.2.0 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libcddb.so.2 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libSDL_image-1.2.so.0 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libixml.so.2 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libdvbpsi.so.6 for package: vlc-1.1.11-1.el6.rf.i686
+--> Processing Dependency: libmatroska.so.2 for package: vlc-1.1.11-1.el6.rf.i686
+--> Running transaction check
+---> Package SDL_image.i686 0:1.2.10-1.el6.rf set to be updated
+---> Package libass.i686 0:0.9.11-1.el6.rf set to be updated
+---> Package libcddb.i686 0:1.3.1-1.el6.rf set to be updated
+---> Package libdvbpsi.i686 0:0.1.7-1.el6.rf set to be updated
+---> Package libebml.i686 0:1.0.0-1.el6.rf set to be updated
+---> Package libmatroska.i686 0:1.0.0-1.el6.rf set to be updated
+---> Package libupnp.i686 0:1.6.6-1.el6.rf set to be updated
+---> Package libva.i686 0:1.0.6-1.el6.rf set to be updated
+---> Package opencv.i686 0:2.0.0-9.el6 set to be updated
+--> Processing Dependency: libucil.so.2 for package: opencv-2.0.0-9.el6.i686
+--> Processing Dependency: libunicap.so.2 for package: opencv-2.0.0-9.el6.i686
+---> Package portaudio.i686 0:19-1.20071207.el6.rf set to be updated
+---> Package zvbi.i686 0:0.2.33-2.el6.rf set to be updated
+--> Running transaction check
+---> Package unicap.i686 0:0.9.5-4.el6 set to be updated
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+===============================================================================================================================
+ Package                       Arch                   Version                                 Repository                  Size
+===============================================================================================================================
+Installing:
+ vlc                           i686                   1.1.11-1.el6.rf                         rpmforge                    14 M
+Installing for dependencies:
+ SDL_image                     i686                   1.2.10-1.el6.rf                         rpmforge                    82 k
+ libass                        i686                   0.9.11-1.el6.rf                         rpmforge                   142 k
+ libcddb                       i686                   1.3.1-1.el6.rf                          rpmforge                    97 k
+ libdvbpsi                     i686                   0.1.7-1.el6.rf                          rpmforge                    76 k
+ libebml                       i686                   1.0.0-1.el6.rf                          rpmforge                   242 k
+ libmatroska                   i686                   1.0.0-1.el6.rf                          rpmforge                   590 k
+ libupnp                       i686                   1.6.6-1.el6.rf                          rpmforge                   246 k
+ libva                         i686                   1.0.6-1.el6.rf                          rpmforge                   155 k
+ opencv                        i686                   2.0.0-9.el6                             base                       4.4 M
+ portaudio                     i686                   19-1.20071207.el6.rf                    rpmforge                   258 k
+ unicap                        i686                   0.9.5-4.el6                             base                       157 k
+ zvbi                          i686                   0.2.33-2.el6.rf                         rpmforge                   837 k
+
+Transaction Summary
+===============================================================================================================================
+Install      13 Package(s)
+Upgrade       0 Package(s)
+
+Total download size: 21 M
+Installed size: 85 M
+Is this ok [y/N]: y
+Downloading Packages:
+(1/13): SDL_image-1.2.10-1.el6.rf.i686.rpm                                                              |  82 kB     00:00     
+(2/13): libass-0.9.11-1.el6.rf.i686.rpm                                                                 | 142 kB     00:00     
+(3/13): libcddb-1.3.1-1.el6.rf.i686.rpm                                                                 |  97 kB     00:00     
+(4/13): libdvbpsi-0.1.7-1.el6.rf.i686.rpm                                                               |  76 kB     00:00     
+(5/13): libebml-1.0.0-1.el6.rf.i686.rpm                                                                 | 242 kB     00:00     
+(6/13): libmatroska-1.0.0-1.el6.rf.i686.rpm                                                             | 590 kB     00:00     
+(7/13): libupnp-1.6.6-1.el6.rf.i686.rpm                                                                 | 246 kB     00:01     
+(8/13): libva-1.0.6-1.el6.rf.i686.rpm                                                                   | 155 kB     00:00     
+(9/13): opencv-2.0.0-9.el6.i686.rpm                                                                     | 4.4 MB     00:06     
+(10/13): portaudio-19-1.20071207.el6.rf.i686.rpm                                                        | 258 kB     00:00     
+(11/13): unicap-0.9.5-4.el6.i686.rpm                                                                    | 157 kB     00:00     
+(12/13): vlc-1.1.11-1.el6.rf.i686.rpm                                                                   |  14 MB     00:23     
+(13/13): zvbi-0.2.33-2.el6.rf.i686.rpm                                                                  | 837 kB     00:01     
+-------------------------------------------------------------------------------------------------------------------------------
+Total                                                                                          568 kB/s |  21 MB     00:38     
+Running rpm_check_debug
+Running Transaction Test
+Transaction Test Succeeded
+Running Transaction
+Warning: RPMDB altered outside of yum.
+  Installing     : libebml-1.0.0-1.el6.rf.i686                                                                            1/13 
+  Installing     : libmatroska-1.0.0-1.el6.rf.i686                                                                        2/13 
+  Installing     : libcddb-1.3.1-1.el6.rf.i686                                                                            3/13 
+  Installing     : libdvbpsi-0.1.7-1.el6.rf.i686                                                                          4/13 
+  Installing     : portaudio-19-1.20071207.el6.rf.i686                                                                    5/13 
+  Installing     : libupnp-1.6.6-1.el6.rf.i686                                                                            6/13 
+  Installing     : zvbi-0.2.33-2.el6.rf.i686                                                                              7/13 
+  Installing     : libva-1.0.6-1.el6.rf.i686                                                                              8/13 
+  Installing     : libass-0.9.11-1.el6.rf.i686                                                                            9/13 
+  Installing     : SDL_image-1.2.10-1.el6.rf.i686                                                                        10/13 
+  Installing     : unicap-0.9.5-4.el6.i686                                                                               11/13 
+  Installing     : opencv-2.0.0-9.el6.i686                                                                               12/13 
+  Installing     : vlc-1.1.11-1.el6.rf.i686                                                                              13/13 
+
+Installed:
+  vlc.i686 0:1.1.11-1.el6.rf                                                                                                   
+
+Dependency Installed:
+  SDL_image.i686 0:1.2.10-1.el6.rf              libass.i686 0:0.9.11-1.el6.rf         libcddb.i686 0:1.3.1-1.el6.rf            
+  libdvbpsi.i686 0:0.1.7-1.el6.rf               libebml.i686 0:1.0.0-1.el6.rf         libmatroska.i686 0:1.0.0-1.el6.rf        
+  libupnp.i686 0:1.6.6-1.el6.rf                 libva.i686 0:1.0.6-1.el6.rf           opencv.i686 0:2.0.0-9.el6                
+  portaudio.i686 0:19-1.20071207.el6.rf         unicap.i686 0:0.9.5-4.el6             zvbi.i686 0:0.2.33-2.el6.rf              
+
+Complete!
+
+-- Enjoy --
+	

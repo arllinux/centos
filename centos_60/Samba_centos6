@@ -1,0 +1,282 @@
+#======================
+'Installation Samba sous Centos 6'
+#======================
+
+En premier lieu vérifier que toutes les machines Windows appartiennent au même groupe :
+WORKGROUP
+ou
+MSHOME
+
+Synthèse
+#------------------------------------------
+# system-config-firewall-tui > [*] Samba
+# service iptables status
+# yum install samba samba-client
+# chkconfig smb on
+# service smb start
+# cd /etc/samba 
+# mv smb.conf smb.conf.orig 
+#------------------------------------------
+
+
+Dans le pare-feu, ouvrir les ports suivants :
+
+    * 137 en UDP
+    * 138 en UDP
+    * 139 en TCP
+    * 445 en TCP
+
+'system-config-firewall-tui'
+cocher
+[*] Samba
+
+	# service iptables status 
+	...
+	... ACCEPT  udp  --  0.0.0.0/0  0.0.0.0/0  state NEW udp dpt:137 
+	... ACCEPT  udp  --  0.0.0.0/0  0.0.0.0/0  state NEW udp dpt:138 
+	... ACCEPT  tcp  --  0.0.0.0/0  0.0.0.0/0  state NEW tcp dpt:139 
+	... ACCEPT  tcp  --  0.0.0.0/0  0.0.0.0/0  state NEW tcp dpt:445 
+	...
+
+Installation
+------------
+
+	# yum install samba samba-client 
+	# chkconfig smb on 
+	# service smb start|stop|restart 
+	# cd /etc/samba 
+	# mv smb.conf smb.conf.orig 
+
+Partage public sans authentification
+------------------------------------
+
+# mkdir -m 0777 /public 
+
+Éditer /etc/samba/smb.conf :
+
+
+--8<---------- /etc/samba/smb.conf -------------------------------------------
+[global]
+  workgroup = workgroup
+  netbios name = bart
+  server string = Serveur Samba
+  security = share
+  browseable = yes
+  hosts allow = 192.168.1.
+
+[public]
+  path = /public
+  comment = Fichiers partagés
+  read only = no
+  guest ok = yes
+--8<--------------------------------------------------------------------------
+
+Quelques remarques :
+
+	- Les clients Windows doivent tous être membres du même groupe de travail
+	  (en l'occurrence 'WORKGROUP').
+
+	- La directive 'netbios name' correspond au nom (max. 15 caractères) qui
+		apparaît dans le voisinage réseau des clients. Pour nous simplifier la vie,
+		on va choisir 'grossebertha', qui correspond ici au nom d'hôte de la
+		machine.
+
+	- Le nom du partage ([public]) ne doit pas dépasser 12 caractères.
+
+#--------------------------------------------------------
+
+Tester la configuration :
+
+	# testparm 
+	Load smb config files from /etc/samba/smb.conf
+	Processing section "[public]"
+	Loaded services file OK.
+	Server role: ROLE_STANDALONE
+	Press enter to see a dump of your service definitions
+
+	[global]
+	        server string = Serveur Samba local
+	        security = SHARE
+	        hosts allow = 192.168.1.
+
+	[public]
+	        comment = Presbytère Partage Public
+	        path = /public
+	        read only = No
+	        guest ok = Yes
+
+#----------------------------------------------------------
+
+Lister les partages depuis le serveur (taper [Entrée] à l'invite du mot de
+passe) :
+
+	# smbclient -L localhost 
+	Password: 
+	Domain=[WORKGROUP] OS=[Unix] Server=[Samba 3.0.33-3.15.el5_4.1]
+	
+	        Sharename       Type      Comment
+	        ---------       ----      -------
+	        IPC$            IPC       IPC Service (Serveur Samba local)
+	        public          Disk      Presbytère Partage Public
+	Domain=[WORKGROUP] OS=[Unix] Server=[Samba 3.0.33-3.15.el5_4.1]
+
+	        Server               Comment
+	        ---------            -------
+	        BERNADETTE           
+	        GROSSEBERTHA         Serveur Samba local
+	
+	        Workgroup            Master
+	        ---------            -------
+	        WORKGROUP            GROSSEBERTHA
+
+Client CentOS
+-------------
+
+Raccourcis > Serveurs réseaux > Réseau Windows > workgroup > 
+
+	Sélectionner le serveur (GROSSEBERTHA), puis le partage auquel on souhaite se
+	connecter.
+
+Les fichiers du partage sont complètement accessibles à tout le monde. Chacun
+peut les lire, les modifier ou même les effacer.
+
+Client Windows XP
+-----------------
+
+Favoris réseau > Voir les ordinateurs du groupe de travail > 
+
+	Là encore, sélectionner le serveur, puis le partage auquel on souhaite
+	accéder.
+
+Serveur de fichiers avec authentification
+-----------------------------------------
+
+Créer le répertoire qui contiendra les partages :
+
+	# mkdir -m 0777 /partages 
+
+Dans /etc/samba/smb.conf, on passe la sécurité au niveau utilisateur :
+
+--8<---------- /etc/samba/smb.conf -------------------------------------------
+[global]
+  workgroup = workgroup
+  netbios name = raymonde
+  server string = Serveur de fichiers 
+  security = user
+  encrypt passwords = yes
+  browseable = yes
+  hosts allow = 192.168.1.
+
+[partage1]
+  path = /partages
+  comment = Fichiers partagés
+  read only = no
+--8<--------------------------------------------------------------------------
+
+Tester la configuration :
+
+	# testparm 
+	Load smb config files from /etc/samba/smb.conf
+	Processing section "[partage1]"
+	Loaded services file OK.
+	Server role: ROLE_STANDALONE
+	Press enter to see a dump of your service definitions
+
+	[global]
+	        server string = Serveur de fichiers
+	        hosts allow = 192.168.1.
+
+	[partage1]
+	        comment = Fichiers partagés
+	        path = /partages
+	        read only = No
+
+Ne pas oublier de redémarrer Samba le cas échéant :
+
+	# service smb restart 
+
+Lister les partages depuis le serveur. Taper [Entrée] à la demande de saisie de
+mot de passe :
+
+	# smbclient -L localhost 
+	Password: 
+	Anonymous login successful
+	Domain=[WORKGROUP] OS=[Unix] Server=[Samba 3.0.33-3.14.el5]
+
+	        Sharename       Type      Comment
+	        ---------       ----      -------
+	        partage1        Disk      Fichiers partagés
+	        IPC$            IPC       IPC Service (Serveur de fichiers)
+	Anonymous login successful
+	Domain=[WORKGROUP] OS=[Unix] Server=[Samba 3.0.33-3.14.el5]
+
+	        Server               Comment
+	        ---------            -------
+	        RAYMONDE             Serveur de fichiers
+
+	        Workgroup            Master
+	        ---------            -------
+	        WORKGROUP 
+
+Ensuite, il faut créer les utilisateurs Samba sur le serveur. Ceux-ci doivent
+disposer d'un compte Linux. Par exemple, si l'utilisateur 'kikinovak' n'existe
+pas sur le serveur :
+
+	# useradd kikinovak 
+	# smbpasswd -a kikinovak 
+	New SMB password:
+	Retype new SMB password:
+	startsmbfilepwent_internal: file /etc/samba/smbpasswd did not exist. 
+	File successfully created.
+	Added user kikinovak.
+
+Remarque : 
+
+	- La création d'un utilisateur Samba ne nécessite pas forcément l'activation
+		du compte système par la définition d'un mot de passe système.
+
+Les utilisateurs Samba figurent dans le fichier /etc/samba/smbpasswd :
+
+	# cat /etc/samba/smbpasswd 
+	kikinovak:500:8CBD3AFA1C4E39FA5A53F840615C56B7: ...
+
+Accès aux partages
+------------------
+
+La seule différence par rapport au partage publiquement accessible, c'est qu'il
+faut fournir un nom d'utilisateur et un mot de passe pour accéder au partage de
+fichiers.
+#--------------------------------------------------------------------------------
+Le répertoire "public" est accessible par tous
+Le répertoire "perso" est accessible par mot de passe :
+Celui-ci est enregistré sur le serveur et peut être le même utilisateur et mot de passe que sur la machine distante
+
+Exemple de smb.conf
+[global]
+	# Pour les machines Windows (elle doivent toutes appartenir à ce groupe	
+	workgroup = workgroup
+	# Nom de la machine sur le réseau
+	netbios name = bart
+	# Dénomination du serveur dans réseau Windows
+	server string = Serveur Samba
+	# Sécurité au niveau utilisateur avec mot de passe
+	security = user
+	encrypt passwords = yes
+	# On peut naviguer dans les dossiers
+	browsable = yes
+	# Accès réservé aux machines de ce groupe
+	hosts allow = 192.168.0.
+	# Pour créer le fichier smbpasswd (ne marche pas à creuser)
+	# smb passwd file = /etc/samba/smbpasswd
+
+[public]
+	path = home/public
+	comment = Fichiers partagés
+	read only = no
+	guest ok = yes
+
+[perso]
+	path = /prive
+	comment = Fichiers perso
+	read only = no 
+

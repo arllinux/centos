@@ -1,0 +1,169 @@
+#-----------------------------------------------------
+Installer virtualbox sous CentOS 6 avec les extentions
+#-----------------------------------------------------
+
+Se déplacer dans le dossier des dépots
+# cd /etc/yum.repos.d
+
+Charger le dépot
+# wget http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo
+
+Voir le contenu du fichier
+# vim virtualbox.repo 
+	[virtualbox]
+	name=RHEL/CentOS-$releasever / $basearch - VirtualBox
+	baseurl=http://download.virtualbox.org/virtualbox/rpm/rhel/$releasever/$basearch
+	enabled=1
+	gpgcheck=1
+	gpgkey=http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc
+
+--------------------------------------------
+
+Installer la clé d'authentification
+# wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | gpg --quiet --with-fingerprint
+gpg:  nouveau fichier de configuration `/root/.gnupg/gpg.conf' créé
+gpg: AVERTISSEMENT: les options de `/root/.gnupg/gpg.conf' ne sont pas encore actives cette fois
+pub  1024D/98AB5139 2010-05-18 Oracle Corporation (VirtualBox archive signing key) <info@virtualbox.org>
+    Empreinte de la clé = 7B0F AB3A 13B9 0743 5925  D9C9 5442 2A4B 98AB 5139
+sub  2048g/281DDC4B 2010-05-18
+
+--------------------------------------------
+
+Vérifier la clé :
+http://pgp.mit.edu/
+Extract a key
+Search String: virtualbox.org
+[x] Show PGP fingerprints for keys
+Le résultat :
+pub  1024D/98AB5139 2010-05-18 Oracle Corporation (VirtualBox archive signing key) <info@virtualbox.org>
+	 Fingerprint=7B0F AB3A 13B9 0743 5925  D9C9 5442 2A4B 98AB 5139
+
+On voit qu'il s'agit de la même clé que plus haut.
+
+--------------------------------------------
+
+[root@prunelle:~] # yum info VirtualBox-4.1
+Installed Packages
+Name        : VirtualBox-4.1
+Arch        : i686
+Version     : 4.1.14_77440_rhel6
+Release     : 1
+Size        : 126 M
+Repo        : installed
+From repo   : virtualbox
+Summary     : Oracle VM VirtualBox
+URL         : http://www.virtualbox.org/
+License     : GPLv2
+Description : VirtualBox is a powerful PC virtualization solution allowing
+            : you to run a wide range of PC operating systems on your Linux
+            : system. This includes Windows, Linux, FreeBSD, DOS, OpenBSD
+            : and others. VirtualBox comes with a broad feature set and
+            : excellent performance, making it the premier virtualization
+            : software solution on the market.
+
+--------------------------------------------
+
+Vérifier que le dépot rpmforge est actif et installer dkms
+(Dynamic Kernel Mode Settings)
+
+# yum --enablerepo rpmforge install dkms
+
+Installer VirtualBox
+# yum install VirtualBox-4.1
+
+--------------------------------------------
+
+Ajouter l'utilisateur courant à vboxusers
+# usermod -a -G vboxusers jpantinoux
+'Relancer la session'
+$ groups jpantinoux
+  jpantinoux : jpantinoux vboxusers
+
+--------------------------------------------
+
+# yum install kernel-headers kernel-devel gcc
+Votre système installera les paquets ci-dessus s'ils ne sont pas installés déjà, plus les dépendances de paquet.
+
+--------------------------------------------
+
+# uname -r
+2.6.32-220.13.1.el6.i686
+
+--------------------------------------------
+
+Vérifiez dans /usr/src/kernels/ pour confirmer que le cette version du kernel existe bien dans ce répertoire
+# ls /usr/src/kernels/
+2.6.32-220.13.1.el6.i686
+S'il existe plusieurs version ; supprimer les anciens noyaux avec la commande rpm -e
+Pour les kernel-devel, jai préféré la commande yum erase kernel-devel-xxxxxxx
+
+--------------------------------------------
+
+# mkdir /vbusbfs
+# echo "none /vbusbfs usbfs rw,devgid=$(awk -F : '/vboxusers/ {print $3}' /etc/group),devmode=664 0 0" >> /etc/fstab
+# mount -a
+
+--------------------------------------------
+
+Installer les VirtualBox_extentions
+# cd /tmp
+Télécharger le paquet sur le site d'Oracle
+
+# wget http://download.virtualbox.org/virtualbox/4.1.8/Oracle_VM_VirtualBox_Extension_Pack-4.1.8-75467.vbox-extpack
+VBoxManage extpack install Oracle_VM_VirtualBox_Extension_Pack-4.1.8-75467.vbox-extpackk
+--2012-03-05 23:06:57--  http://download.virtualbox.org/virtualbox/4.1.8/Oracle_VM_VirtualBox_Extension_Pack-4.1.8-75467.vbox-extpack
+Résolution de download.virtualbox.org... 137.254.16.69
+Connexion vers download.virtualbox.org|137.254.16.69|:80...connecté.
+requête HTTP transmise, en attente de la réponse...302 Moved Temporarily
+Emplacement: http://dlc.sun.com.edgesuite.net/virtualbox/4.1.8/Oracle_VM_VirtualBox_Extension_Pack-4.1.8-75467.vbox-extpack [suivant]
+--2012-03-05 23:06:57--  http://dlc.sun.com.edgesuite.net/virtualbox/4.1.8/Oracle_VM_VirtualBox_Extension_Pack-4.1.8-75467.vbox-extpack
+Résolution de dlc.sun.com.edgesuite.net... 195.10.51.49, 195.10.51.51
+Connexion vers dlc.sun.com.edgesuite.net|195.10.51.49|:80...connecté.
+requête HTTP transmise, en attente de la réponse...200 OK
+Longueur: 9725202 (9,3M) [application/x-virtualbox-vbox-extpack]
+Sauvegarde en : «Oracle_VM_VirtualBox_Extension_Pack-4.1.8-75467.vbox-extpack»
+
+100%[===========================================================================================================================================================================>] 9 725 202    804K/s   ds 12s     
+
+2012-03-05 23:07:09 (781 KB/s) - «Oracle_VM_VirtualBox_Extension_Pack-4.1.8-75467.vbox-extpack» sauvegardé [9725202/9725202]
+
+Lancer VirtualBox
+
+Une fois la fenêtre ouverte, cliquez sur "New"
+	Suivant
+Nom : Win_xp
+
+Sauf si l'on utilise un type d'OS très spécial le système invité est reconnu.
+
+La quantité de mémoire vive à attribuer est le quart de la mémoire physique installée :
+Dans notre cas 1 Go = 256 Mo
+
+Disque d'amorçage :
+Créer un nouveau disque dur
+VDI
+Dynamiquement alloué
+Taille : 10 Go
+
+La nouvelle machine virtuelle apparait dans la colonne de gauche
+Il faut régler les paramètres :
+Système
+	[ ] Disquette
+	[x] Disque CD/DVD
+	[x] Disque dur
+
+Chipset : PIIX3
+
+	[ ] Activer le IO/APIC
+	[ ] Activer EFI
+	[ ] Horloge interne en UTC
+	[ ] Activer un périphérique de pointage absolu
+
+Affichage : Mémoire vidéo = 128 Mo
+
+Stockage :
+	Windows_xp.vdi
+	VBoxGuestAdditions.iso
+
+
+
+

@@ -1,0 +1,81 @@
+#----------------------------------------
+'Installation complément pour multimédia'
+#----------------------------------------
+Télécharger le rpm du dépot rpmforge
+rpmforge-release-0.5.2-2.el6.rf.i686.rpm
+Avant d'installer le dépot rpmforge
+Importer la clé GPG
+rpm --import http://apt.sw.be/RPM-GPG-KEY.dag.txt
+Vérifier le paquet du dépot
+[root@prunelle:~/RPMS] # rpm -K rpmforge-release-0.5.2-2.el6.rf.*.rpm
+rpmforge-release-0.5.2-2.el6.rf.i686.rpm: (sha1) dsa sha1 md5 gpg OK
+Installer le paquet !
+# rpm -ivh rpmforge-release-0.5.2-2.el6.rf.i686.rpm
+
+Connaitre la liste des paquets orphelins (qui n'ont pas de dépendances)
+Cette liste indique également la liste des paquets installés nanuellement
+# package-cleanup --orphans
+
+
+yum install compat-libstdc++-33 libdvdcss libdvdread libdvdplay libdvdnav lsdvd libquicktime
+#-------------------------------------------------------------------------------------------
+
+compat-libstdc++-33 avait été déja installé
+===============================================================================================================================
+ Package                           Arch                Version                                   Repository               Size
+===============================================================================================================================
+Installing:
+ libdvdcss                         i686                1.2.10-1.el6.rf                           rpmforge                 63 k
+ libdvdnav                         i686                0.1.10-3.el6.rf                           rpmforge                200 k
+ libdvdplay                        i686                1.0.1-5.el6.rf                            rpmforge                 74 k
+ libdvdread                        i686                4.1.4-0.2.svn1183.el6                     base                     63 k
+ libquicktime                      i686                1.2.3-1.el6.rf                            rpmforge                825 k
+ lsdvd                             i686                0.16-2.el6.rf                             rpmforge                 24 k
+
+
+
+yum install flash-plugin mplayerplug-in mplayer mplayer-gui gstreamer-ffmpeg gstreamer-plugins-bad gstreamer-plugins-ugly
+#------------------------------------------------------------------------------------------------------------------------
+
+flash-plugin avait été déjà installé
+===============================================================================================================================
+ Package                             Arch                Version                                   Repository             Size
+===============================================================================================================================
+Installing:
+ gstreamer-ffmpeg                    i686                0.10.11-1.el6.rf                          rpmforge              6.6 M
+ gstreamer-plugins-bad               i686                0.10.19-3.el6.rf                          rpmforge              1.2 M
+ gstreamer-plugins-ugly              i686                0.10.16-2.el6.rf                          rpmforge              833 k
+ mplayer                             i686                1.0-0.46.svn20100703.el6.rf               rpmforge              4.0 M
+ mplayer-gui                         i686                1.0-0.46.svn20100703.el6.rf               rpmforge              230 k
+
+Installer les paquets w32codecs (nécessaire pour lire le format xvid et d'autres formats propriétaires)
+#------------------------------------------------------------------------------------------------------
+
+wget www1.mplayerhq.hu/MPlayer/releases/codecs/mplayer-codecs-20061022-1.i386.rpm
+rpm -ivh mplayer-codecs-20061022-1.i386.rpm
+
+wget www1.mplayerhq.hu/MPlayer/releases/codecs/mplayer-codecs-extra-20061022-1.i386.rpm
+rpm -ivh mplayer-codecs-extra-20061022-1.i386.rpm
+
+
+Recherche dans les paquets installés et leur provenance
+#-----------------------------------------------------
+
+Tous les paquets dans un fichiers
+yum list installed >> ~/installed.txt
+
+Tous les paquets installés par anaconda
+yum list installed | grep @anaconda*
+
+Tous les paquets installés à partir du dépot "base"
+yum list installed | grep @base
+
+Tous les paquets installés à partir du dépot "updates"
+yum list installed | grep @updates
+
+Tous les paquets installés à partir d'un dépot tiers
+yum list installed | grep rpmforge
+yum list installed | grep elrepo
+
+Tous les paquets installés manuelement
+yum list installed | grep installed
