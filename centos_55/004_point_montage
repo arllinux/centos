@@ -1,0 +1,45 @@
+
+Points de montage
+
+/mnt : point de montage traditionnel
+
+On crée le répertoire cdrom dans /mnt
+mkdir cdrom
+
+Puis il faut identifier périphérique à monter :
+
+$ ls -l /dev/cdrom
+lrwxrwxrwx 1 root root 3 oct  4 23:18 /dev/cdrom -> hdc
+
+dans fstab
+/dev/hdc       /mnt/cdrom
+
+Pour une clé USB :
+
+# tail -f /var/log/messages
+
+Oct  4 23:57:57 prunelle kernel:   Type:   Direct-Access                      ANSI SCSI revision: 02
+Oct  4 23:57:57 prunelle kernel: SCSI device sda: 15625216 512-byte hdwr sectors (8000 MB)
+Oct  4 23:57:57 prunelle kernel: sda: Write Protect is off
+Oct  4 23:57:57 prunelle kernel: sda: assuming drive cache: write through
+Oct  4 23:57:57 prunelle kernel: SCSI device sda: 15625216 512-byte hdwr sectors (8000 MB)
+Oct  4 23:57:57 prunelle kernel: sda: Write Protect is off
+Oct  4 23:57:57 prunelle kernel: sda: assuming drive cache: write through
+Oct  4 23:57:57 prunelle kernel:  sda: sda1
+Oct  4 23:57:57 prunelle kernel: sd 0:0:0:0: Attached scsi removable disk sda
+Oct  4 23:57:57 prunelle kernel: sd 0:0:0:0: Attached scsi generic sg0 type 0
+
+Ensuite ls -l /dev/sda* pour connaître la partition bien qu'ici on la sache déjà
+
+
+brw-r----- 1 root disk 8, 0 oct  4 23:57 /dev/sda
+brw-r----- 1 root disk 8, 1 oct  4 23:57 /dev/sda1
+
+Créer un point de montage dans /mnt/
+mkdir usbkey
+
+Puis monter la clé
+
+mount -v /dev/sda1 /mnt/usbkey
+
+

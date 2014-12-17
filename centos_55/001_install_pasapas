@@ -1,0 +1,338 @@
+Le 5 août 2010
+
+Installation de CentOS 5.5
+# --------------------------
+Note spécifique pour portable NEC versa M540
+
+Lors de l'invite de démarrage de l'installation, lorsque l'on tape "linux text", le message suivant est retourné :
+"Could not find kernel image=linux" (à noter que les touches <F1> à <F5> sont inactives).
+Le bug est recencé sur CentOS bugs tracker (bugs.centos.org)
+
+Pour contourner le problème il faut taper la ligne suivante :""
+boot :"/isolinux/vmlinuz initrd=/isolinux/initrd.img linux text"
+Attention le clavier est en qwerty et donc pour taper le [m=,] le [/=!] etc...
+Ensuite tout se déroule normalement.
+
+------------------------------------------------------------
+
+Partitionnement du disque :
+Lancer une seconde console, puis fdisk /dev/hda
+Créer le partitionnement en suivant les instructions du fichier 002_partition_fdisk
+
+------------------------------------------------------------
+
+Après installation de base :
+# cd /boot/grub/
+# vi menu.lst
+
+Rajouter les options : vga=788 (800x600) ou vga=791 (1024x768), suivi de l'option "quiet" sur la ligne kernel.
+
+Lancer :
+# "system-config-securitylevel-tui", et désactiver SELinux.
+
+Redémarrer par "shutdown -r now" ou la combinaison de touches : ctrl+alt+Suppr
+
+------------------------------------------------------------
+
+Créer un dossier "RPMS" dans "root" pour y placer les paquetages téléchargés.
+# mkdir RPMS
+
+Installer les paquetages suivants avec "yum install". (pour le faire avec rpm voir ici)
+
+La commande pour installer les paquetages nécessaires dans un premier temps est la suivante :
+# yum install lynx vim-enhanced wget subversion man man-pages man-pages-fr pinfo yum-priorities checkinstall
+Eventuellement : ms-sys (restaurer la master boot record) voir fichier 0002_mbr
+
+------------------------------------------------------------
+
+Petite liste des commandes pour vim
+Sélectionner des lignes :
+"v" puis avec h,j,k,l étendre la sélection
+"y" pour copier
+"p" pour coller
+
+Coller des lignes d'un fichier dans un autre
+Fractionner l'écran (spliter)
+:split chemin_fichier/nom_fichier
+
+Passer d'une fenêtre à l'autre
+ctrl+w ctrl+w (2 fois)
+
+Insérer le contenu d'un fichier :
+:r nom_fichier
+
+Enregistrer sous :
+:sav nom_fichier
+
+------------------------------------------------------------
+
+Effectuer une mise à jour complète du système avec la commande :
+# yum update
+
+Redémarrer par "shutdown -r now" ou la combinaison de touches : ctrl+alt+Suppr
+
+------------------------------------------------------------
+
+Suppression de l'ancien kernel :
+1 - vérification des kernels disponibles :
+# rpm -qa | grep kernel
+Retourne la listes des kernels
+
+2 - vérification du kernel actif :
+# uname -r
+Retourne le nom du kernel utilisé
+
+3 - suppression du kernel non utilisé :
+# rpm -e kernel-nom_du_kernel
+
+Ajout du dépot "rpmforge"
+# lynx apt.sw.be
+Aller dans le dossier : "redhat" --> "el5" --> "en" --> "i386" --> "RPMSrpmforge"
+Après avoir tapé : shift + / pour définir la requète : rechercher "rpmforge-release"
+Choisir la version la plus récente.
+Taper "d" pour charger le fichier, puis flèche du bas "Enregistrer le fichier", --> flèche de droite et enfin "Entrée" pour confirmer.
+
+Retour dans le dossier RPMS
+# rpm -ivh rpmforge-version-xxxxx
+
+Se déplacer dans le dossier : /etc/yum.repos.d
+# /etc/yum.repos.d
+# vim rpmforge.repo
+
+Supprimer la ligne :
+protect = 1
+Ajout de la ligne :
+priority = 10
+:wq
+
+Ouvrir le fichier CentOS-Base.repo
+Dans toutes les stances ajouter "enabled=0" au-dessous du titre.
+Pour "base" - "update" - "extras" --> "enabled=1"
+Pour les mêmes insérer une ligne et écrire : "priority=1"
+
+Un petit nettoyage :
+# yum clean all
+puis
+# yum check-update
+Pour vérifier que les modifications ont bien été prises en compte.
+
+------------------------------------------------------------
+
+Installation du serveur X
+
+Pour trouver tous les paquets à installer :
+# yum grouplist
+Cette commande retourne la liste des groupes installables :
+C'est "Système X Window" qui nous intéresse.
+# yum groupinstall "Système X Window"
+Cette commande installe 211 paquets (104 Mo)
+
+Taper "cd" sans arguments pour retourner dans /root/
+Ensuite taper la commande :
+# X -configure
+Cette commande crée le fichier : "xorg.conf.new"
+Il faut le déplacer dans le répertoire : "/etc/X11"
+# mv xorg.conf.new /etc/X11/xorg.conf
+voulez-vous écraser xorg.conf : yes
+
+
+Test de X : startx
+Lancement de la commande "glxgears"
+le résultat moyen (pour cette machine) est : 9978 frames in 5.0 seconds = 1995 FPS
+
+$ glxinfo | grep render
+direct rendering: Yes
+OpenGL renderer string: ATI MOBILITY RADEON 9600/9700 Series
+
+Conso RAM :
+En console : 45 Mo
+En graphique : 76 Mo
+
+------------------------------------------------------------
+
+Ouverture du fichier
+# vim /etc/X11/xorg.conf
+
+Section "InputDevice"
+	Identifier  "Keyboard0"
+	Driver      "kbd"
+Ajouter ces deux lignes :
+	Option	    "XkbModel" "pc105"
+	Option	    "XkbLayout" "fr"
+
+Section "Monitor"
+	Identifier   "Monitor0"
+	VendorName   "Monitor Vendor"
+	ModelName    "Monitor Model"
+J'ai ajouté ces deux lignes (les valeurs sont celles relevées dans "Toutou linux" (exactement H : 48.9347 - V : 59.9689)
+	HorizSync    49
+	VertRefresh  60
+
+Section "Screen"
+	Identifier "Screen0"
+	Device     "Card0"
+	Monitor    "Monitor0"
+Nouvelle ligne :
+	DefaultDepth     24
+	SubSection "Display"
+		Viewport   0 0
+		Depth     24
+Nouvelle ligne :
+		Modes    "1280x852"
+	EndSubSection
+
+
+----------------------------------------------------
+
+Création d'un utilisteur
+login : jpantinoux
+passwd jpantinoux
+
+----------------------------------------------------
+
+Installer l'environnent Gnome
+
+# yum groupinstall "Environnement de bureau GNOME"
+Cette commande installe 129 paquets (156 Mo)
+
+Se logger sous jpantinoux et lancer : startx
+l'invite graphique me permet de me loguer en tant q'utilisateur : jpantinoux
+
+----------------------------------------------------
+
+Installation du pilote de la carte graphique
+
+# lspci | grep -i vga
+retourne :
+
+01:00.0 VGA compatible controller: ATI Technologies Inc RV350 [Mobility Radeon 9600 M10]
+
+Il faut chercher le pilote sur le site du constructeur, le télécharger et l'installer.
+
+Avant d'installer le pilote :
+# yum install gcc kernel-devel kernel-headers make rpm-build compat-libstdc++-33
+# sh mom_pilote.run
+Ensuite
+# cd /usr/src/redhat/RPMS/i386 
+# rpm -ivh nom_pilote.rpm
+
+# aticonfig --initial
+Ceci rajoute cette stance dans xorg.conf :
+
+Section "Screen"
+	Identifier "aticonfig-Screen[0]-0"
+	Device     "aticonfig-Device[0]-0"
+	Monitor    "aticonfig-Monitor[0]-0"
+	DefaultDepth     24
+	SubSection "Display"
+		Viewport   0 0
+		Depth     24
+	EndSubSection
+
+Ajouter cette section
+Section "DRI"
+	Mode 0666
+Endsection
+
+
+--------------------------------------------------
+
+Modif des fichiers amdcccle.desktop et amdcclesu.desktop
+
+Ils sont dans /usr/share/gnome/apps/
+
+Il faut rajouter :
+Nodisplay=true
+
+Contenu du fichier "amdcccle.desktop"
+[Desktop Entry]
+Name=ATI Catalyst Control Center
+Comment=ATI graphics adapter settings
+Name[de]=ATI Catalyst Control Center
+Comment[de]=ATI grafics adapter settings
+SwallowExec=http://www.google.fr/firefox
+BinaryPattern=
+Icon=ccc_large.xpm
+MiniIcon=ccc_small.xpm
+Protocols=
+MimeType=
+Exec=amdcccle
+TerminalOptions=
+Path=
+DocPath=
+Type=Application
+Terminal=0
+OnlyShowIn=GNOME;
+NoDisplay=true
+
+Contenu du fichier "amdccclesu.desktop
+
+[Desktop Entry]
+Name=ATI Catalyst Control Center (super-user)
+Comment=ATI graphics adapter settings - super-user mode
+SwallowExec=
+BinaryPattern=
+Icon=ccc_large.xpm
+MiniIcon=ccc_small.xpm
+Protocols=
+MimeType=
+Exec=amdxdg-su -c amdcccle
+TerminalOptions=
+Path=
+DocPath=
+Type=Application
+Terminal=0
+OnlyShowIn=GNOME;
+NoDisplay=true
+
+Consommation RAM
+Accès au bureau : 125 Mo
+
+----------------------------------------------------
+
+Réglages et ajustements
+
+1 - Installer "tree" pour faciliter la navigation en console
+# yum install tree
+
+2 - Faire les réglages pour le navigateur de fichiers
+
+3 - Faire les réglages pour la console (couleur, transparence, etc...
+
+4 - Installer une image de fond d'écran
+# mv nom_fichier /etc/share/backgrounds/images/
+
+5 - installer "conky"
+# yum install conky
+
+6 - Créer un fichier de configuration ".conkyrc" qui permettre de modifier l'apparence de l'affichage sur le bureau
+
+Les images, le fichier de config sont à cette adresse : http://sloteur.free.fr/save_centos/
+
+---------------------------------------------------
+
+Divers
+
+Fixer le niveau utilisateur à 5 (init 5)
+
+# inittab       This file describes how the INIT process should set up
+#               the system in a certain run-level.
+#
+# Author:       Miquel van Smoorenburg, <miquels@drinkel.nl.mugnet.org>
+#               Modified for RHS Linux by Marc Ewing and Donnie Barnes
+#
+
+# Default runlevel. The runlevels used by RHS are:
+#   0 - halt (Do NOT set initdefault to this)
+#   1 - Single user mode
+#   2 - Multiuser, without NFS (The same as 3, if you do not have networking)
+#   3 - Full multiuser mode
+#   4 - unused
+#   5 - X11
+#   6 - reboot (Do NOT set initdefault to this)
+# 
+id:5:initdefault:
+
+# System initialization.
+si::sysinit:/etc/rc.d/rc.sysinit
+

@@ -1,0 +1,108 @@
+# Utiliser sa propre fenetre ?
+own_window yes
+
+# Utiliser Xft (polices lissées etc)
+use_xft yes
+
+# Police a utiliser : use_xft doit etre a "yes"
+xftfont Arial:size=10
+xftalpha 0.8
+
+# Taux de raffraichissement de la fenetre (en secondes)
+update_interval 1.0
+
+# Nombres de rafraichissement avant fermeture : 0 pour infini
+total_run_times 0
+
+# Pseudo transparence (yes/no) et options: undecorated,below,above,sticky,skip_taskbar/pager
+own_window_transparent yes
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+
+# Pour eviter le clignotement
+double_buffer yes
+
+# Taille minimum de la fenetre, largeur puis hauteur
+minimum_size 280 500
+
+# Afficher les ombres?
+draw_shades no
+
+# Afficher des contours ?
+draw_outline no
+
+# Contours autour des blocs de texte?
+draw_borders no
+
+# Contours en trait-tillés, longueur d'un trait en pixels
+stippled_borders 8
+
+# Largeur des marges
+# margin_borders 4
+
+# Largeur du contour
+border_width 4
+
+# Couleur par defaut
+# default_color #556B2F
+default_shade_color black
+default_outline_color black
+
+# Disposition de la fenetre à l'écran
+alignment top_right
+
+# Ecart avec le bord : x= gauche/droit y= haut/bas
+alignment top_right
+gap_x 20
+gap_y 30
+
+# Tout le texte en majuscule ?
+uppercase no
+
+# Nombre d'echantillons a utiliser pour calculer la moyenne d'utilisation
+cpu_avg_samples 4
+net_avg_samples 4
+
+# Fonctionne uniquement avec la police Monospace, évite les chevauchements de textes
+# use_spacer no
+
+# how_graph_range no
+
+# Pour affichier les caracteres speciaux
+override_utf8_locale yes
+
+#${scroll 16 $nodename - $sysname $kernel on $machine | }
+
+TEXT
+$sysname $kernel sur $machine
+$hr
+${color grey}En route depuis :$color $uptime
+
+${color yellow}Processeur :
+${color grey}Fréquence (en MHz) :$color $freq
+${color grey}Fréquence (en GHz) :$color $freq_g
+
+${color grey}RAM :$color $mem -/- $memmax - $memperc% ${membar 8}
+
+${color grey}Swap :$color $swap -/- $swapmax - $swapperc% ${swapbar 8}
+
+${color grey}Processeur :$color $cpu% ${cpubar 8}
+${color yellow}${cpugraph}
+
+${color yellow}Disque dur :
+${color grey}Partition / :
+$color${fs_used /} utilisés sur ${fs_size /} ${fs_bar 6 /}
+${color grey}Partition /home :
+$color${fs_used /home} utilisés sur ${fs_size /home} ${fs_bar 6 /home}
+
+${color yellow}Trafic réseau :
+${color grey}Montant :$color ${upspeed eth0} k/s${color grey} - Descendant :$color ${downspeed eth0} k/s
+$hr
+
+${color yellow}Processus :
+${color grey}En route :$color $processes  ${color grey}Actifs:$color $running_processes
+${color yellow}Taches :
+${color grey}Name              PID   CPU%   MEM%
+${color lightgrey} ${top name 1} ${top pid 1} ${top cpu 1} ${top mem 1}
+${color lightgrey} ${top name 2} ${top pid 2} ${top cpu 2} ${top mem 2}
+${color lightgrey} ${top name 3} ${top pid 3} ${top cpu 3} ${top mem 3}
+${color lightgrey} ${top name 4} ${top pid 4} ${top cpu 4} ${top mem 4}

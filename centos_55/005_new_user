@@ -1,0 +1,25 @@
+Lors de la création d'un nouvel utilisateur
+
+Lancer la console et faire les réglages
+Double clic sur "Dossier personnel", agrandissement de la fenêtre.
+La présentation est tristounette.
+1 - Edition --> Préférences
+	Dans l'onglet "Comportement" cocher : toujours ouvrir dans des fenêtres de navigation.
+
+	Dans l'onglet "Aperçu" --> Autres aperçus de fichiers : Afficher les vignettes --> Toujours.
+
+2 - Fermer la boite de dialogue
+
+3 - Fermer la fenêtre du navigateur de fichier, puis le réouvrir.
+
+La présentation est un peu meilleure.
+Sur la gauche la fenêtre de navigation vient de s'ouvrir, apparaît un dossier avec votre nom d'utilisateur qui contiendra vos futurs documents. Celui-ci contient un dossier "Desktop" qui est l'autre nom du dossier que nous allons voir
+En dessous un dossier bureau. Si vous cliquez dessus, sur la droite de l'écran s'ouvre un espace vide. Pourquoi ne vois-t-on pas les icones "Poste de travail", "Dossier personnel de xxxx" et "Corbeille" ?
+Cette fenêtre laisse apparaître que les fichiers ou dossiers autres que ces trois.
+Par principe je conseille de ne rien mettre sur le bureau, mais de tout ranger dans des dossiers et sous dossiers que vous aller créer.
+Peut-être pensez qu'il est impensable que tous les dossiers ne soit pas déjà créés et que nous soyons obligé de le faire nous-même. Vous verrez que l'on s'y retrouve mieux dans un environnement que vous aurez organisé vous même plutôt que de vous laisser perdre dans un labyrhinte de dossier.
+
+http://extensions.services.openoffice.org/fr/node/874?
+pour télécharger l'extention d'importation de pdf
+
+http://iste.epfl.ch/ooo/html/reference-ooo3.html

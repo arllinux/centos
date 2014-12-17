@@ -1,0 +1,83 @@
+#-------------------------------------#
+'Rétablir le démarrage de Windows seul'
+#-------------------------------------#
+
+Attention sous Ubuntu passer en root pour certaines commandes
+Celles précédées par un #
+Passer en root sous Ubuntu : sudo su -
+
+Pour que Windows puisse se lancer, il faut que son lanceur (qui est appelé par le bios) se trouve dans le secteur de démarrage appelé MBR (Master Boot Record)
+
+Determiner quel disque contient la MBR
+(Master Boot Record)
+#------------------------------------#
+
+Installer en premier le paquet ms-sys
+Code:
+# yum install ms-sys
+
+'Pour installer sous Ubuntu'
+Télécharger à l'adresse suivante le paquet :
+http://ubuntu.mirror.cambrium.nl/ubuntu//pool/universe/m/ms-sys/ms-sys_2.1.0-1_i386.deb
+
+Laisser l'option de téléchargement : ouvrir avec Gdebi,
+puis "Installer"
+
+#---------------------------------
+
+Tapez ensuite la commande suivante pour savoir ou se trouve la MBR  :
+Code:
+# fdisk -l 
+
+On obtient quelque chose qui ressemble à ceci : ici sur une clé USB
+Code:
+Périphérique Amorce    Début         Fin      Blocs    Id  Système
+/dev/sda1     *          1         972     7807558+   b  W95 FAT32
+
+La ligne qui comporte une astérisque (*) est celle ou se trouve le Master Boot Record
+Repérez le nom du disque : dans notre cas - /dev/sda1
+
+Voici les commandes utilisables :
+Code:
+# ms-sys --help
+Usage:
+        ms-sys [options] [device]
+Options:
+    -1, --fat12     Write a FAT12 floppy boot record to device
+    -2, --fat32nt   Write a FAT32 partition NT boot record to device
+    -3, --fat32     Write a FAT32 partition DOS boot record to device
+    -4, --fat32free Write a FAT32 partition FreeDOS boot record to device
+    -5, --fat16free Write a FAT16 partition FreeDOS boot record to device
+    -6, --fat16     Write a FAT16 partition DOS boot record to device
+    -l, --wipelabel Reset partition disk label in boot record
+    -p, --partition Write partition info (hidden sectors, heads and drive id)
+                    to boot record
+    -H, --heads <n> Manually set number of heads if partition info is written
+    -7, --mbr7      Write a Windows 7 MBR to device
+    -i, --mbrvista  Write a Windows Vista MBR to device
+    -m, --mbr       Write a Windows 2000/XP/2003 MBR to device
+    -9, --mbr95b    Write a Windows 95B/98/98SE/ME MBR to device
+    -d, --mbrdos    Write a DOS/Windows NT MBR to device
+    -s, --mbrsyslinux    Write a public domain syslinux MBR to device
+    -z, --mbrzero   Write an empty (zeroed) MBR to device
+    -f, --force     Force writing of boot record
+    -h, --help      Display this help and exit
+    -v, --version   Show program version
+    -w, --write     Write automatically selected boot record to device
+
+    Default         Inspect current boot record
+
+Warning: Writing the wrong kind of boot record to a device might
+destroy partition information or file system!
+
+La commande qui nous intéresse est -m
+Code à taper dans un terminal :
+
+#-------------------------------------#
+'Ecrite une MBR pour lancer Windows XP'
+#-------------------------------------#
+
+ms-sys -m /dev/sda1
+#-----------------#
+
+---> Fin <---
