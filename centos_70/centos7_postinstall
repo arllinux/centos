@@ -53,7 +53,7 @@ Utiliser ces paramètres : à adapter en fonction du contexte
 DEVICE="eth0"
 ONBOOT=yes
 BOOTPROTO=static
-IPADDR=192.168.2.10
+IPADDR=192.168.2.9
 NETMASK=255.255.255.0
 GATEWAY=192.168.2.1
 # Ici le serveur qui est au dessus dans le réseau sert de seveur dns
@@ -63,13 +63,16 @@ Arrêter et désactiver le "NetworkManager" parce que nous n'en avons pas besoin
 # systemctl stop NetworkManager 
 # systemctl disable NetworkManager
 
+Si l'on a déjà un serveur dhcp en amont, paramétrer celui-ci pour que l'adresse de notre serveur :
+Ici : 192.168.2.9 soit une adresse dans la plage statique du serveur en amont
+
 Relancer le service "network"
 Attention, si vous vous connectez à distance, parce que vous serez déconnecté après l'émission de cette commande.
 # service network restart
 
 Vérifiez que la nouvelle adresse est bien attribuée :
 # ifconfig
-inet 192.168.2.10
+inet 192.168.2.9
 
 &======&
 
@@ -99,6 +102,35 @@ Testez à nouveau si l'IPv6 est activé
 
 Lister les nouveaux dépots
 # yum repolist
+
+Régler les priorités des dépôts
+Se déplacer dans le dossier : /etc/yum.repos.d
+# /etc/yum.repos.d
+# vim epel.repo
+
+Supprimer la ligne :
+protect = 1
+Ajout de la ligne :
+priority = 10
+:wq
+
+Ouvrir le fichier CentOS-Base.repo
+# cd /etc/yun.repos.d
+# vim Centos_Base.repo
+Dans toutes les stances ajouter "enabled=0" au-dessous du titre.
+Pour "base" - "update" - "extras" --> "enabled=1"
+Pour les mêmes insérer une ligne et écrire : "priority=1"
+
+Installer l'outils de gestion des priorités
+# yum install yum-plugin-priorities
+
+Un petit nettoyage :
+# yum clean all
+puis
+# yum check-update
+Pour vérifier que les modifications ont bien été prises en compte.
+Et enfin si vous voulez mettre à jour tout le système :
+# yum update
 
 &======&
 
