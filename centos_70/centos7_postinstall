@@ -36,6 +36,8 @@ Créer une nouvelle configuration basée sur le système en cours d'exécution e
 Renommer le fichier "ifcfg-enp2s0.." en "eth0"
 # mv ifcfg-enp2s0 ifcfg-eth0
 
+Si vous avez de cart réseau change le nom de la deuxième en "eth1"
+
 Redemarrer
 # reboot
 
