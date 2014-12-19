@@ -1,0 +1,9 @@
+$ nmap -sn 192.168.3.0/24
+
+Starting Nmap 6.40 ( http://nmap.org ) at 2014-12-19 00:58 CET
+Nmap scan report for centos7_server.labo2.arles (192.168.3.1)
+Host is up (0.00035s latency).
+Nmap scan report for frankenstein.labo2.arles (192.168.3.2)
+Host is up (0.00024s latency).
+Nmap done: 256 IP addresses (2 hosts up) scanned in 3.01 seconds
+

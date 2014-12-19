@@ -44,7 +44,7 @@ Après le redémarrage vérifier que la modification a bien été prise en compt
 
 &======&
 
-4) Configurer l'adresse statique du serveur :
+4) Configurer l'adresse statique du serveur coté internet:
 
 Editer le fichier : /etc/sysconfig/network-scripts/ifcfg-eth0
 # vim /etc/sysconfig/network-scripts/ifcfg-eth0
@@ -68,11 +68,44 @@ Ici : 192.168.2.9 soit une adresse dans la plage statique du serveur en amont
 
 Relancer le service "network"
 Attention, si vous vous connectez à distance, parce que vous serez déconnecté après l'émission de cette commande.
-# service network restart
+# systemctl restart network.service
 
 Vérifiez que la nouvelle adresse est bien attribuée :
 # ifconfig
 inet 192.168.2.9
+
+#############################################
+# Configuration de la deuxième carte réseau #
+# ###########################################
+
+Configurer l'adresse statique du serveur coté reseau local :
+
+Editer le fichier : /etc/sysconfig/network-scripts/ifcfg-eth1
+# vim /etc/sysconfig/network-scripts/ifcfg-eth1
+
+Utiliser ces paramètres : à adapter en fonction du contexte
+DEVICE="eth1"
+ONBOOT=yes
+BOOTPROTO=static
+IPADDR=192.168.3.1
+NETMASK=255.255.255.0
+
+# systemctl restart network.service
+# ifconfig
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.2.9  netmask 255.255.255.0  broadcast 192.168.2.255
+	inet6 fe80::224:1dff:fe13:85fe  prefixlen 64  scopeid 0x20<link>
+        ether 00:24:1d:13:85:fe  txqueuelen 1000  (Ethernet)
+	---/---
+eth1: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet 192.168.3.1  netmask 255.255.255.0  broadcast 192.168.3.255
+        ether 00:21:27:c9:c5:85  txqueuelen 1000  (Ethernet)
+	---/---
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 0  (Boucle locale)
+	---/---
 
 &======&
 
@@ -115,7 +148,7 @@ priority = 10
 :wq
 
 Ouvrir le fichier CentOS-Base.repo
-# cd /etc/yun.repos.d
+# cd /etc/yum.repos.d
 # vim Centos_Base.repo
 Dans toutes les stances ajouter "enabled=0" au-dessous du titre.
 Pour "base" - "update" - "extras" --> "enabled=1"
@@ -136,8 +169,12 @@ Et enfin si vous voulez mettre à jour tout le système :
 
 7) Activer les services iptables (au lieu de firewalld) :
 
+Désactiver Firewalld
+# systemctl stop firewalld
+# systemctl disable firewalld
+
 Lorsque vous essayer de démarrer / redémarrer iptables sur le serveur nouvellement installé, vous obtiendrais cette erreur:
-# service iptables restart
+# systemctl restart iptables.service
 Redirecting to /bin/systemctl restart iptables.service
 Failed to issues method call: Unit iptables.service failed to load: No such file or directory.
 
@@ -145,6 +182,12 @@ Pour corriger cette erreur, installez le paquet iptables-services :
 # yum install iptables-services
 
 Relancer la commande précédante :
-# service iptables restart
+# systemctl restart iptables.service
+
+Mettre en place les règles du parefeu
+Dans le dossier scripts il faut éxécuter, (après avoir adapté les règles)
+le script : (consulter le fichier README_FIREWALL dans le répertoire)
+# ./install_firewall.sh
+
 
 &===End===&
