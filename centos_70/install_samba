@@ -96,7 +96,7 @@ Explications
     renomme en 'fichier.old'.
 
   > 'syslog = 0' signifie que seuls les messages d'erreur sont journalisés dans
-    '/var/log/syslog'. Pour obtenir une journalisation plus "bavarde", on    remplacera la valeur 0 par 1, 2, 3, etc.
+    '/var/log/syslog'. Pour obtenir une journalisation plus "bavarde", on remplacera la valeur 0 par 1, 2, 3, etc.
   
   > La directive 'interfaces' définit les interfaces réseau par lesquelles
     Samba est censé communiquer. On veillera à faire apparaître les partages
@@ -276,6 +276,89 @@ Domain=[WORKGROUP] OS=[Unix] Server=[Samba 4.1.1]
 	Workgroup            Master
 	---------            -------
 	WORKGROUP            FRANKEINSTEIN
+
+
+&---/---&
+
+
+Pour mettre en place cette corbeille, nous allons ajouter une stance
+correspondante à chacun de nos partages :
+
+--8<---------- /etc/samba/smb.conf -------------------------------------------
+...
+[Confidentiel]
+path = /srv/samba/confidentiel
+comment = Partage Confidentiel
+read only = no
+invalid users = root nobody smbguest
+
+vfs object = recycle
+  recycle:repository = .Corbeille
+  recycle:keeptree = Yes
+  recycle:touch = Yes
+  recycle:versions = Yes
+  recycle:maxsixe = 0
+  recycle:exclude = *.tmp
+  recycle:exclude_dir = /tmp
+  recycle:noversions = *.doc
+...
+--8<--------------------------------------------------------------------------
+
+  > 'recycle:repository = .Corbeille' indique l'endroit où seront stockés les
+    fichiers supprimés. 
+
+  > 'recycle:keeptree = Yes' indique si la structure des répertoires doit être
+    conservée (Yes) ou si les fichiers dans le répertoire qui est supprimé
+    doivent être conservés séparément dans la corbeille (No).
+
+  > 'recycle:touch = Yes' indique si la date d'accès du fichier doit être
+    modifiée lors du déplacement dans la corbeille.
+
+  > 'recycle:versions = Yes' permet de conserver deux fichiers supprimés ayant
+    le même nom. La version la plus récente sera renommée en conséquence. 
+
+  > 'recycle:maxsize = 0' empêche les fichiers d'une taille de 0 octet d'être
+    envoyés à la corbeille.
+
+  > 'recycle:exclude = *.tmp' liste les fichiers qui ne passeront pas par la
+    corbeille.
+
+  > 'recycle:exclude_dir = /tmp' offre la même fonctionnalité pour les
+    répertoires.
+
+  > 'recycle:noversions = *.doc' spécifie la désactivation du contrôle de
+    version pour certains types de fichiers. Évidemment, cette option est utile
+    uniquement lorsque 'recycle:versions' est activé.
+
+Accéder à la corbeille d'un partage :
+
+  * Sous Linux, activer l'affichage des fichiers cachés.
+
+  * Sous Windows, ajouter '\.Corbeille' au chemin du partage.
+
+Pour vider la corbeille régulièrement, on pourra utiliser le script suivant en
+l'adaptant à ses besoins :
+
+--8<---------- /etc/cron.weekly/sambacleanup.sh ------------------------------
+#!/bin/sh
+#
+# sambacleanup.sh
+
+FIND=$(which find)
+RM=$(which rm)
+SHARES="/srv/samba/public \
+        /srv/samba/confidentiel"
+
+        for SHARE in $SHARES; do
+          if [ -d $SHARE/.Corbeille ]; then
+          $FIND $SHARE/.Corbeille -mtime +60 -exec $RM -rf {} \;
+          fi
+        done
+--8<--------------------------------------------------------------------------
+
+ > Le script est exécuté une fois par semaine.
+
+ > Il supprime définitivement tous les fichiers vieux de plus de deux mois.
 
 
 &---End---&
