@@ -1,0 +1,281 @@
+# =====================================
+# Installation de Samba sous CentOs 7 =
+# =====================================
+
+Ouvrir les ports suivants :
+
+  * 135 en TCP 
+  * 137 en UDP 
+  * 138 en UDP 
+  * 139 en TCP 
+  * 445 en TCP
+
+Créer les répertoires :
+
+# mkdir -pv -m 1777 /srv/samba/{public,confidentiel}
+  mkdir: création du répertoire « /srv/samba »
+  mkdir: création du répertoire « /srv/samba/public »
+  mkdir: création du répertoire « /srv/samba/confidentiel »
+
+Faire une copie du smb.conf
+# cp /etc/samba/smb.conf /etc/samba/smb.conf.old
+
+Ouvrir et vider le contenu du smb.conf
+# vim /etc/samba/smb.conf
+
+Pour vider le contenu d'un fichier :
+Se placer au début du fichier par gg
+puis presser les touches d et G (majuscule)
+
+Y placer ce contenu :
+
+[global]
+workgroup = WORKGROUP
+netbios name = Partage
+server string = Serveur de fichiers
+dns proxy = yes
+domain master = no
+log file = /var/log/samba/log.%m
+max log size = 1000
+syslog = 0
+bind interfaces only = yes
+interfaces = 192.168.0.0/24 localhost
+hosts allow = 192.168.0. 127.
+security = user
+passdb backend = tdbsam
+unix password sync = no
+invalid users = root
+encrypt passwords = yes
+guest account = smbguest
+map to guest = bad user
+force group = users
+create mode = 0660
+directory mode = 0770
+
+[Public]
+path = /srv/samba/public
+comment = Partage Public
+public = yes
+only guest = yes
+read only = no
+
+[Confidentiel]
+path = /srv/samba/confidentiel
+comment = Partage Confidentiel
+read only = no
+invalid users = root nobody smbguest
+
+--------//---------
+
+Explications
+  > 'workgroup = WORKGROUP' définit le nom du groupe de travail. Les clients
+    Windows doivent tous être membres de ce groupe de travail.
+
+  > 'netbios name = Partage' définit le nom qui apparaîtra dans le Voisinage Réseau
+    de Windows.
+
+  > 'server string = Serveur de fichiers' indique le nom avec lequel le
+    serveur s'identifie.
+  
+  > 'dns proxy = yes' active l'utilisation du serveur DNS local pour résoudre
+    les noms d'hôtes Windows.
+
+  > La directive 'domain master' désigne un serveur Samba "maître" pour le
+    domaine local. On utilisera 'yes' sur le serveur principal et 'no' sur les
+    autres serveurs. "Serveur principal" signifie ici quelque chose comme "la
+    machine la plus fiable", "le serveur qu'on éteint le moins souvent", etc.
+
+  > 'log file = /var/log/samba/log.%m' définit la journalisation. Pour chaque
+    client qui utilise Samba, un fichier journal 'log.client' est créé. Quant
+    aux deux services Samba 'smbd' et 'nmbd', ils utilisent des événements
+    globaux dans les deux fichiers '/var/log/samba/log.smbd' et 'log.nmbd'. Ni
+    le nom ni l'emplacement de ces deux fichiers ne peuvent être modifiés.
+
+  > 'max log size = 1000' limite la taille maximale du fichier journal à 1000
+    kilooctets. Lorsqu'un fichier journal dépasse cette taille, Samba le
+    renomme en 'fichier.old'.
+
+  > 'syslog = 0' signifie que seuls les messages d'erreur sont journalisés dans
+    '/var/log/syslog'. Pour obtenir une journalisation plus "bavarde", on    remplacera la valeur 0 par 1, 2, 3, etc.
+  
+  > La directive 'interfaces' définit les interfaces réseau par lesquelles
+    Samba est censé communiquer. On veillera à faire apparaître les partages
+    uniquement dans le réseau local. Ne pas oublier 'localhost', faute de quoi
+    les outils d'administration comme 'smbclient' ne fonctionneront pas sur le
+    serveur. Les réglages par 'interfaces' sont activés par la directive 'bind
+    interfaces only'.
+
+  > Les directives 'hosts allow' et 'hosts deny' permettent respectivement
+    d'autoriser et d'interdire l'accès de certaines machines du réseau à Samba.
+
+  > La directive 'security = user' définit le modèle de sécurité. Elle est
+    optionnelle, étant donné qu'il s'agit du réglage par défaut de Samba.
+
+  > 'passdb backend = tdbsam' définit la gestion des mots de passe. "TDB"
+    signifie "Trivial Database" et désigne un format de stockage binaire.
+    Physiquement, les mots de passe sont stockés dans le fichier
+    '/etc/samba/private/passdb.tdb'.
+
+  > 'unix password sync = no' désactive la synchronisation des mots de passe
+    Samba avec les mots de passe Linux. Celle-ci est liée à toute une série de
+    restrictions qui risquent de nous compliquer la vie, et il vaut mieux s'en
+    passer.
+  
+  > 'guest account = smbguest' désigne l'utilisateur Linux auquel on fait
+    correspondre les utilisateurs invités.
+
+  > 'map to guest = bad user' renvoie vers le compte invité toute tentative de
+    connexion avec un identifiant inexistant.
+
+  > 'force group = users' attribue tous les fichiers et répertoires
+    nouvellement créés au groupe 'users'.
+
+  > Les paramètres 'create mode = 660' et 'directory mode = 770' assurent que
+    tous les fichiers (rw-rw----) et répertoires (rwxrwx---) créés par un
+    membre du groupe puissent être lus par tous les autres membres du groupe.
+  
+  > Le nom du partage ('[Public]', '[Confidentiel]'), ne doit pas dépasser
+    douze caractères.
+
+
+&---/---&
+
+
+Créer un utilisateur public 'smbguest' pour Samba :
+
+# useradd -c "Utilisateur Public Samba" -g users -s /bin/false smbguest
+# passwd -l smbguest
+# smbpasswd -a smbguest -d
+  
+  > L'utilisateur ne dispose pas de shell de connexion ('-s /bin/false').
+  
+  > Le mot de passe du compte Linux est verrouillé par 'passwd -l' ("lock").
+  
+  > L'option '-a' ("add") indique à 'smbpasswd' d'ajouter un utilisateur.
+  
+  > Celui-ci sera immédiatement désactivé par l'option '-d' ("disabled").
+  
+Créer un ou plusieurs utilisateurs Samba normaux.
+Deux cas de figure se présentent ici.
+  
+   1) Si l'utilisateur a déjà un compte système :
+  
+# smbpasswd -a jpantinoux
+
+Vérifier si l'utilisateur fait bien partie du groupe 'users' :
+
+# groups jpantinoux | grep users
+Sinon l'ajouter comme ceci
+# usermod -a -G users jpantinoux
+Vérifier :
+# groups jpantinoux
+jpantinoux : jpantinoux users
+
+
+   2) L'utilisateur n'a pas de compte système :
+
+# useradd -g users -d /dev/null -s /bin/false jpantinoux
+# passwd -l jpantinoux
+# smbpasswd -a jpantinoux
+
+  > Ici, l'utilisateur n'a ni répertoire utilisateur, ni shell de connexion.
+
+  > Son compte Linux est également verrouillé.
+
+Afficher la liste des utilisateurs Samba :
+# pdbedit -L
+smbguest:1001:Utilisateur Public Samba
+jpantinoux:1000:jpantinoux
+
+
+Supprimer un utilisateur Samba :
+# smbpasswd -d <utilisateur>
+
+Éventuellement, on supprimera son compte Linux correspondant :
+# userdel -r <utilisateur>
+
+
+&---/---&
+
+
+Gestion et utilisation
+----------------------
+
+Tester la configuration :
+
+# testparm
+Load smb config files from /etc/samba/smb.conf
+rlimit_max: increasing rlimit_max (1024) to minimum Windows limit (16384)
+Processing section "[Public]"
+Processing section "[Confidentiel]"
+Loaded services file OK.
+Server role: ROLE_STANDALONE
+Press enter to see a dump of your service definitions
+
+[global]
+	netbios name = PARTAGE
+	server string = Serveur de fichiers
+	interfaces = 192.168.0.0/24, localhost
+	bind interfaces only = Yes
+	map to guest = Bad User
+	guest account = smbguest
+	syslog = 0
+	log file = /var/log/samba/log.%m
+	max log size = 1000
+	domain master = No
+	idmap config * : backend = tdb
+	invalid users = root
+	force group = users
+	create mask = 0660
+	directory mask = 0770
+	hosts allow = 192.168.0., 127.
+
+[Public]
+	comment = Partage Public
+	path = /srv/samba/public
+	read only = No
+	guest only = Yes
+	guest ok = Yes
+
+[Confidentiel]
+	comment = Partage Confidentiel
+	path = /srv/samba/confidentiel
+	invalid users = root, nobody, smbguest
+	read only = No
+
+
+&---/---&
+
+
+Activer et gérer Samba :
+
+Lancer et rendre persistant les démons
+
+# systemctl start smb.service
+# systemctl enable smb.service
+# systemctl start mnb.service
+# systemctl enable mnb.service
+
+Afficher les partages sur le serveur :
+
+# smbclient -L localhost -N
+Domain=[WORKGROUP] OS=[Unix] Server=[Samba 4.1.1]
+
+	Sharename       Type      Comment
+	---------       ----      -------
+	Public          Disk      Partage Public
+	Confidentiel    Disk      Partage Confidentiel
+	IPC$            IPC       IPC Service (Serveur de fichiers)
+Domain=[WORKGROUP] OS=[Unix] Server=[Samba 4.1.1]
+
+	Server               Comment
+	---------            -------
+	FRANKEINSTEIN        frankeinstein server (Samba, Linux Mint)
+	PARTAGE              Serveur de fichiers
+
+	Workgroup            Master
+	---------            -------
+	WORKGROUP            FRANKEINSTEIN
+
+
+&---End---&

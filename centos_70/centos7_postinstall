@@ -36,7 +36,7 @@ Créer une nouvelle configuration basée sur le système en cours d'exécution e
 Renommer le fichier "ifcfg-enp2s0.." en "eth0"
 # mv ifcfg-enp2s0 ifcfg-eth0
 
-Si vous avez de cart réseau change le nom de la deuxième en "eth1"
+Si vous avez de carte réseau change le nom de la deuxième en "eth1"
 
 Redemarrer
 # reboot
@@ -191,5 +191,56 @@ Dans le dossier scripts il faut éxécuter, (après avoir adapté les règles)
 le script : (consulter le fichier README_FIREWALL dans le répertoire)
 # ./install_firewall.sh
 
+&======&
+
+8) Installer ntp (Network Time Protocol)
+# yum install ntp
+
+Le Protocole d'Heure Réseau (Network Time Protocol ou NTP) est un protocole qui permet de synchroniser,
+via un réseau informatique, l'horloge locale d'ordinateurs sur une référence d'heure
+
+Il faut ouvrir le port 123 en UDP dans le parefeu
+# cd /usr/local/sbin/
+# vim firewall.sh
+Décommenter la ligne correspondant au port 123
+Intéger la nouvelle règle de manière permanente au parefeu :
+# ./firewall.sh
+iptables: Saving firewall rules to /etc/sysconfig/iptables:[  OK  ]
+
+Arrêter le service
+# service ntp stop
+
+Ajustement initial
+# ntpdate fr.pool.ntp.org
+21 Dec 00:28:15 ntpdate[4299]: adjust time server 37.59.60.67 offset -0.000431 sec
+
+Créer le fichier journal :
+# touch /var/log/ntp.log
+# chown ntp:ntp /var/log/ntp.log
+
+Paramétrer le fichier de configuration (/etc/ntp.conf)
+---/---
+driftfile /var/lib/ntp/ntp.drift
+logfile /var/log/ntp.log
+server 0.centos.pool.ntp.org iburst
+server 1.centos.pool.ntp.org iburst
+server 2.centos.pool.ntp.org iburst
+server 3.centos.pool.ntp.org iburst
+server 127.127.0.0
+fudge 127.127.O.0 stratum 10
+restrict default nomodify notrap nopeer noquery
+restrict 127.0.0.1 mask 255.0.0.0
+
+# service ntp start
+
+Afficher la liste des serveurs
+# ntpq -p
+     remote           refid      st t when poll reach   delay   offset  jitter
+==============================================================================
++regar42.fr      62.210.16.53     3 u    2   64    1   51.360    0.887   1.206
+*dalek.roflcopte 195.83.222.27    2 u    1   64    1   51.197   -0.569   0.003
++host1.thefox.co 188.165.255.179  3 u    2   64    1   71.746   -2.752   0.000
++www.mindstudios 145.238.203.14   2 u    1   64    1   50.894    0.012   0.000
+ LOCAL(0)        .LOCL.          10 l    -   64    0    0.000    0.000   0.000
 
 &===End===&

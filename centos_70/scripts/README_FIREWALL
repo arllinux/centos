@@ -1,7 +1,7 @@
 # Paramétrer et installer le parefeu
 
 Le script : firewall.sh contient un modèle de parefeu avec
-des règles préétablies. Il est largement expiqué et permet
+des règles préétablies. Il est largement expliqué et permet
 en commentant ou décommentant les lignes, d'ouvrir ou de 
 fermer ou limiter un port.
 
