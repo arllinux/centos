@@ -1,0 +1,23 @@
+#--------------------------------------------------------
+# Installation CentOS 7 minimal
+#--------------------------------------------------------
+
+Après le passage obligé par le bios, dans le premier écran qui
+apparaît nous choisissons :
+--> Install Centos 7
+
+Ensuite il faut patienter environs 1 mn avec un écran noir qui
+fait penser que l'installation a planté...
+
+Dans le haut à gauche de l'écran survient une liste qui entre
+autre chose, nous indique que le périphérique /dev/sdx est en
+train d'être vérifié : checking...
+Si l'on est sur de notre support on peut ignorer cette vérification
+en pressant la touche "Esc"
+
+
+Nous arrivons a l'interface graphique
+--> Bienvenue
+
+On nous propose de choisir la langue pour l'installation
+

@@ -351,7 +351,22 @@ fudge 127.127.O.0 stratum 10
 restrict default nomodify notrap nopeer noquery
 restrict 127.0.0.1 mask 255.0.0.0
 
-# service ntp start
+Mettre le service en route et le rendre persistant
+# systemctl enable ntpd.service
+ln -s '/usr/lib/systemd/system/ntpd.service' '/etc/systemd/system/multi-user.target.wants/ntpd.service'
+# service ntpd restart
+Redirecting to /bin/systemctl restart  ntpd.service
+# systemctl status ntpd.service
+ntpd.service - Network Time Service
+   Loaded: loaded (/usr/lib/systemd/system/ntpd.service; enabled)
+   Active: active (running) since dim. 2014-12-28 21:07:35 CET; 17s ago
+   Process: 2414 ExecStart=/usr/sbin/ntpd -u ntp:ntp $OPTIONS (code=exited, status=0/SUCCESS)
+   Main PID: 2415 (ntpd)
+   CGroup: /system.slice/ntpd.service
+           └─2415 /usr/sbin/ntpd -u ntp:ntp -g
+
+
+
 
 Afficher la liste des serveurs
 # ntpq -p
