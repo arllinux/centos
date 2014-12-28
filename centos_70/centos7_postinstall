@@ -224,7 +224,11 @@ Protocole :			tcp
 
 Pour garder le service actif au prochain redémarrage
 # systemctl enable iptables.service
-
+Par l'interface graphique la policy est à accept
+Pour la passer à DROP
+# iptables -P INPUT DROP
+Et enfin pour sauvegarder
+# /sbin/service iptables save
 
 'Suppression ancien kernel :'
 #---------------------------
