@@ -4,11 +4,11 @@
 
 1) Pour changer le nom d'hôte de façon permanente, éditez le fichier suivant :
 # vim /etc/hostname
-centos7_server
+centos7
 
 Après cela, éditez le fichier hosts :
 # vim /etc/hosts
-127.0.0.0.1 centos7_server localhost localhost.localdomain localhost4.localdomain4
+127.0.0.0.1 centos7 localhost localhost.localdomain localhost4.localdomain4
 Après le redémarrage, il affichera le nouveau nom d'hôte.
 
 &======&

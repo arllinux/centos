@@ -1,0 +1,20 @@
+# Paquets à ajouter à une installation minimale en ligne de commande
+#
+# Outils
+nmap
+time
+tree
+whois
+net-tools
+ntp
+lynx
+elinks
+man-pages
+ntsysv
+pinfo
+traceroute
+wget
+yum-priorities
+yum-utils
+system-config-firewall-tui
+gpm

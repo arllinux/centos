@@ -59,11 +59,33 @@ public = yes
 only guest = yes
 read only = no
 
+vfs object = recycle
+recycle:repository = .Corbeille
+recycle:keeptree = Yes
+recycle:touch = Yes
+recycle:versions = Yes
+recycle:maxsixe = 0
+recycle:exclude = *.tmp
+recycle:exclude_dir = /tmp
+recycle:noversions = *.doc
+
+
+
 [Confidentiel]
 path = /srv/samba/confidentiel
 comment = Partage Confidentiel
 read only = no
 invalid users = root nobody smbguest
+
+vfs object = recycle
+recycle:repository = .Corbeille
+recycle:keeptree = Yes
+recycle:touch = Yes
+recycle:versions = Yes
+recycle:maxsixe = 0
+recycle:exclude = *.tmp
+recycle:exclude_dir = /tmp
+recycle:noversions = *.doc
 
 --------//---------
 
@@ -144,8 +166,13 @@ Explications
 Créer un utilisateur public 'smbguest' pour Samba :
 
 # useradd -c "Utilisateur Public Samba" -g users -s /bin/false smbguest
+
 # passwd -l smbguest
+Verrouillage du mot de passe pour l'utilisateur smbguest.
+passwd: Succès
+
 # smbpasswd -a smbguest -d
+Added user smbguest.
   
   > L'utilisateur ne dispose pas de shell de connexion ('-s /bin/false').
   
@@ -154,13 +181,20 @@ Créer un utilisateur public 'smbguest' pour Samba :
   > L'option '-a' ("add") indique à 'smbpasswd' d'ajouter un utilisateur.
   
   > Celui-ci sera immédiatement désactivé par l'option '-d' ("disabled").
+
+
+##################################################
+Créer un ou plusieurs utilisateurs Samba normaux.#
+Deux cas de figure se présentent ici.            #
+##################################################
+
+   1) Si l'utilisateur a déjà un compte système sur le serveur CentOS:
   
-Créer un ou plusieurs utilisateurs Samba normaux.
-Deux cas de figure se présentent ici.
-  
-   1) Si l'utilisateur a déjà un compte système :
-  
-# smbpasswd -a jpantinoux
+  # smbpasswd -a jpantinoux
+  New SMB password:
+  Retype new SMB password:
+  Added user jpantinoux.
+
 
 Vérifier si l'utilisateur fait bien partie du groupe 'users' :
 
@@ -172,11 +206,21 @@ Vérifier :
 jpantinoux : jpantinoux users
 
 
-   2) L'utilisateur n'a pas de compte système :
+   2) L'utilisateur n'a pas de compte système sur le serveur CentOS :
 
-# useradd -g users -d /dev/null -s /bin/false jpantinoux
-# passwd -l jpantinoux
-# smbpasswd -a jpantinoux
+# useradd -g users -d /dev/null -s /bin/false toto
+useradd : attention, le répertoire personnel existe déjà.
+Aucun fichier du répertoire « skels » n'y sera copié.
+
+# passwd -l toto
+Verrouillage du mot de passe pour l'utilisateur toto.
+passwd: Succès
+
+# smbpasswd -a toto
+New SMB password:
+Retype new SMB password:
+Added user toto.
+
 
   > Ici, l'utilisateur n'a ni répertoire utilisateur, ni shell de connexion.
 
@@ -258,25 +302,24 @@ Lancer et rendre persistant les démons
 
 Afficher les partages sur le serveur :
 
-# smbclient -L localhost -N
+# smbclient -L <ip_du_serveur> -N
 Domain=[WORKGROUP] OS=[Unix] Server=[Samba 4.1.1]
 
-	Sharename       Type      Comment
-	---------       ----      -------
-	Public          Disk      Partage Public
-	Confidentiel    Disk      Partage Confidentiel
-	IPC$            IPC       IPC Service (Serveur de fichiers)
+   Sharename       Type      Comment
+   ---------       ----      -------
+   Public          Disk      Partage Public
+   Confidentiel    Disk      Partage Confidentiel
+   IPC$            IPC       IPC Service (Serveur de fichiers)
 Domain=[WORKGROUP] OS=[Unix] Server=[Samba 4.1.1]
 
-	Server               Comment
-	---------            -------
-	FRANKEINSTEIN        frankeinstein server (Samba, Linux Mint)
-	PARTAGE              Serveur de fichiers
+   Server               Comment
+   ---------            -------
+   CERBERE              Serveur Samba principal
+   PARTAGE              Serveur Samba secondaire
 
-	Workgroup            Master
-	---------            -------
-	WORKGROUP            FRANKEINSTEIN
-
+   Workgroup            Master
+   ---------            -------
+   WORKGROUP            CERBERE
 
 &---/---&
 
