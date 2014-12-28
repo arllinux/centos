@@ -46,6 +46,7 @@ else
         systemctl disable firewalld
         echo ":: Activation d'iptables. ::"
         systemctl restart iptables.service
+        systemctl enable iptables.service
         echo ":: Activation de la souris en console. ::"
         systemctl start gpm 
 	echo ":: Réglages de base terminés ::"

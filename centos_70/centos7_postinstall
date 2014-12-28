@@ -150,6 +150,23 @@ lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
 
 5) Désactiver l'IPv6
 
+Désactiver l'IPv6 Nico
+-----------------
+
+Ajouter une stance à '/etc/sysctl.conf' :
+
+--8<---------- /etc/sysctl.conf ----------------------------------------------
+...
+# Disable IPv6
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+# --8<--------------------------------------------------------------------------
+Si l'on ne veut pas attendre le prochain redémarrage pour prendre en compte la
+modification, on peut faire ceci :
+# sysctl -p
+
+Ou
+
 Vérifier si l'IPv6 est activé ou non
 # lsmod | grep -i ipv6
 
@@ -204,6 +221,10 @@ Si l'on souhaite ouvrir un port non listé :
 			'Ajouter'
 Port / Intervalle des ports :	18525
 Protocole :			tcp
+
+Pour garder le service actif au prochain redémarrage
+# systemctl enable iptables.service
+
 
 'Suppression ancien kernel :'
 #---------------------------
