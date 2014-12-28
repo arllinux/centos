@@ -2,6 +2,9 @@
 # Installation de Samba sous CentOs 7 =
 # =====================================
 
+Installer les paquets :
+# yum install samba samba-client
+
 Ouvrir les ports suivants :
 
   * 135 en TCP 
@@ -9,6 +12,41 @@ Ouvrir les ports suivants :
   * 138 en UDP 
   * 139 en TCP 
   * 445 en TCP
+
+# system-config-firewall-tui
+--> Personnaliser
+  [*] Client Samba
+  ---
+  [*] Samba
+--> Fermer
+--> OK
+Avertissement
+--> Oui
+
+Vérifier avec :
+# iptables -L -n
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            state RELATED,ESTABLISHED
+ACCEPT     icmp --  0.0.0.0/0            0.0.0.0/0
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            state NEW tcp dpt:22
+ACCEPT     udp  --  0.0.0.0/0            0.0.0.0/0            state NEW udp dpt:137
+ACCEPT     udp  --  0.0.0.0/0            0.0.0.0/0            state NEW udp dpt:138
+ACCEPT     udp  --  0.0.0.0/0            0.0.0.0/0            state NEW udp dpt:137
+ACCEPT     udp  --  0.0.0.0/0            0.0.0.0/0            state NEW udp dpt:138
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            state NEW tcp dpt:139
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            state NEW tcp dpt:445
+ACCEPT     udp  --  0.0.0.0/0            0.0.0.0/0            state NEW udp dpt:123
+REJECT     all  --  0.0.0.0/0            0.0.0.0/0            reject-with icmp-host-prohibited
+
+Chain FORWARD (policy ACCEPT)
+target     prot opt source               destination
+REJECT     all  --  0.0.0.0/0            0.0.0.0/0            reject-with icmp-host-prohibited
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination
+---------------------------------------------------------------------------------------------
 
 Créer les répertoires :
 
@@ -26,6 +64,10 @@ Ouvrir et vider le contenu du smb.conf
 Pour vider le contenu d'un fichier :
 Se placer au début du fichier par gg
 puis presser les touches d et G (majuscule)
+
+Passer en mode "insertion" (touche i)
+Sélectionner le contenu ci-dessous
+Coller dans le fichier avec un clic de molette
 
 Y placer ce contenu :
 
@@ -183,12 +225,15 @@ Added user smbguest.
   > Celui-ci sera immédiatement désactivé par l'option '-d' ("disabled").
 
 
-##################################################
-Créer un ou plusieurs utilisateurs Samba normaux.#
-Deux cas de figure se présentent ici.            #
-##################################################
+###############################################################
+# Créer un ou plusieurs utilisateurs Samba avec mot de passe. #
+# Deux cas de figure se présentent ici.                       #
+###############################################################
 
    1) Si l'utilisateur a déjà un compte système sur le serveur CentOS:
+   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    (Eviter d'avoir un mot de passe similaire au compte utilisateur)
   
   # smbpasswd -a jpantinoux
   New SMB password:
@@ -207,6 +252,7 @@ jpantinoux : jpantinoux users
 
 
    2) L'utilisateur n'a pas de compte système sur le serveur CentOS :
+   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 # useradd -g users -d /dev/null -s /bin/false toto
 useradd : attention, le répertoire personnel existe déjà.
@@ -295,10 +341,10 @@ Activer et gérer Samba :
 
 Lancer et rendre persistant les démons
 
-# systemctl start smb.service
 # systemctl enable smb.service
-# systemctl start mnb.service
+# systemctl start smb.service
 # systemctl enable mnb.service
+# systemctl start mnb.service
 
 Afficher les partages sur le serveur :
 

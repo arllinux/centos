@@ -2,7 +2,44 @@
 'Réglages initiaux après installation de CentOs 7'
 #==================================================
 
-1) Pour changer le nom d'hôte de façon permanente, éditez le fichier suivant :
+'Désactiver SELinux'
+#------------------
+Pour savoir quel est l'état actuel de SELinux
+# /usr/sbin/getenforce
+Enforcing
+
+Il faut éditer le fichier /etc/sysconfig/selinux
+#SELINUX=enforcing
+SELINUX=disabled
+Commenter enforcing et ajouter disabled
+
+
+'Mise à jour initiale du système'
+#-------------------------------
+
+# yum update
+# reboot
+
+
+'Récupérer la documentation et les scripts de personnalisation'
+#-------------------------------------------------------------
+
+Installer trois outils de base :
+# yum install vim git
+Se déplacer dans :
+# cd /usr/share
+Créer un répertoire :
+# mkdir depot_git
+Importer la documentation
+# git clone https://github.com/arllinux/centos
+Se déplacer dans :
+# cd centos/centos_70/config/scripts
+Lancer le script
+# ./install_base.sh
+
+
+'1) Pour changer le nom d'hôte de façon permanente, éditez le fichier suivant :'
+#------------------------------------------------------------------------------
 # vim /etc/hostname
 centos7
 
@@ -11,7 +48,7 @@ Après cela, éditez le fichier hosts :
 127.0.0.0.1 centos7 localhost localhost.localdomain localhost4.localdomain4
 Après le redémarrage, il affichera le nouveau nom d'hôte.
 
-&======&
+------------------------------------------------------------
 
 2) Après vous être loggé dans l'installation minimale du serveur CentOs7 vous constaterez que la commande ifconfig n'est pas présente :
 # ifconfig
@@ -22,7 +59,7 @@ Il faut installer le paquet "net-tools" qui contient ifconfig :
 Essayez à nouveau la commande ifconfig :
 # ifconfig
 
-&======&
+------------------------------------------------------------
 
 3) Changer le nom par defaut de la carte réseau par "eth0"
 CentOs 7 propose par défaut des noms du type "enpS..", Pour changer ceci déplacer vous dans :
@@ -36,7 +73,7 @@ Créer une nouvelle configuration basée sur le système en cours d'exécution e
 Renommer le fichier "ifcfg-enp2s0.." en "eth0"
 # mv ifcfg-enp2s0 ifcfg-eth0
 
-Si vous avez de carte réseau change le nom de la deuxième en "eth1"
+Si vous avez deux cartes réseau changer le nom de la deuxième en "eth1"
 
 Redemarrer
 # reboot
@@ -44,7 +81,7 @@ Redemarrer
 Après le redémarrage vérifier que la modification a bien été prise en compte.
 # ifconfig
 
-&======&
+------------------------------------------------------------
 
 4) Configurer l'adresse statique du serveur coté internet:
 
@@ -78,7 +115,7 @@ inet 192.168.2.9
 
 #############################################
 # Configuration de la deuxième carte réseau #
-# ###########################################
+#############################################
 
 Configurer l'adresse statique du serveur coté reseau local :
 
@@ -109,7 +146,7 @@ lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
         loop  txqueuelen 0  (Boucle locale)
 	---/---
 
-&======&
+------------------------------------------------------------
 
 5) Désactiver l'IPv6
 
@@ -126,38 +163,120 @@ Créer une nouvelle configuration basée sur le système en cours d'exécution e
 Testez à nouveau si l'IPv6 est activé
 # lsmod | grep -i ipv6
 
-&======&
+------------------------------------------------------------
 
-6) Ajouter le dépot EPEL
-# cd /root
-# mkdir RPMS
-# cd RPMS
-# rpm --import http://mirrors.nayatel.com/epel//RPM-GPG-KEY-EPEL-7
-# rpm -Uvh http://mirrors.nayatel.com/epel/7/x86_64/e/epel-release-7-1.noarch.rpm
+'Gérer les ports du firewall'
+#---------------------------
 
-Lister les nouveaux dépots
-# yum repolist
+Il faut installer 'system-config-firewall-tui'
+Celui-ci n'étant pas installé par défaut
+# yum install system-config-firewall-tui
 
-Régler les priorités des dépôts
+Voir quel sont quelle sont les règles appliquées par iptables
+http://www.linux-france.org/prj/inetdoc/guides/iptables-tutorial/
+
+[root@prunelle:~] # service iptables status
+Table : filter
+Chain INPUT (policy ACCEPT)
+num  target     prot opt source               destination         
+1    ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           state RELATED,ESTABLISHED 
+2    ACCEPT     icmp --  0.0.0.0/0            0.0.0.0/0           
+3    ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
+4    ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0           state NEW tcp dpt:22 
+5    REJECT     all  --  0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited 
+
+Chain FORWARD (policy ACCEPT)
+num  target     prot opt source               destination         
+1    REJECT     all  --  0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited 
+
+Chain OUTPUT (policy ACCEPT)
+num  target     prot opt source               destination         
+
+On voit que seul le port 22 (ssh) est ouvert dans le filtrage
+
+Pour ajouter un port :
+# system-config-firewall-tui
+La fenêtre 'services de confiance' s'ouvre avec ncurses
+S'il s'agit d'ouvrir les ports pour utiliser Samba, il suffit de cocher [*] Samba
+Si l'on souhaite ouvrir un port non listé :
+	'Suivant'
+		'Autres ports'
+			'Ajouter'
+Port / Intervalle des ports :	18525
+Protocole :			tcp
+
+'Suppression ancien kernel :'
+#---------------------------
+
+1 - vérification des kernels disponibles :
+# rpm -qa | grep kernel
+Retourne la listes des kernels
+
+2 - vérification du kernel actif :
+# uname -r
+Retourne le nom du kernel utilisé
+
+3 - suppression du kernel non utilisé :
+# rpm -e kernel-nom_du_kernel
+
+------------------------------------------------------------
+
+'Ajout et configuration du dépot "rpmforge"'
+#-------------------------------------------
+
+# lynx apt.sw.be
+Aller dans le dossier : "redhat" --> "el6" --> "en" --> "i386" --> "RPMSrpmforge"
+Après avoir tapé : shift + / pour définir la requète : rechercher "rpmforge-release"
+Choisir la version la plus récente.
+Taper "d" pour charger le fichier, puis flèche du bas "Enregistrer le fichier",
+--> flèche de droite et enfin "Entrée" pour confirmer.
+
+Retour dans le dossier RPMS
+	Avant d'installer le dépot rpmforge
+	Importer la clé GPG
+	# rpm --import http://apt.sw.be/RPM-GPG-KEY.dag.txt
+	Vérifier le paquet du dépot
+	[root@prunelle:~/RPMS] # rpm -K rpmforge-release-xxxxxx.*.rpm
+	rpmforge-release-xxxxxxx.rpm: (sha1) dsa sha1 md5 gpg OK
+	Installer le paquet !
+	# rpm -ivh rpmforge-release-xxxxxx.i686.rpm
+
+
 Se déplacer dans le dossier : /etc/yum.repos.d
 # /etc/yum.repos.d
-# vim epel.repo
+# vim rpmforge.repo
 
-Supprimer la ligne :
-protect = 1
-Ajout de la ligne :
-priority = 10
-:wq
+	Supprimer la ligne :
+	protect = 1
+	Ajout de la ligne :
+	priority = 10
+	:wq
+
+----------------------------------------------------------
+
+'Configurer le dépot Base'
+#------------------------
 
 Ouvrir le fichier CentOS-Base.repo
-# cd /etc/yum.repos.d
-# vim Centos_Base.repo
 Dans toutes les stances ajouter "enabled=0" au-dessous du titre.
-Pour "base" - "update" - "extras" --> "enabled=1"
-Pour les mêmes insérer une ligne et écrire : "priority=1"
+Pour
+  "base"
+	enabled=1
+	priority=1
+
+	"update"
+	enabled=1
+	priority=1
+
+	"extras"
+	enabled=1
+	priority=1
 
 Installer l'outils de gestion des priorités
 # yum install yum-plugin-priorities
+
+Lister les nouveaux dépots
+# yum repolist
 
 Un petit nettoyage :
 # yum clean all
@@ -167,7 +286,7 @@ Pour vérifier que les modifications ont bien été prises en compte.
 Et enfin si vous voulez mettre à jour tout le système :
 # yum update
 
-&======&
+------------------------------------------------------------
 
 7) Activer les services iptables (au lieu de firewalld) :
 
@@ -186,12 +305,13 @@ Pour corriger cette erreur, installez le paquet iptables-services :
 Relancer la commande précédante :
 # systemctl restart iptables.service
 
+Si l'on a deux cartes réseau :
 Mettre en place les règles du parefeu
 Dans le dossier scripts il faut éxécuter, (après avoir adapté les règles)
 le script : (consulter le fichier README_FIREWALL dans le répertoire)
 # ./install_firewall.sh
 
-&======&
+------------------------------------------------------------
 
 8) Installer ntp (Network Time Protocol)
 # yum install ntp
@@ -242,5 +362,7 @@ Afficher la liste des serveurs
 +host1.thefox.co 188.165.255.179  3 u    2   64    1   71.746   -2.752   0.000
 +www.mindstudios 145.238.203.14   2 u    1   64    1   50.894    0.012   0.000
  LOCAL(0)        .LOCL.          10 l    -   64    0    0.000    0.000   0.000
+
+------------------------------------------------------------
 
 &===End===&
