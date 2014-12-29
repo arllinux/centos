@@ -43,6 +43,7 @@ path = /srv/samba/confidentiel
 comment = Partage Confidentiel
 read only = no
 invalid users = root nobody smbguest
+valid users = asma naouele
 
 vfs object = recycle
   recycle:repository = .Corbeille

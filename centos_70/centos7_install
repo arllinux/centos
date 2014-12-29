@@ -20,4 +20,16 @@ Nous arrivons a l'interface graphique
 --> Bienvenue
 
 On nous propose de choisir la langue pour l'installation
+--> Français --> Français (France)
+    --> Poursuivre
+
+Un panneau nous affiche les différentes étapes pour préparer l'installation
+Résumé de l'installation
+
+Il faut commencer par :
+--> Réseau et nom d'hôte
+  --> Sélectionner la carte Eternet
+  --> Activer la connection par le bouton en haut à droite (bleu)
+  --> Inscrire le nom du serveur
+    --> Terminé
 
