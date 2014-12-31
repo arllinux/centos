@@ -8,7 +8,7 @@ SYS=$(which sysctl)
 IFACE_INET=eth0
 # Réseau local
 IFACE_LAN=eth1
-IFACE_LAN_IP=192.168.3.0/24
+IFACE_LAN_IP=192.168.2.0/24
 # Relais des paquets (yes/no)
 MASQ=yes
 # Tout accepter

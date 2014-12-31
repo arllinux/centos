@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# install_base.sh
 # JP Antinoux - décembre 2014
 
 FILE_U=invite_user
@@ -44,9 +45,12 @@ else
         echo ":: Désactivation de firewalld. ::"
         systemctl stop firewalld
         systemctl disable firewalld
+        echo ":: Désactivation de l'ipv6 ::"
+        systemctl stop ip6tables.service
+        systemctl disable ip6tables.service
         echo ":: Activation d'iptables. ::"
-        systemctl restart iptables.service
         systemctl enable iptables.service
+        systemctl restart iptables.service
         echo ":: Activation de la souris en console. ::"
         systemctl start gpm 
 	echo ":: Réglages de base terminés ::"

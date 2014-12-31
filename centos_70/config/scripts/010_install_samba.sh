@@ -11,9 +11,8 @@ if [ $? = "0" ]
     then
 	echo "Pour exécuter ce script il faut être l'utilisateur root !"
     else
-	aptitude -y install samba smbclient
+	yum -y install samba smbclient
 
-	groupadd smbguest 
 	useradd -g smbguest -s /bin/false -c "Utilisateur Public Samba" smbguest 
 	passwd -l smbguest 
 	smbpasswd -a smbguest -d
@@ -23,8 +22,11 @@ if [ $? = "0" ]
 	cat $CWD/../samba/etc/samba/smb.conf > /etc/samba/smb.conf
 	chmod 644 /etc/samba/smb.conf
 
-	service smb restart
-	sysv-rc-conf samba on
+  systemctl enable smb.service
+  systemctl start smb.service
+  systemctl enable nmb.service
+  systemctl start nmb.service
+
 fi
 
 exit 0

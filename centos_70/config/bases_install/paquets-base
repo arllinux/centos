@@ -16,5 +16,4 @@ traceroute
 wget
 yum-priorities
 yum-utils
-system-config-firewall-tui
 gpm
