@@ -16,8 +16,7 @@ else
   cat $CWD/../grub/grub > /etc/default/grub
   echo ":: Mise à jour de grub ::"
   grub2-mkconfig -o /boot/grub2/grub.cfg
-  echo ":: Vous êtes dans le dossier pour modifier le nom des interfaces réseau
-  ::"
+  echo ":: Vous êtes dans le dossier pour modifier le nom des interfaces réseau::"
   cd /etc/sysconfig/network-scripts
 
 	echo ":: Modifiez manuellement les fichiers ::"

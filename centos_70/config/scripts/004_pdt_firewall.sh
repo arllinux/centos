@@ -74,7 +74,7 @@ SYS=$(which sysctl)
        # $MOD ip_conntrack_ftp
        # $IPT -A INPUT -p tcp --dport 21 -j ACCEPT
 
-       # SSH locala :
+       # SSH local :
        $IPT -A INPUT -p tcp --dport 22 -j ACCEPT
 
        # SSH limité en provenance de l'extérieur :
@@ -94,7 +94,7 @@ SYS=$(which sysctl)
        # HTTPS :
        # $IPT -A INPUT -p tcp --dport 443 -j ACCEPT
 
-       # NTP l
+       # NTP :
        $IPT -A INPUT -p udp --dport 123 -j ACCEPT
 
        # Samba :
@@ -136,4 +136,5 @@ SYS=$(which sysctl)
        # Enregistrer la configuration :
        /sbin/service iptables save
 
-
+       # Afficher les règles du parefeu
+       iptables -L -n
