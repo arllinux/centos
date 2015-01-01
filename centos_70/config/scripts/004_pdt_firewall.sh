@@ -135,6 +135,4 @@ SYS=$(which sysctl)
 
        # Enregistrer la configuration :
        /sbin/service iptables save
-
-       # Afficher les règles du parefeu
-       iptables -L -n
+exit 0

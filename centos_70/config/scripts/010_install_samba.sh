@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# ./010_install_samba.sh
-
-# Dernière modifs 15 avril 2013
+# 010_install_samba.sh
+#
+# JP Antinoux - Janvier 2015
 
 CWD=$(pwd)
 
@@ -13,19 +13,52 @@ if [ $? = "0" ]
     else
 	yum -y install samba smbclient
 
-	useradd -g smbguest -s /bin/false -c "Utilisateur Public Samba" smbguest 
+  echo "-------------------------------------------------------------"
+  echo ":: Création de l'utilistateur public pour le serveur samba ::"
+  echo "-------------------------------------------------------------"
+  useradd -c "Utilisateur public Samba" -g users -s /bin/false smbguest
 	passwd -l smbguest 
 	smbpasswd -a smbguest -d
 
-	mkdir -pv -m 1777 /srv/samba/public
+  echo ":: Création de 2 répertoires : public et confidentiel ::"
+	mkdir -pv -m 1777 /srv/samba/{public,confidentiel}
+
+  echo "-------------------------------------------------"
+  echo ":: Mise en place des fichiers de configuration ::"
+  echo "-------------------------------------------------"
 	cp /etc/samba/smb.conf /etc/samba/smb.conf_old
-	cat $CWD/../samba/etc/samba/smb.conf > /etc/samba/smb.conf
+	cat $CWD/../samba/etc/samba/smb.conf.template > /etc/samba/smb.conf
 	chmod 644 /etc/samba/smb.conf
 
+  cat $CWD/../samba/etc/cron.weekly/samba_trash.sh.template > /etc/cron.weekly/samba_trash.sh
+  chmod 644 /etc/cron.weekly/samba_trash.sh
+
+  echo "----------------------------------------------"
+  echo ":: Adaptation des fichiers de configuration ::"
+  echo "----------------------------------------------"
+  vim /etc/samba/smb.conf
+
+  echo "---------------------------------"
+  echo ":: Ouvrir les ports pour Samba ::"
+  echo "---------------------------------"
+  vim $CWD/004_pdt_firewall.sh
+  
+  echo "----------------------------------"
+  echo ":: Modification du parefeu OK ! ::"
+  echo "----------------------------------"
+  ./004_pdt_firewall.sh
+
+  echo "--------------------------------"
+  echo ":: Lancement du serveur Samba ::"
+  echo "--------------------------------"
   systemctl enable smb.service
   systemctl start smb.service
   systemctl enable nmb.service
   systemctl start nmb.service
+
+  echo "-------------------------------------"
+  echo ":: Le serveur Samba est en route ! ::"
+  echo "-------------------------------------"
 
 fi
 
