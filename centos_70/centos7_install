@@ -33,3 +33,187 @@ Il faut commencer par :
   --> Inscrire le nom du serveur
     --> Terminé
 
+Vérifier les autres éléments qui doivent être déjà configurés.
+- Date et heure : Europe/Paris
+- Prise en charge de la langue : Français/France
+- Clavier : Français/Variante
+- Source d'installation : sdc CentOS_7_x86_64
+- Sélection de logiciels : Installation minimale
+
+Pour la destination de l'installation, là il faut un peu travailler :
+
+Deux options
+Installation simple sur un seul disque 
+Installation en Raid1 (deux disques)
+
+Installation simple :
+#=================#
+#
+Nouvelle installation de CentOS 7
+
+Si vers le milieu de la colonne de gauche apparait le mot "inconnu" ou unknow"
+précédé d'une flèche, il s'agit des partition résiduelles.
+Sélectionner l'un des éléments, puis cliquer sur le signe "-".
+
+--> Etes-vous sur de vouloir supprimer toutes les données sur sda ?
+--> Cocher l'option : Supprimer aussi tout les autre système de fichiers dans
+la racine de "inconnu"
+
+Plus aucun disque ne doit apparaitre
+
+En haut de la colonne de gauche, le menu déroulant indique "LVM"
+Les points de montage utilisent le shéma de partitionnement suivant :
+--> Menu --> Partitionnement standard
+
+Cliquer sur le signe "+"
+--> Ajouter un nouveau point de montage
+--> Point de montage :
+    --> /boot
+Capacité :
+    --> 500
+--> Valider
+
+Colonne de gauche       Capacité          Colonne de droite
+/boot                   500MB             Nom : boot
+sda                                       Point de montage : /boot
+                                          Type de périphérique : standard
+                                          Système de fichiers : xfs
+                                          Niveau de raid :
+-------------------------------------->    Mise à jour des paramètres
+
+
+Cliquer sur le signe "+"
+--> Ajouter un nouveau point de montage
+--> Point de montage :
+    --> swap
+Capacité :
+    --> 4096 (adapter en fonction de la RAM)
+--> Valider
+
+Colonne de gauche       Capacité          Colonne de droite
+swap                    4096GB            Nom : swap
+sda                                       Point de montage : -
+                                          Type de périphérique : standard
+                                          Système de fichiers : xfs
+                                          Niveau de raid :
+-------------------------------------->    Mise à jour des paramètres
+
+
+Cliquer sur le signe "+"
+--> Ajouter un nouveau point de montage
+--> Point de montage :
+    --> /
+Capacité :
+    --> 949000
+--> Valider
+
+Colonne de gauche       Capacité          Colonne de droite
+/                       949.139GB         Nom : root
+sda                                       Point de montage : /
+                                          Type de périphérique : standart
+                                          Système de fichiers : xfs
+                                          Niveau de raid :
+-------------------------------------->    Mise à jour des paramètres
+
+
+#=======================================================#
+
+
+Installation Raid1
+#=================#
+#
+Sélection de périphériques :
+--> Cocher les deux disques
+Partitionnement
+--> o Je vais configurer le partitionnement
+--> Terminé
+
+Nouvelle installation de CentOS 7
+
+Si vers le milieu de la colonne de gauche apparait le mot "inconnu" ou unknow"
+précédé d'une flèche, il s'agit des partition résiduelles.
+Sélectionner l'un des éléments, puis cliquer sur le signe "-".
+
+--> Etes-vous sur de vouloir supprimer toutes les données sur sda ?
+--> Cocher l'option : Supprimer aussi tout les autre système de fichiers dans
+la racine de "inconnu"
+
+Plus aucun disque ne doit apparaitre
+
+En haut de la colonne de gauche, le menu déroulant indique "LVM"
+Les points de montage utilisent le shéma de partitionnement suivant :
+--> Menu --> Partitionnement standard
+
+Cliquer sur le signe "+"
+--> Ajouter un nouveau point de montage
+--> Point de montage :
+    --> /boot
+Capacité :
+    --> 500
+--> Valider
+
+Colonne de gauche       Capacité          Colonne de droite
+/boot                   500MB             Nom : boot
+sda                                       Point de montage : /boot
+                                          Type de périphérique : Raid
+                                          Système de fichiers : xfs
+                                          Niveau de raid : raid1 (redondance)
+-------------------------------------->    Mise à jour des paramètres
+
+
+Cliquer sur le signe "+"
+--> Ajouter un nouveau point de montage
+--> Point de montage :
+    --> swap
+Capacité :
+    --> 4096 (adapter en fonction de la RAM)
+--> Valider
+
+Colonne de gauche       Capacité          Colonne de droite
+swap                    4096GB            Nom : swap
+sda                                       Point de montage : -
+                                          Type de périphérique : Raid
+                                          Système de fichiers : xfs
+                                          Niveau de raid : raid1 (redondance)
+-------------------------------------->    Mise à jour des paramètres
+
+
+Cliquer sur le signe "+"
+--> Ajouter un nouveau point de montage
+--> Point de montage :
+    --> /
+Capacité :
+    --> 949000
+--> Valider
+
+Colonne de gauche       Capacité          Colonne de droite
+/                       949.139GB         Nom : root
+sda                                       Point de montage : /
+                                          Type de périphérique : Raid
+                                          Système de fichiers : xfs
+                                          Niveau de raid : raid1 (redondance)
+-------------------------------------->    Mise à jour des paramètres
+
+--> Terminé
+Une fenêtre qui résume les modifications apparait
+--> Valider
+
+On peut maintenant cliquer sur :
+--> Commencer l'installation
+
+Mot de passe Root
+--> Taper une première fois
+--> Confirmer le mot de passe
+
+Mot de passe utilisateur
+Nous le créerons quand le système sera installé
+
+La barre de progression indique :
+le nombre de paquets qui vont être installés : 215
+Configuration du système
+Installation du chargeur de démarrage
+
+--> Terminé
+--> Redémarrer
+
+#---&&---#

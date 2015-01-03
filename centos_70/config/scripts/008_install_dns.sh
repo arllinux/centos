@@ -16,13 +16,16 @@ else
 	# Installation et configuration du serveur dns
 	# Tous les paramètre sont adaptés pour un réseau local 192.168.2.1
 
-	aptitude -y install bind9 dnsutils
-	echo ":: Installation des outils ::"	
-	echo ":: Configuration de named.conf.options ::"
-	cp /etc/bind/named.conf.options /etc/bind/named.conf.options_old
-	cat $CWD../dns/etc/bind/named.conf.options > /etc/bind/named.conf.options
-	chown root:bind /etc/bind/named.conf.options
-	chmod 0644 /etc/bind/named.conf.options
+	yum -y install dnsmasq
+  
+	echo ":: Ouverture des ports du parefeu ::"	
+	Modification du fichier eth1
+  
+  echo ":: Ouverture des ports du parefeu ::"	
+
+  vim $SWD/004_pdt_firewall.sh
+  ./004_pdt_firewall.sh
+
 
 	echo ":: Modification de resolv.conf ::"
 	cp /etc/resolv.conf /etc/resolv.conf_old

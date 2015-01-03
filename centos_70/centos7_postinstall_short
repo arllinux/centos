@@ -21,7 +21,7 @@ Retenter un ping
 
 'Récupérer la documentation et les scripts de personnalisation'
 #-------------------------------------------------------------
-Installer trois outils de base :
+Installer deux outils de base :
 # yum install vim git
 Se déplacer dans :
 # cd /usr/share

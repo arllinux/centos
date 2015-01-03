@@ -2,6 +2,14 @@
 'Réglages initiaux après installation de CentOs 7'
 #==================================================
 
+
+Si l'on utilise du raid, il est prudent de copier la table des partitions
+d'un des disque à la racine de root :
+# sfdisk -l /dev/sda > table_sda
+Cette opération permettra, si un disque vient à flancher, d'avoir déjà une
+table des partitions à recopier vers le nouveau disque avant de reconstruire
+la nouvelle grappe raid.
+
 'Désactiver SELinux'
 #------------------
 Pour savoir quel est l'état actuel de SELinux
