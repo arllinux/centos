@@ -1,6 +1,7 @@
 # Paquets à ajouter à une installation minimale en ligne de commande
 #
 # Outils
+bind-utils
 nmap
 time
 tree
