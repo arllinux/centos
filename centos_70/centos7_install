@@ -4,34 +4,35 @@
 
 Après le passage obligé par le bios, dans le premier écran qui
 apparaît nous choisissons :
---> Install Centos 7
+
+# --> Install Centos 7
 
 Ensuite il faut patienter environs 1 mn avec un écran noir qui
 fait penser que l'installation a planté...
 
 Dans le haut à gauche de l'écran survient une liste qui entre
-autre chose, nous indique que le périphérique /dev/sdx est en
+autre chose, nous indique que le périphérique "/dev/sdx" est en
 train d'être vérifié : checking...
 Si l'on est sur de notre support on peut ignorer cette vérification
 en pressant la touche "Esc"
 
 
 Nous arrivons a l'interface graphique
---> Bienvenue
+# --> Bienvenue
 
 On nous propose de choisir la langue pour l'installation
---> Français --> Français (France)
-    --> Poursuivre
+# --> Français --> Français (France)
+   # --> Poursuivre
 
 Un panneau nous affiche les différentes étapes pour préparer l'installation
 Résumé de l'installation
 
 Il faut commencer par :
---> Réseau et nom d'hôte
-  --> Sélectionner la carte Eternet
-  --> Activer la connection par le bouton en haut à droite (bleu)
-  --> Inscrire le nom du serveur
-    --> Terminé
+# --> Réseau et nom d'hôte
+   --> Sélectionner la carte Eternet
+   --> Activer la connection par le bouton en haut à droite (bleu)
+   --> Inscrire le nom du serveur
+   # --> Terminé
 
 Vérifier les autres éléments qui doivent être déjà configurés.
 - Date et heure : Europe/Paris
@@ -40,38 +41,39 @@ Vérifier les autres éléments qui doivent être déjà configurés.
 - Source d'installation : sdc CentOS_7_x86_64
 - Sélection de logiciels : Installation minimale
 
-Pour la destination de l'installation, là il faut un peu travailler :
 
+Pour la destination de l'installation, là il faut un peu travailler :
+#====================================================================
 Deux options
-Installation simple sur un seul disque 
-Installation en Raid1 (deux disques)
+# --> Installation simple sur un seul disque 
+# --> Installation en Raid1 (deux disques)
 
 Installation simple :
 #=================#
-#
+
 Nouvelle installation de CentOS 7
 
-Si vers le milieu de la colonne de gauche apparait le mot "inconnu" ou unknow"
+Si vers le milieu de la colonne de gauche apparait le mot "inconnu" ou "unknow"
 précédé d'une flèche, il s'agit des partition résiduelles.
 Sélectionner l'un des éléments, puis cliquer sur le signe "-".
 
---> Etes-vous sur de vouloir supprimer toutes les données sur sda ?
---> Cocher l'option : Supprimer aussi tout les autre système de fichiers dans
-la racine de "inconnu"
+# --> Etes-vous sur de vouloir supprimer toutes les données sur sda ?
+# --> Cocher l'option : Supprimer aussi tout les autre système de fichiers dans la racine de "inconnu"
 
 Plus aucun disque ne doit apparaitre
 
 En haut de la colonne de gauche, le menu déroulant indique "LVM"
 Les points de montage utilisent le shéma de partitionnement suivant :
---> Menu --> Partitionnement standard
+# --> Menu --> Partitionnement standard
 
+Etape 1 :
 Cliquer sur le signe "+"
---> Ajouter un nouveau point de montage
---> Point de montage :
-    --> /boot
+# --> Ajouter un nouveau point de montage
+# --> Point de montage :
+   # --> /boot
 Capacité :
-    --> 500
---> Valider
+   # --> 500
+# --> Valider
 
 Colonne de gauche       Capacité          Colonne de droite
 /boot                   500MB             Nom : boot
@@ -79,16 +81,16 @@ sda                                       Point de montage : /boot
                                           Type de périphérique : standard
                                           Système de fichiers : xfs
                                           Niveau de raid :
--------------------------------------->    Mise à jour des paramètres
+# ----------------------------------->    Mise à jour des paramètres
 
-
+Etape 2 :
 Cliquer sur le signe "+"
---> Ajouter un nouveau point de montage
---> Point de montage :
-    --> swap
+# --> Ajouter un nouveau point de montage
+# --> Point de montage :
+   # --> swap
 Capacité :
-    --> 4096 (adapter en fonction de la RAM)
---> Valider
+   # --> 4096 (adapter en fonction de la RAM)
+# --> Valider
 
 Colonne de gauche       Capacité          Colonne de droite
 swap                    4096GB            Nom : swap
@@ -96,16 +98,16 @@ sda                                       Point de montage : -
                                           Type de périphérique : standard
                                           Système de fichiers : xfs
                                           Niveau de raid :
--------------------------------------->    Mise à jour des paramètres
+# ----------------------------------->    Mise à jour des paramètres
 
-
+Etape 3 :
 Cliquer sur le signe "+"
---> Ajouter un nouveau point de montage
---> Point de montage :
-    --> /
+# --> Ajouter un nouveau point de montage
+# --> Point de montage :
+   # --> /
 Capacité :
-    --> 949000
---> Valider
+   # --> 949000 (adapter en fonction du disque)
+# --> Valider
 
 Colonne de gauche       Capacité          Colonne de droite
 /                       949.139GB         Nom : root
@@ -113,7 +115,7 @@ sda                                       Point de montage : /
                                           Type de périphérique : standart
                                           Système de fichiers : xfs
                                           Niveau de raid :
--------------------------------------->    Mise à jour des paramètres
+# ----------------------------------->    Mise à jour des paramètres
 
 
 #=======================================================#
@@ -121,12 +123,12 @@ sda                                       Point de montage : /
 
 Installation Raid1
 #=================#
-#
+
 Sélection de périphériques :
---> Cocher les deux disques
+# --> Cocher les deux disques
 Partitionnement
---> o Je vais configurer le partitionnement
---> Terminé
+# --> o Je vais configurer le partitionnement
+    # --> Terminé
 
 Nouvelle installation de CentOS 7
 
@@ -134,23 +136,23 @@ Si vers le milieu de la colonne de gauche apparait le mot "inconnu" ou unknow"
 précédé d'une flèche, il s'agit des partition résiduelles.
 Sélectionner l'un des éléments, puis cliquer sur le signe "-".
 
---> Etes-vous sur de vouloir supprimer toutes les données sur sda ?
---> Cocher l'option : Supprimer aussi tout les autre système de fichiers dans
-la racine de "inconnu"
+# --> Etes-vous sur de vouloir supprimer toutes les données sur sda ?
+# --> Cocher l'option : Supprimer aussi tout les autre système de fichiers dans la racine de "inconnu"
 
 Plus aucun disque ne doit apparaitre
 
 En haut de la colonne de gauche, le menu déroulant indique "LVM"
 Les points de montage utilisent le shéma de partitionnement suivant :
---> Menu --> Partitionnement standard
+# --> Menu --> Partitionnement standard
 
+Etape 1 :
 Cliquer sur le signe "+"
---> Ajouter un nouveau point de montage
---> Point de montage :
-    --> /boot
+# --> Ajouter un nouveau point de montage
+# --> Point de montage :
+   # --> /boot
 Capacité :
-    --> 500
---> Valider
+   # --> 500
+# --> Valider
 
 Colonne de gauche       Capacité          Colonne de droite
 /boot                   500MB             Nom : boot
@@ -158,16 +160,16 @@ sda                                       Point de montage : /boot
                                           Type de périphérique : Raid
                                           Système de fichiers : xfs
                                           Niveau de raid : raid1 (redondance)
--------------------------------------->    Mise à jour des paramètres
+# ----------------------------------->    Mise à jour des paramètres
 
-
+Etape 2 :
 Cliquer sur le signe "+"
---> Ajouter un nouveau point de montage
---> Point de montage :
-    --> swap
+# --> Ajouter un nouveau point de montage
+# --> Point de montage :
+   # --> swap
 Capacité :
-    --> 4096 (adapter en fonction de la RAM)
---> Valider
+   # --> 4096 (adapter en fonction de la RAM)
+# --> Valider
 
 Colonne de gauche       Capacité          Colonne de droite
 swap                    4096GB            Nom : swap
@@ -175,16 +177,16 @@ sda                                       Point de montage : -
                                           Type de périphérique : Raid
                                           Système de fichiers : xfs
                                           Niveau de raid : raid1 (redondance)
--------------------------------------->    Mise à jour des paramètres
+# ----------------------------------->    Mise à jour des paramètres
 
-
+Etape 3 :
 Cliquer sur le signe "+"
---> Ajouter un nouveau point de montage
---> Point de montage :
-    --> /
+# --> Ajouter un nouveau point de montage
+# --> Point de montage :
+   # --> /
 Capacité :
-    --> 949000
---> Valider
+   # --> 949000
+# --> Valider
 
 Colonne de gauche       Capacité          Colonne de droite
 /                       949.139GB         Nom : root
@@ -192,28 +194,29 @@ sda                                       Point de montage : /
                                           Type de périphérique : Raid
                                           Système de fichiers : xfs
                                           Niveau de raid : raid1 (redondance)
--------------------------------------->    Mise à jour des paramètres
+# ----------------------------------->    Mise à jour des paramètres
 
---> Terminé
+# --> Terminé
 Une fenêtre qui résume les modifications apparait
---> Valider
+# --> Valider
 
 On peut maintenant cliquer sur :
---> Commencer l'installation
+# --> Commencer l'installation
 
 Mot de passe Root
---> Taper une première fois
---> Confirmer le mot de passe
+# --> Taper une première fois
+# --> Confirmer le mot de passe
 
 Mot de passe utilisateur
 Nous le créerons quand le système sera installé
 
 La barre de progression indique :
-le nombre de paquets qui vont être installés : 215
+le nombre de paquets qui vont être installés : 265
 Configuration du système
 Installation du chargeur de démarrage
 
---> Terminé
---> Redémarrer
+# --> Terminé
+
+# --> Redémarrer
 
 #---&&---#

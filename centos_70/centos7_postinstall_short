@@ -2,29 +2,12 @@
 'Réglages initiaux après installation de CentOs 7'
 #==================================================
 
-Verifier si la connection réseau est bien active
-# ping google.fr
-
-Sinon créer une configuration temporaire :
-# cd /etc/sysconfig/network-scripts/
-# vi ifcfg-enp2...
-
-Utiliser ces paramètres : à adapter en fonction du contexte
-ONBOOT=yes
-BOOTPROTO=dhcp
-GATEWAY=192.168.2.1 (adresse de la box)
-DNS1=8.8.8.8
-
-Retenter un ping
-# ping google.fr
-
 
 'Récupérer la documentation et les scripts de personnalisation'
 #-------------------------------------------------------------
 Installer deux outils de base :
 # yum install vim git
-Se déplacer dans :
-# cd /usr/share
+
 Créer un répertoire :
 # mkdir depot_git
 Importer la documentation
@@ -32,27 +15,9 @@ Importer la documentation
 Se déplacer dans :
 # cd centos/centos_70/config/scripts
 Lancer le script
-# ./install_base.sh
-
-
-'1) Pour changer le nom d'hôte de façon permanente, éditez le fichier suivant :'
-#------------------------------------------------------------------------------
-# vim /etc/hostname
-centos7
-
-Après cela, éditez le fichier hosts :
-# vim /etc/hosts
-127.0.0.0.1 centos7 localhost localhost.localdomain localhost4.localdomain4
-Après le redémarrage, il affichera le nouveau nom d'hôte.
-
-
-'Mise à jour initiale du système'
-#-------------------------------
-
-# yum update
-# reboot
-
-------------------------------------------------------------
+# ./001_base.sh
+Puis
+# ./002_grub.sh
 
 3) Changer le nom par defaut de la carte réseau par "eth0"
 Renommer le fichier "ifcfg-enp2s0.." en "eth0"
@@ -60,15 +25,35 @@ Renommer le fichier "ifcfg-enp2s0.." en "eth0"
 
 Si vous avez deux cartes réseau changer le nom de la deuxième en "eth1"
 
+'Mise à jour initiale du système'
+#-------------------------------
+
+# yum update
+
+'Suppression ancien kernel :'
+#---------------------------
+
+1 - vérification des kernels disponibles :
+# rpm -qa | grep kernel
+Retourne la listes des kernels
+
+2 - vérification du kernel actif :
+# uname -r
+Retourne le nom du kernel utilisé
+
+3 - suppression du kernel non utilisé :
+# rpm -e kernel-nom_du_kernel
+
+
 Redemarrer
 # reboot
 
-Après le redémarrage vérifier que la modification a bien été prise en compte.
+Après le redémarrage vérifier que la modification des interfaces réseau a bien été prise en compte.
 # ifconfig
 
 ------------------------------------------------------------
 
-4) Configurer l'adresse statique du serveur coté internet:
+'Configurer l'adresse statique du serveur coté internet'
 
 Editer le fichier : /etc/sysconfig/network-scripts/ifcfg-eth0
 # vim /etc/sysconfig/network-scripts/ifcfg-eth0
@@ -93,33 +78,7 @@ inet 192.168.2.9
 
 ------------------------------------------------------------
 
-'Gérer les ports du firewall'
-#---------------------------
-Dans la documentation ouvrir le fichier "pdt_firewall.sh
-# cd /usr/share/depot_git/centos/centos_70/config/scripts
-# vim pdt_firewall.sh
-Décommenter ou commenter (#) les lignes voulues
-Lancer le script
-# ./pdt_firewall.sh
-
-
-'Suppression ancien kernel :'
-#---------------------------
-
-1 - vérification des kernels disponibles :
-# rpm -qa | grep kernel
-Retourne la listes des kernels
-
-2 - vérification du kernel actif :
-# uname -r
-Retourne le nom du kernel utilisé
-
-3 - suppression du kernel non utilisé :
-# rpm -e kernel-nom_du_kernel
-
-------------------------------------------------------------
-
-'Ajout et configuration du dépot "rpmforge"'
+'Ajout et configuration du dépot "rpmforge'
 #-------------------------------------------
 
 # lynx apt.sw.be
@@ -140,16 +99,27 @@ Retour dans le dossier RPMS
 	# rpm -ivh rpmforge-release-xxxxxx.i686.rpm
   #
 Se déplacer dans la documentation
-# cd /usr/share/depot_git/centos/centos_70/config/scripts
-# ./config_depots.sh
+# cd depot_git/centos/centos_70/config/scripts
+# ./003_config_depots.sh
 
 ------------------------------------------------------------
 
+'Gérer les ports du firewall'
+#---------------------------
+Dans la documentation ouvrir le fichier "pdt_firewall.sh
+# cd depot_git/centos/centos_70/config/scripts
+# vim 004_pdt_firewall.sh
+Décommenter ou commenter (#) les lignes voulues
+Lancer le script
+# ./004_pdt_firewall.sh
 
-8) Installer ntp (Network Time Protocol)
+------------------------------------------------------------
+
+'Installer ntp (Network Time Protocol)'
+#--------------------------------------
 
 Se déplacer dans la documentation
-# cd /usr/share/depot_git/centos/centos_70/config/scripts
-# ./1_install_ntp.sh
+# cd depot_git/centos/centos_70/config/scripts
+# ./005_install_ntp.sh
 
 &===End===&
