@@ -3,11 +3,11 @@
 #==================================================
 
 
-'Récupérer la documentation et les scripts de personnalisation'
-#-------------------------------------------------------------
 Installer deux outils de base :
 # yum install vim git
 
+'Récupérer la documentation et les scripts de personnalisation'
+#-------------------------------------------------------------
 Créer un répertoire :
 # mkdir depot_git
 Importer la documentation
@@ -19,7 +19,8 @@ Lancer le script
 Puis
 # ./002_grub.sh
 
-3) Changer le nom par defaut de la carte réseau par "eth0"
+'Changer le nom par defaut de la carte réseau par "eth0"'
+#--------------------------------------------------------
 Renommer le fichier "ifcfg-enp2s0.." en "eth0"
 # mv ifcfg-enp2s0 ifcfg-eth0
 
@@ -27,8 +28,38 @@ Si vous avez deux cartes réseau changer le nom de la deuxième en "eth1"
 
 'Mise à jour initiale du système'
 #-------------------------------
-
 # yum update
+
+Redemarrer
+# reboot
+
+Après le redémarrage vérifier que la modification des interfaces réseau a bien été prise en compte.
+# ifconfig
+
+
+'Configurer l'adresse statique du serveur dans le réseau'
+#--------------------------------------------------------
+Editer le fichier : /etc/sysconfig/network-scripts/ifcfg-eth0
+# vim /etc/sysconfig/network-scripts/ifcfg-eth0
+
+Utiliser ces paramètres : à adapter en fonction du contexte
+DEVICE="eth0"
+ONBOOT=yes
+BOOTPROTO=static
+IPADDR=192.168.0.2
+NETMASK=255.255.255.0
+GATEWAY=192.168.0.1
+DNS1=8.8.8.8
+
+
+Relancer le service "network"
+Attention, si vous vous connectez à distance, parce que vous serez déconnecté après l'émission de cette commande.
+# systemctl restart network.service
+
+Vérifiez que la nouvelle adresse est bien attribuée :
+# ifconfig
+inet 192.168.0.2
+
 
 'Suppression ancien kernel :'
 #---------------------------
@@ -44,39 +75,6 @@ Retourne le nom du kernel utilisé
 3 - suppression du kernel non utilisé :
 # rpm -e kernel-nom_du_kernel
 
-
-Redemarrer
-# reboot
-
-Après le redémarrage vérifier que la modification des interfaces réseau a bien été prise en compte.
-# ifconfig
-
-------------------------------------------------------------
-
-'Configurer l'adresse statique du serveur coté internet'
-
-Editer le fichier : /etc/sysconfig/network-scripts/ifcfg-eth0
-# vim /etc/sysconfig/network-scripts/ifcfg-eth0
-
-Utiliser ces paramètres : à adapter en fonction du contexte
-DEVICE="eth0"
-ONBOOT=yes
-BOOTPROTO=static
-IPADDR=192.168.2.9
-NETMASK=255.255.255.0
-GATEWAY=192.168.2.1
-DNS1=8.8.8.8
-
-
-Relancer le service "network"
-Attention, si vous vous connectez à distance, parce que vous serez déconnecté après l'émission de cette commande.
-# systemctl restart network.service
-
-Vérifiez que la nouvelle adresse est bien attribuée :
-# ifconfig
-inet 192.168.2.9
-
-------------------------------------------------------------
 
 'Ajout et configuration du dépot "rpmforge'
 #-------------------------------------------
@@ -97,7 +95,7 @@ Retour dans le dossier RPMS
 	rpmforge-release-xxxxxxx.rpm: (sha1) dsa sha1 md5 gpg OK
 	Installer le paquet !
 	# rpm -ivh rpmforge-release-xxxxxx.i686.rpm
-  #
+  
 Se déplacer dans la documentation
 # cd depot_git/centos/centos_70/config/scripts
 # ./003_config_depots.sh
@@ -106,10 +104,11 @@ Se déplacer dans la documentation
 
 'Gérer les ports du firewall'
 #---------------------------
-Dans la documentation ouvrir le fichier "pdt_firewall.sh
+Dans la documentation ouvrir le fichier "004_pdt_firewall.sh
 # cd depot_git/centos/centos_70/config/scripts
 # vim 004_pdt_firewall.sh
 Décommenter ou commenter (#) les lignes voulues
+Valider par : :wq
 Lancer le script
 # ./004_pdt_firewall.sh
 

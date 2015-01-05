@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# install_base.sh
+# 001_base.sh
 # JP Antinoux - décembre 2014
 
 FILE_U=invite_user
@@ -36,10 +36,6 @@ else
 	      chown root:root "$RC_ROOT"
 	      chmod 0644 "$RC_ROOT"
 
-	# Mise en place du bootsplash
-	#echo ":: Mise en place du bootsplash. ::"
-	#cp $CWD/../bootsplash/wwl.tga /boot/grub/
-        
 	# Installation de quelques outils en ligne de commande
         echo ":: Installation outils de base. ::"
         TOOLS=$(egrep -v '(^\#)|(^\s+$)' $CWD/../bases_install/paquets-base)
@@ -51,30 +47,38 @@ else
         echo "---------------------------------"
         systemctl stop firewalld
         systemctl disable firewalld
+
         echo ":: Désactivation de l'ipv6 ::"
         systemctl stop ip6tables.service
         systemctl disable ip6tables.service
+
         echo "----------------------------"
         echo ":: Activation d'iptables. ::"
         echo "----------------------------"
         systemctl enable iptables.service
         systemctl restart iptables.service
+
         echo ":: Désactivation du NetworkManager ::"
         systemctl stop NetworkManager
         systemctl disable NetworkManager
+
         echo "-----------------------------------"
         echo ":: Activation du service network ::"
         echo "-----------------------------------"
         chkconfig network on
         systemctl start network.service
+
         echo ":: Activation de la souris en console. ::"
-        systemctl start gpm 
+        systemctl enable gpm.service 
+        systemctl start gpm.service
+
         echo "------------------------------"
         echo ":: Désactivation de SELinux ::"
         echo "------------------------------"
 	      cat $CWD/../selinux/selinux > /etc/sysconfig/selinux
 	      chown root:root /etc/sysconfig/selinux
 	      chmod 0644 /etc/sysconfig/selinux
+
         echo "-------------------------------"
       	echo ":: Réglages de base terminés ::"
         echo "-------------------------------"
