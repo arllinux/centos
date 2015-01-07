@@ -1,6 +1,6 @@
-#==================================================
-'Réglages initiaux après installation de CentOs 7'
-#==================================================
+#==========================================================
+'Réglages initiaux après installation minimale de CentOs 7'
+#==========================================================
 
 
 Installer deux outils de base :
@@ -10,6 +10,8 @@ Installer deux outils de base :
 #-------------------------------------------------------------
 Créer un répertoire :
 # mkdir depot_git
+Se placer dans le répertoire :
+# cd depot_git
 Importer la documentation
 # git clone https://github.com/arllinux/centos
 Se déplacer dans :
@@ -43,14 +45,31 @@ Editer le fichier : /etc/sysconfig/network-scripts/ifcfg-eth0
 # vim /etc/sysconfig/network-scripts/ifcfg-eth0
 
 Utiliser ces paramètres : à adapter en fonction du contexte
-DEVICE="eth0"
-ONBOOT=yes
-BOOTPROTO=static
-IPADDR=192.168.0.2
-NETMASK=255.255.255.0
-GATEWAY=192.168.0.1
-DNS1=8.8.8.8
 
+# /etc/sysconfig/network-scripts/ifcfg-eth0
+#
+DEVICE="eth0"
+HWADDR="00:24:1D:13:85:FE"
+NM_CONTROLLED="no"
+ONBOOT="yes"
+BOOTPROTO=static
+IPADDR=192.168.2.2
+NETMASQ=255.255.255.0
+
+
+Ensuite pour relayer les DNS il faut compléter le fichier
+/etc/sysconfig/network
+# vim /etc/sysconfig/network
+
+
+Utiliser ces paramètres : à adapter en fonction du contexte
+# /etc/sysconfig/network
+#
+HOSTNAME=centos7.labo.arles
+DNS1=192.168.2.1
+#DNS2=8.8.8.8
+#DNS3=8.8.8.4
+SEARCH=labo.arles
 
 Relancer le service "network"
 Attention, si vous vous connectez à distance, parce que vous serez déconnecté après l'émission de cette commande.
@@ -79,6 +98,11 @@ Retourne le nom du kernel utilisé
 'Ajout et configuration du dépot "rpmforge'
 #-------------------------------------------
 
+Créer un répertoire dans root
+# mkdir RPMS
+# cd RPMS
+
+Utiliser un navigateur en mode texte
 # lynx apt.sw.be
 Aller dans le dossier : "redhat" --> "el6" --> "en" --> "i386" --> "RPMSrpmforge"
 Après avoir tapé : shift + / pour définir la requète : rechercher "rpmforge-release"

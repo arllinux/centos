@@ -91,27 +91,46 @@ Après le redémarrage vérifier que la modification a bien été prise en compt
 
 ------------------------------------------------------------
 
-4) Configurer l'adresse statique du serveur coté internet:
+4) Configurer l'adresse statique du serveur :
 
 Editer le fichier : /etc/sysconfig/network-scripts/ifcfg-eth0
 # vim /etc/sysconfig/network-scripts/ifcfg-eth0
 
 Utiliser ces paramètres : à adapter en fonction du contexte
+
+# /etc/sysconfig/network-scripts/ifcfg-eth0
+#
 DEVICE="eth0"
-ONBOOT=yes
+HWADDR="00:24:1D:13:85:FE"
+NM_CONTROLLED="no"
+ONBOOT="yes"
 BOOTPROTO=static
-IPADDR=192.168.2.9
-NETMASK=255.255.255.0
+IPADDR=192.168.2.2
+NETMASQ=255.255.255.0
 GATEWAY=192.168.2.1
-# Ici le serveur qui est au dessus dans le réseau sert de seveur dns
+
+Ensuite pour relayer les DNS il faut compléter le fichier
+/etc/sysconfig/network
+# vim /etc/sysconfig/network
+
+
+Utiliser ces paramètres : à adapter en fonction du contexte
+# /etc/sysconfig/network
+#
+HOSTNAME=centos7.labo.arles
 DNS1=192.168.2.1
+#DNS2=8.8.8.8
+#DNS3=8.8.8.4
+SEARCH=labo.arles
+
+Dans cet exemple le serveur DNS est installé dans une autre machine dans le réseau : 192.168.2.1
 
 Arrêter et désactiver le "NetworkManager" parce que nous n'en avons pas besoin sur le serveur.
 # systemctl stop NetworkManager 
 # systemctl disable NetworkManager
 
 Si l'on a déjà un serveur dhcp en amont, paramétrer celui-ci pour que l'adresse de notre serveur :
-Ici : 192.168.2.9 soit une adresse dans la plage statique du serveur en amont
+Ici : 192.168.2.2 soit une adresse dans la plage statique du serveur en amont
 
 Relancer le service "network"
 Attention, si vous vous connectez à distance, parce que vous serez déconnecté après l'émission de cette commande.
@@ -119,7 +138,7 @@ Attention, si vous vous connectez à distance, parce que vous serez déconnecté
 
 Vérifiez que la nouvelle adresse est bien attribuée :
 # ifconfig
-inet 192.168.2.9
+inet 192.168.2.2
 
 #############################################
 # Configuration de la deuxième carte réseau #
@@ -176,13 +195,6 @@ Testez à nouveau si l'IPv6 est activé
 'Gérer les ports du firewall'
 #---------------------------
 
-Il faut installer 'system-config-firewall-tui'
-Celui-ci n'étant pas installé par défaut
-# yum install system-config-firewall-tui
-
-Voir quel sont quelle sont les règles appliquées par iptables
-http://www.linux-france.org/prj/inetdoc/guides/iptables-tutorial/
-
 [root@prunelle:~] # service iptables status
 Table : filter
 Chain INPUT (policy ACCEPT)
@@ -201,18 +213,12 @@ Chain OUTPUT (policy ACCEPT)
 num  target     prot opt source               destination         
 
 On voit que seul le port 22 (ssh) est ouvert dans le filtrage
-
-Pour ajouter un port :
-# system-config-firewall-tui
-La fenêtre 'services de confiance' s'ouvre avec ncurses
-S'il s'agit d'ouvrir les ports pour utiliser Samba, il suffit de cocher [*] Samba
-Si l'on souhaite ouvrir un port non listé :
-	'Suivant'
-		'Autres ports'
-			'Ajouter'
-Port / Intervalle des ports :	18525
-Protocole :			tcp
-
+####################"""
+####################"""
+####################"""
+####################"""
+####################"""
+####################"""
 Pour garder le service actif au prochain redémarrage
 # systemctl enable iptables.service
 Par l'interface graphique la policy est à accept
