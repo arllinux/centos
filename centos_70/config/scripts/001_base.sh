@@ -47,6 +47,7 @@ else
         echo "---------------------------------"
         systemctl stop firewalld
         systemctl disable firewalld
+        yum remove firewalld
 
         echo ":: Désactivation de l'ipv6 ::"
         systemctl stop ip6tables.service
