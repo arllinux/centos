@@ -159,7 +159,7 @@ NETMASK=255.255.255.0
 # systemctl restart network.service
 # ifconfig
 eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
-        inet 192.168.2.9  netmask 255.255.255.0  broadcast 192.168.2.255
+        inet 192.168.2.2  netmask 255.255.255.0  broadcast 192.168.2.255
 	inet6 fe80::224:1dff:fe13:85fe  prefixlen 64  scopeid 0x20<link>
         ether 00:24:1d:13:85:fe  txqueuelen 1000  (Ethernet)
 	---/---
@@ -213,19 +213,53 @@ Chain OUTPUT (policy ACCEPT)
 num  target     prot opt source               destination         
 
 On voit que seul le port 22 (ssh) est ouvert dans le filtrage
-####################"""
-####################"""
-####################"""
-####################"""
-####################"""
-####################"""
-Pour garder le service actif au prochain redémarrage
-# systemctl enable iptables.service
-Par l'interface graphique la policy est à accept
-Pour la passer à DROP
-# iptables -P INPUT DROP
-Et enfin pour sauvegarder
-# /sbin/service iptables save
+
+Pour filtrer les ports il faut utiliser dans la documentation :
+# cd
+# cd centos/centos_70/config/scripts/004_pdt_firewall.sh
+
+Décommenter les lignes correspondantes aux service que l'on veut ouvrir
+puis :
+:wq
+
+Ensuite il faut lancer le script qui va ouvrir les ports et sauvegarder 
+la configuration pour le prochain démarrage de la machine.
+# ./004_pdt_firewall.sh
+
+Chain INPUT (policy DROP)
+target     prot opt source               destination         
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
+ACCEPT     icmp --  0.0.0.0/0            0.0.0.0/0            icmptype 8
+ACCEPT     icmp --  0.0.0.0/0            0.0.0.0/0            icmptype 11
+ACCEPT     icmp --  0.0.0.0/0            0.0.0.0/0            icmptype 3
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            state RELATED,ESTABLISHED
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:22
+           tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:22 state NEW recent: SET name: SSH side: source mask: 255.255.255.255
+DROP       tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:22 state NEW recent: UPDATE seconds: 60 hit_count: 2 TTL-Match name: SSH side: source mask: 255.255.255.255
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:53
+ACCEPT     udp  --  0.0.0.0/0            0.0.0.0/0            udp dpt:53
+ACCEPT     udp  --  0.0.0.0/0            0.0.0.0/0            udp dpts:67:68
+ACCEPT     udp  --  0.0.0.0/0            0.0.0.0/0            udp dpt:123
+ACCEPT     udp  --  0.0.0.0/0            0.0.0.0/0            udp dpts:137:138
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:139
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:445
+LOG        all  --  0.0.0.0/0            0.0.0.0/0            LOG flags 0 level 4 prefix "+++ IPv4 packet rejected +++"
+REJECT     all  --  0.0.0.0/0            0.0.0.0/0            reject-with icmp-port-unreachable
+
+Chain FORWARD (policy ACCEPT)
+target     prot opt source               destination         
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination         
+
+Dans cet exemple tout les ports d'entrée sont fermés sauf :
+- la réponse au ping
+- Les connections établies à partir de notre machine
+- Le port 22 peut recevoir, mais s'il est solicité plus de 3 fois par minute il se verouille pour 15 mn
+- Le port 53 pour le DNS
+- Le port 67, 68 pour le dhcp
+- Le port 123 pour le ntp
+- les port 137, 138, 139 et 445 pour samba
 
 'Suppression ancien kernel :'
 #---------------------------
