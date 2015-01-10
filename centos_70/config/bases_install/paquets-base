@@ -9,10 +9,8 @@ whois
 net-tools
 ntp
 lynx
-elinks
 man-pages
 ntsysv
-pinfo
 traceroute
 wget
 yum-priorities

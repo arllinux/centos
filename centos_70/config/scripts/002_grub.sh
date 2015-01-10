@@ -16,6 +16,10 @@ else
   cat $CWD/../grub/grub > /etc/default/grub
   echo ":: Mise à jour de grub ::"
   grub2-mkconfig -o /boot/grub2/grub.cfg
+  echo ":: Désactivation de l'ipv6 ::"
+  systemctl stop ip6tables.service
+  systemctl disable ip6tables.service
+  
   echo "--------------------------------------------------------"
   echo ":: Il faut se déplacer manuellement dans le répertoire\
   /etc/sysconfig/network-scripts ::"
