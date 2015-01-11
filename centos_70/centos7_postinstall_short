@@ -144,6 +144,7 @@ Retour dans le dossier RPMS
 	# rpm -ivh rpmforge-release-xxxxxx.i686.rpm
   
 Se déplacer dans la documentation
+# cd
 # cd centos/centos_70/config/scripts
 # ./003_config_depots.sh
 
@@ -152,7 +153,7 @@ Se déplacer dans la documentation
 'Gérer les ports du firewall'
 #---------------------------
 Dans la documentation ouvrir le fichier "004_pdt_firewall.sh
-# cd depot_git/centos/centos_70/config/scripts
+# cd centos/centos_70/config/scripts
 # vim 004_pdt_firewall.sh
 Décommenter ou commenter (#) les lignes voulues
 Valider par : :wq
