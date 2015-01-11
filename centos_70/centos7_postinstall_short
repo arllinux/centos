@@ -44,6 +44,16 @@ Redemarrer
 Après le redémarrage vérifier que la modification des interfaces réseau a bien été prise en compte.
 # ifconfig
 
+'Créer un utilisateur simple'
+#---------------------------
+Créer l'utilisateur
+# adduser nom
+Lui attribuer un mot de passe
+# passwd nom
+Se connecter sous cet utilisateur
+# su - nom
+Repasser en administrateur :
+Ctrl + d
 
 'Configurer l'adresse statique du serveur dans le réseau'
 #--------------------------------------------------------
@@ -59,7 +69,7 @@ HWADDR="00:24:1D:13:85:FE"
 NM_CONTROLLED="no"
 ONBOOT="yes"
 BOOTPROTO=static
-IPADDR=192.168.2.2
+IPADDR=192.168.0.2
 NETMASQ=255.255.255.0
 
 
@@ -115,11 +125,13 @@ Créer un répertoire dans root
 
 Utiliser un navigateur en mode texte
 # lynx apt.sw.be
-Aller dans le dossier : "redhat" --> "el6" --> "en" --> "i386" --> "RPMSrpmforge"
+Aller dans le dossier : "redhat" --> "el7" --> "en" --> "x86_64" --> "rpmforge" --> "RPMS"
 Après avoir tapé : shift + / pour définir la requète : rechercher "rpmforge-release"
 Choisir la version la plus récente.
-Taper "d" pour charger le fichier, puis flèche du bas "Enregistrer le fichier",
---> flèche de droite et enfin "Entrée" pour confirmer.
+Taper "d" pour charger le fichier, puis Entrée sur  "Enregistrer le fichier" (en jaune),
+--> Enfin "Entrée" pour confirmer.
+
+Quitter "lynx" --> "q" puis "o"
 
 Retour dans le dossier RPMS
 	Avant d'installer le dépot rpmforge
@@ -132,7 +144,7 @@ Retour dans le dossier RPMS
 	# rpm -ivh rpmforge-release-xxxxxx.i686.rpm
   
 Se déplacer dans la documentation
-# cd depot_git/centos/centos_70/config/scripts
+# cd centos/centos_70/config/scripts
 # ./003_config_depots.sh
 
 ------------------------------------------------------------

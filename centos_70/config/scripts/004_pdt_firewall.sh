@@ -82,11 +82,11 @@ SYS=$(which sysctl)
        $IPT -A INPUT -p tcp --dport 22 -m state --state NEW -m recent --update --seconds 60 --hitcount 2 --rttl --name SSH -j DROP
 
        # DNS :
-       $IPT -A INPUT -p tcp --dport 53 -j ACCEPT
-       $IPT -A INPUT -p udp --dport 53 -j ACCEPT
+       # $IPT -A INPUT -p tcp --dport 53 -j ACCEPT
+       # $IPT -A INPUT -p udp --dport 53 -j ACCEPT
 
        # DHCP :
-       $IPT -A INPUT -p udp --dport 67:68 -j ACCEPT
+       # $IPT -A INPUT -p udp --dport 67:68 -j ACCEPT
 
        # HTTP :
        # $IPT -A INPUT -p tcp --dport 80 -j ACCEPT
@@ -95,12 +95,12 @@ SYS=$(which sysctl)
        # $IPT -A INPUT -p tcp --dport 443 -j ACCEPT
 
        # NTP :
-       $IPT -A INPUT -p udp --dport 123 -j ACCEPT
+       # $IPT -A INPUT -p udp --dport 123 -j ACCEPT
 
        # Samba :
-       $IPT -A INPUT -p udp --dport 137:138 -j ACCEPT
-       $IPT -A INPUT -p tcp --dport 139 -j ACCEPT
-       $IPT -A INPUT -p tcp --dport 445 -j ACCEPT
+       # $IPT -A INPUT -p udp --dport 137:138 -j ACCEPT
+       # $IPT -A INPUT -p tcp --dport 139 -j ACCEPT
+       # $IPT -A INPUT -p tcp --dport 445 -j ACCEPT
 
        # CUPS :
        # $IPT -A INPUT -p tcp --dport 631 -j ACCEPT
