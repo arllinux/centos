@@ -14,16 +14,25 @@ Se déplacer dans :
 # cd centos/centos_70/config/scripts
 Lancer le script
 # ./001_base.sh
-Puis
-# ./002_grub.sh
+Puis pour que la console prennent des couleurs, taper :
+# source /root/.bashrc
 
 'Changer le nom par defaut de la carte réseau par "eth0"'
 #--------------------------------------------------------
+CentOs 7 propose par défaut des noms du type "enpS..", Pour changer ceci déplacer-vous dans :
+# vim /etc/default/grub
+Cherchez la ligne "GRUB_CMDLINE_LINUX" et ajoutez à la fin :
+net.ifnames=0 biosdevname=0
+
+Créer une nouvelle configuration basée sur le système en cours d'exécution en utilisant la commande grub2-mkconfig :
+# grub2-mkconfig -o /boot/grub2/grub.cfg
+
 Renommer le fichier "ifcfg-enp2s0.." en "eth0"
 # cd /etc/sysconfig/network-scripts/
 # mv ifcfg-enp2s0 ifcfg-eth0
 
-Si vous avez deux cartes réseau changer le nom de la deuxième en "eth1"
+Si vous avez deux cartes réseau procéder de la même manière pour "eth1"
+
 
 'Mise à jour initiale du système'
 #-------------------------------
