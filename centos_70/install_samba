@@ -13,19 +13,16 @@ Ouvrir les ports suivants :
   * 139 en TCP 
   * 445 en TCP
 
-# system-config-firewall-tui
---> Personnaliser
-  [*] Client Samba
-  ---
-  [*] Samba
---> Fermer
---> OK
-Avertissement
---> Oui
+Utiliser le script :
+# cd centos/centos_70/config/scripts/
+# vim 004_pdt_firewall.sh
+Décocher les lignes correspondante à Samba
+Exécuter le script
+# ./004_pdt_firewall.sh
 
 Vérifier avec :
 # iptables -L -n
-Chain INPUT (policy ACCEPT)
+Chain INPUT (policy DROP)
 target     prot opt source               destination
 ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            state RELATED,ESTABLISHED
 ACCEPT     icmp --  0.0.0.0/0            0.0.0.0/0

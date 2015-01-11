@@ -13,15 +13,22 @@ if [ $? = "0" ]
 else
 
 	# NTP
-	yum -y install ntp ntpdate
+  echo ":: Ouvri le port du parefeu : 123 ::"
+  sleep 3
+  vim 004_pdt_firewall.sh
+  ./004_pdt_firewall.sh
 
+  echo "--------------------------"
   echo ":: Arrêt du service ntp ::"
+  echo "--------------------------"
   systemctl stop ntpd.service
   
   echo ":: Mise à jour initiale de l'horloge ::"
   ntpdate fr.pool.ntp.org
  
+  echo "--------------------------------------------"
   echo ":: Ajustement du fichier de configuration ::"
+  echo "--------------------------------------------"
 	touch /var/log/ntp.log
 	chown ntp:ntp /var/log/ntp.log
 	cp /etc/ntp.conf /etc/ntp.conf_old
@@ -31,6 +38,11 @@ else
   systemctl enable ntpd.service
   systemctl start ntpd.service
 	
+  echo "-----------------------------------------------"
+  echo ":: Vérification des serveurs : taper ntpq -p ::"
+  echo "-----------------------------------------------"
+
+
 fi
 
 exit 0

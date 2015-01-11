@@ -8,12 +8,16 @@ CWD=$(pwd)
 echo "----------------------------------------------------------"
 echo ":: Ajustement des dépots officiels et du dépot rpmforge ::"
 echo "----------------------------------------------------------"
+
+# Réglage du dépot de base   
    cat $CWD/../repositories/CentOS-Base.repo >\
    /etc/yum.repos.d/CentOS-Base.repo
 
+# Réglage du dépot rpmforge
    cat $CWD/../repositories/rpmforge.repo >\
    /etc/yum.repos.d/rpmforge.repo
 
+# Nettoyage, mise à jour et vérification dépots
    yum repolist
    yum clean all
    yum check-update

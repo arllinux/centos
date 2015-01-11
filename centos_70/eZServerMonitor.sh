@@ -277,13 +277,13 @@ function disk_space()
 
     if
 	[ ${DISK_SHOW_TMPFS} = true ] ; then
-         HDD_DATA=`df -hl | sed "1 d" | grep -v "^Filesystem|Sys." | sort | head -5 | sed s/^/"  "/`
+         HDD_DATA=`df -hl | sed "1 d" | grep -v "^Filesystem|Sys." | sort | head - 5 | sed s/^/"  "/`
     else
-         HDD_DATA=`df -hl | sed "1 d" | grep -v "^Filesystem|Sys." | grep -vE "^tmpfs|udev|/dev" | sort | head -5 | sed s/^/"  "/`
+         HDD_DATA=`df -hl | sed "1 d" | grep -v "^Filesystem|Sys." | grep -vE "^tmpfs|udev|/dev" | sort | head - 5 | sed s/^/"  "/`
     fi
 
     echo
-    echo -e "${BOLD}${WHITE_ON_GREY}  Disk space (top 5)  ${RESET}"
+    echo -e "${BOLD}${WHITE_ON_GREY}  Disk space  ${RESET}"
     echo -e "${GREEN}$HDD_TOP"
     echo -e "${WHITE}$HDD_DATA"
 }

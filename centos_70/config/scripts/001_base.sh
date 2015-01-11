@@ -48,21 +48,25 @@ else
         systemctl stop firewalld
         systemctl disable firewalld
         yum -y remove firewalld
- 
+
+  # Désactivation du NetworkManager 
         echo ":: Désactivation du NetworkManager ::"
         systemctl stop NetworkManager
         systemctl disable NetworkManager
- 
+
+  # Activation du service network 
         echo "-----------------------------------"
         echo ":: Activation du service network ::"
         echo "-----------------------------------"
-#        chkconfig network on
-#        service network start
- 
+        systemctl enable iptables
+        systemctl start iptables
+
+  # Activation de la souris en console 
         echo ":: Activation de la souris en console. ::"
         systemctl start gpm.service 
         systemctl enable gpm.service
- 
+
+  # Désactivation de SElinux 
         echo "------------------------------"
         echo ":: Désactivation de SELinux ::"
         echo "------------------------------"

@@ -166,7 +166,16 @@ Lancer le script
 #--------------------------------------
 
 Se déplacer dans la documentation
-# cd depot_git/centos/centos_70/config/scripts
+# cd centos/centos_70/config/scripts
 # ./005_install_ntp.sh
+
+------------------------------------------------------------
+
+'Configurer l'adresse mail pour les avertissements défaut raid'
+#-------------------------------------------------------------
+
+Se déplacer dans la documentation
+# cd centos/centos_70/config/scripts
+# ./006_mail_raid.sh
 
 &===End===&
