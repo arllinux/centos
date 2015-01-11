@@ -178,4 +178,11 @@ Se déplacer dans la documentation
 # cd centos/centos_70/config/scripts
 # ./006_mail_raid.sh
 
+'Mise en place de dnsmasq et paramétrages'
+#----------------------------------------
+
+Se déplacer dans la documentation
+# cd centos/centos_70/config/scripts
+# ./007_dnsmasq.sh
+
 &===End===&
