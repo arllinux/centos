@@ -8,10 +8,6 @@ Installer deux outils de base :
 
 'Récupérer la documentation et les scripts de personnalisation'
 #-------------------------------------------------------------
-Créer un répertoire :
-# mkdir depot_git
-Se placer dans le répertoire :
-# cd depot_git
 Importer la documentation
 # git clone https://github.com/arllinux/centos
 Se déplacer dans :
