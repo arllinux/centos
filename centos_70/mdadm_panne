@@ -40,7 +40,8 @@ disque "sda2" qui est indiquée "sda2 (F)"
 
 Il faut maintenant remplacer le disque sda
 
-Etape 1 :
+- Etape 1 :
+#--------
 Indiquer au système que les partitions du disque sda vont être
 désactivées :
 
@@ -49,35 +50,30 @@ mdadm: set /dev/sda3 faulty in /dev/md126
 # mdadm --manage --set--faulty  /dev/md127 /dev/sda1
 mdadm: set /dev/sda1 faulty in /dev/md127
 
-Etape 2 :
+- Etape 2 :
+#--------
 Ensuite on les démontent à chaud :
 # mdadm /dev/md125 --remove /dev/sda2
 # mdadm /dev/md126 --remove /dev/sda3
 # mdadm /dev/md127 --remove /dev/sda1
 
-Etape 3 :
+- Etape 3 :
+#--------
 On retire le disque :
 Logiquement le disque sda se trouve sur le port sata1 et le dique
 sdb sur le port sata2
 Une vérification supplémentaire ne coute rien si ce n'est une ligne
 de commande
-# ls -l /dev/disk/by-id/
-total 0
----/---
-ata-Hitachi_HCT721010SLA360_STF604MH12HV0B -> ../../sda
----/---
-ata-Hitachi_HCT721010SLA360_STF607MS283WRK -> ../../sdb
+Si smartmontools n'est pase installé : # yum install smartmontools
+# smartctl -x /dev/sda | grep -i serial
+Serial Number:    MH12HV0B
 
-J'ai isolé les deux disques car la sortie est très bavarde
-Le numéro de serie du disque, marqué "SN" sur son capot, est représenté
-par la fin de l'identifiant :
-HCT721010SLA360_STF604"MH12HV0B"
-Il faut un peu interpréter
-
-Etape 4 :
+- Etape 4 :
+#--------
 On met physiquement en place le nouveau disque
 
-Etape 5 :
+- Etape 5 :
+#--------
 Si le disque n'est pas neuf, il pourrait avoir fait parti d'une grappe
 raid. Il faut donc effacer son superblock
 # mdadm --zero-superblock /dev/sda1
@@ -88,7 +84,8 @@ Continuer tant que l'on trouve des partitions
 Remettre la table des partitions à zero
 # dd if=/dev/zero of=/dev/sda bs=512 count=1
 
-Etape 6 :
+- Etape 6 :
+#--------
 Mettre en place la table des partitions dans le nouveau disque
 Soit on utilise le fichier qui avait été créé par prudence lors de l'installation
 # sfdisk /dev/sda < part_table
@@ -108,7 +105,8 @@ Donc dans notre cas :
 # mdadm /dev/md127 --add /sda1
 # mdadm /dev/md126 --add /sda3
 
-Etape 7 :
+- Etape 7 :
+#--------
 Si grub refuse de rédémarrer il faut lancer le disque d'installation
 --> Troubleshooting
 --> system rescue
