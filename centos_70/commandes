@@ -1,3 +1,28 @@
+# Les commandes de base
+
+Réseau
+ping 192.168.0.x
+ping google.fr
+
+Pour connaitre la passerelle
+route -n
+
+Pour savoir par où passe notre demande
+traceroute google.fr
+
+nslookup google.fr
+
+netstat -tulps
+
+dig google.fr
+
+iptables -L -n
+
+systemctl list-unit-files | grep enabled | wc -l
+
+
+
+
 $ nmap -sn 192.168.3.0/24
 
 Starting Nmap 6.40 ( http://nmap.org ) at 2014-12-19 00:58 CET
