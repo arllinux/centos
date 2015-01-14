@@ -14,7 +14,7 @@ if [ $? = "0" ]
 	echo "Pour exécuter ce script il faut être l'utilisateur root !"
 else
 
-	# Configuration de Vim
+    # Configuration de Vim
         echo "---------------------------"
         echo ":: Configuration de Vim. ::"
         echo "---------------------------"
@@ -22,13 +22,13 @@ else
 	      chown root:root /etc/vimrc
 	      chmod 0644 /etc/vimrc
 
-	# Personnalisation invite pour les futurs utilisateurs
+    # Personnalisation invite pour les futurs utilisateurs
 	      echo ":: Personnalisation invite pour les futurs utilisateurs. ::"
 	      cat $CWD/../bash/$FILE_U > /etc/skel/.bashrc
 	      chown root:root /etc/skel/.bashrc
 	      chmod 0644 /etc/skel/.bashrc
 
-	# Installation invite root
+    # Installation invite root
         echo "-----------------------------------------"
         echo ":: Coloration invite de commande root. ::"
         echo "-----------------------------------------"
@@ -36,12 +36,12 @@ else
 	      chown root:root "$RC_ROOT"
 	      chmod 0644 "$RC_ROOT"
 
-	# Installation de quelques outils en ligne de commande
+    # Installation de quelques outils en ligne de commande
         echo ":: Installation outils de base. ::"
         TOOLS=$(egrep -v '(^\#)|(^\s+$)' $CWD/../bases_install/paquets-base)
         yum -y install $TOOLS
 
-  # Désactivation de firewalld
+    # Désactivation de firewalld
         echo "---------------------------------"
         echo ":: Désactivation de firewalld. ::"
         echo "---------------------------------"
@@ -49,24 +49,24 @@ else
         systemctl disable firewalld
         yum -y remove firewalld
 
-  # Désactivation du NetworkManager 
+    # Désactivation du NetworkManager 
         echo ":: Désactivation du NetworkManager ::"
         systemctl stop NetworkManager
         systemctl disable NetworkManager
 
-  # Activation du service network 
+    # Activation du service network 
         echo "-----------------------------------"
         echo ":: Activation du service network ::"
         echo "-----------------------------------"
         systemctl enable iptables
         systemctl start iptables
 
-  # Activation de la souris en console 
+    # Activation de la souris en console 
         echo ":: Activation de la souris en console. ::"
         systemctl start gpm.service 
         systemctl enable gpm.service
 
-  # Désactivation de SElinux 
+    # Désactivation de SElinux 
         echo "------------------------------"
         echo ":: Désactivation de SELinux ::"
         echo "------------------------------"
