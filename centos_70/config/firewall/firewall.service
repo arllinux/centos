@@ -6,7 +6,7 @@
 # Jean-Pierre Antinoux - janvier 2015
 
 [Unit]
-Description=Firewall
+Description=Firewall personnel
 ConditionPathExists=/usr/local/sbin
  
 [Service]
@@ -18,5 +18,9 @@ RemainAfterExit=yes
 SysVStartPriority=99
  
 [Install]
+# Dépendance entre ce service et l'unité multi-user.target, ce qui nécessitera
+# la création d'un lien symbolique dans
+# /etc/systemd/system/multi-user.target.wants/ lors de l'initialisation de
+# l'unité.
 WantedBy=multi-user.target
 
