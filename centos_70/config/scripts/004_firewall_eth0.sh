@@ -20,7 +20,7 @@ else
         vim /usr/local/sbin/firewall.sh
       
       # Appliquer les modifications
-        systemclt restart firewall.service
+        systemctl restart firewall.service
     
     else
       
@@ -44,12 +44,17 @@ else
       echo -e "------------------------------------"
       echo -e ":: Tester si le service est actif ::"
       echo -e "------------------------------------"
-      systemctl status firewall.service
+        systemctl status firewall.service
+
+      echo -e "------------------------------------"
+      echo -e ":: Patientez 5 secondes : ....... ::"
+      echo -e "------------------------------------"
+        sleep 5
       
       echo -e "-----------------------------------"
       echo -e ":: Voir ce qu'en pense le kernel ::"
       echo -e "-----------------------------------"
-      cat /var/log/messages | grep Firewall
+        tail -f /var/log/messages | grep Firewall
 
   fi
 fi

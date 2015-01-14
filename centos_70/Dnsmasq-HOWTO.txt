@@ -1,24 +1,19 @@
-#===============================
+# ===============================
 # Intaller dnsmasq sous centOS 7
-================================
+# ================================
 
 Jean-Pierre Antinoux - janvier 2015
-
-Dnsmasq est un serveur léger qui fournit les services DNS et DHCP pour des
-réseaux locaux, même de taille importante. Il est extrêmement facile à
-configurer, et l'on pourra l'utiliser pour remplacer DHCPD et Bind. Ce dernier
-n'est pas très adapté pour les DNS de réseaux locaux, notamment à cause de sa
-syntaxe farfelue.
+S'appuie sur la documentation de Nicolas Kovacs
 
 
 Ouvrir les ports suivants dans le pare-feu :
 
-  * 53 en TCP et UDP (requêtes DNS)
-  * 67 et 68 en UDP (requêtes DHCP)
+  53 en TCP et UDP (requêtes DNS)
+  67 et 68 en UDP (requêtes DHCP)
 
 Le fichier '/etc/hosts' du serveur local doit comporter au moins les deux
 lignes suivantes :
-/etc/hosts
+# /etc/hosts
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
 192.168.0.250 centos7 centos7.labo2.arles
 
