@@ -1,0 +1,22 @@
+# Ce module à été créé pour activer les règles du parefeu
+# qui ne permettaient pas aux machines client d'accéder
+# à la translation de port sur le serveur au démarrage.
+# (cas d'une interface réseau unique pour I/O)
+#
+# Jean-Pierre Antinoux - janvier 2015
+
+[Unit]
+Description=Firewall
+ConditionPathExists=/usr/local/sbin
+ 
+[Service]
+Type=forking
+ExecStart=/bin/sh -c 'firewall.sh'
+TimeoutSec=0
+StandardOutput=tty
+RemainAfterExit=yes
+SysVStartPriority=99
+ 
+[Install]
+WantedBy=multi-user.target
+

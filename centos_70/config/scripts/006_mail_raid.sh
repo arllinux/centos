@@ -13,8 +13,7 @@ if [ $? = "0" ]
 else
 
   # Mise en place de l'adresse mail pour les erreurs raid
-
-  vim /etc/mdadm.conf
+    vim /etc/mdadm.conf
 
 fi
 

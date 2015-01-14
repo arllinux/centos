@@ -27,10 +27,10 @@ if [ $? = "0" ]
   echo ":: Mise en place des fichiers de configuration ::"
   echo "-------------------------------------------------"
 	cp /etc/samba/smb.conf /etc/samba/smb.conf_old
-	cat $CWD/../samba/etc/samba/smb.conf.template > /etc/samba/smb.conf
+	cat $CWD/ ../samba/etc/samba/smb.conf.template > /etc/samba/smb.conf
 	chmod 644 /etc/samba/smb.conf
 
-  cat $CWD/../samba/etc/cron.weekly/samba_trash.sh.template > /etc/cron.weekly/samba_trash.sh
+  cat $CWD/ ../samba/etc/cron.weekly/samba_trash.sh.template > /etc/cron.weekly/samba_trash.sh
   chmod 644 /etc/cron.weekly/samba_trash.sh
 
   echo "----------------------------------------------"
@@ -41,12 +41,12 @@ if [ $? = "0" ]
   echo "---------------------------------"
   echo ":: Ouvrir les ports pour Samba ::"
   echo "---------------------------------"
-  vim $CWD/004_pdt_firewall.sh
+  vim /usr/local/sbin/firewall.sh
   
   echo "----------------------------------"
   echo ":: Modification du parefeu OK ! ::"
   echo "----------------------------------"
-  ./004_pdt_firewall.sh
+  systemctl restart firewall.service
 
   echo "--------------------------------"
   echo ":: Lancement du serveur Samba ::"

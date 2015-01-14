@@ -13,10 +13,10 @@ if [ $? = "0" ]
 else
 
 	# NTP
-  echo ":: Ouvri le port du parefeu : 123 ::"
+  echo ":: Ouvrir le port du parefeu : 123 ::"
   sleep 3
-  vim 004_pdt_firewall.sh
-  ./004_pdt_firewall.sh
+  vim /usr/local/sbin/firewall.sh
+  systemctl restart firewall.service
 
   echo "--------------------------"
   echo ":: Arrêt du service ntp ::"

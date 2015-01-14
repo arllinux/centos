@@ -3,6 +3,10 @@
 # 007_dnsmasq.sh
 # JP Antinoux - janvier 2015
 
+#"""""""""""""""""""""""""""""""""""""""""""""""""""""""#
+# Modifier les paramètres avant de lancer le script !!! #
+#"""""""""""""""""""""""""""""""""""""""""""""""""""""""#
+
 CWD=$(pwd)
 
 [ $USER != "root" ] ;
@@ -15,8 +19,8 @@ else
         echo "--------------------------------------------------------"
         echo ":: Ouverture du parefeu tcp-udp : 53 - udp : 67 et 68 ::"
         echo "--------------------------------------------------------"
-        vim 004_pdt_firewall.sh
-        ./004_pdt_firewall.sh
+        vim /usr/local/sbin/firewall.sh
+        systemctl restart firewall.service
 
         echo "------------------------------"
         echo ":: Configuration de dnsmasq ::"
@@ -35,7 +39,7 @@ else
         vim /etc/hosts
         
         echo "PEERDNS=no" >> /etc/sysconfig/network-scripts/ifcfg-eth0
-        vim /etc/sysconfig/network-scripts/ifcfg-erh0
+        vim /etc/sysconfig/network-scripts/ifcfg-eth0
 
         echo "------------------------------"
         echo ":: Activation de dnsmasq ::"

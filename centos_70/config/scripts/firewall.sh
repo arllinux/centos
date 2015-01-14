@@ -51,12 +51,12 @@ SYS=$(which sysctl)
        done
 
        # Modifications des politiques par défaut :
-       $IPT -P INPUT DROP
-       $IPT -P OUTPUT ACCEPT
-       $IPT -P FORWARD ACCEPT
+       # $IPT -P INPUT DROP
+       # $IPT -P OUTPUT ACCEPT
+       # $IPT -P FORWARD ACCEPT
 
        # Relais des paquets (yes/no)
-       MASQ=yes
+       # MASQ=yes
 
        #--------------------------------#
        # Traitements interfaces locales #
@@ -139,9 +139,9 @@ SYS=$(which sysctl)
        # fi
 
        # Enregistrer les connexions refusées :
-       $IPT -A INPUT -j LOG --log-prefix "+++ IPv4 packet rejected +++"
-       $IPT -A INPUT -j REJECT
+       # $IPT -A INPUT -j LOG --log-prefix "+++ IPv4 packet rejected +++"
+       # $IPT -A INPUT -j REJECT
 
        # Enregistrer la configuration :
-       /sbin/service iptables save
+        /sbin/service iptables save
 exit 0
