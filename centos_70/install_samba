@@ -1,5 +1,5 @@
 # =====================================
-# Installation de Samba sous CentOs 7 =
+# Installation de Samba sous CentOS 7 =
 # =====================================
 
 Installer les paquets :
@@ -19,6 +19,8 @@ Utiliser le script :
 Décocher les lignes correspondante à Samba
 Exécuter le script
 # ./004_pdt_firewall.sh
+Relancer le service
+# systemctl restart firewall.service
 
 Vérifier avec :
 # iptables -L -n
@@ -345,7 +347,7 @@ Lancer et rendre persistant les démons
 
 Afficher les partages sur le serveur :
 
-# smbclient -L <ip_du_serveur> -N
+# smbclient -L localhost -N
 Domain=[WORKGROUP] OS=[Unix] Server=[Samba 4.1.1]
 
    Sharename       Type      Comment
@@ -425,10 +427,10 @@ Accéder à la corbeille d'un partage :
 Pour vider la corbeille régulièrement, on pourra utiliser le script suivant en
 l'adaptant à ses besoins :
 
---8<---------- /etc/cron.weekly/sambacleanup.sh ------------------------------
+------------ /etc/cron.weekly/samba_trash.sh ------------------------------
 #!/bin/sh
 #
-# sambacleanup.sh
+# samba_trash.sh
 
 FIND=$(which find)
 RM=$(which rm)
@@ -440,7 +442,7 @@ SHARES="/srv/samba/public \
           $FIND $SHARE/.Corbeille -mtime +60 -exec $RM -rf {} \;
           fi
         done
---8<--------------------------------------------------------------------------
+---------------------------------------------------------------------------
 
  > Le script est exécuté une fois par semaine.
 

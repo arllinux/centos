@@ -10,6 +10,8 @@ apparaît nous choisissons :
 Ensuite il faut patienter environs 1 mn avec un écran noir qui
 fait penser que l'installation a planté...
 
+# --> Install et verify media
+
 Dans le haut à gauche de l'écran survient une liste qui entre
 autre chose, nous indique que le périphérique "/dev/sdx" est en
 train d'être vérifié : checking...
@@ -47,9 +49,16 @@ Pour la destination de l'installation, là il faut un peu travailler :
 Deux options
 # --> Installation simple sur un seul disque 
 # --> Installation en Raid1 (deux disques)
+# --> ...
 
 Installation simple :
 #=================#
+
+Sélection de périphériques :
+# --> Cocher le disque
+Partitionnement
+# --> o Je vais configurer le partitionnement
+    # --> Terminé
 
 Nouvelle installation de CentOS 7
 
@@ -58,7 +67,7 @@ précédé d'une flèche, il s'agit des partition résiduelles.
 Sélectionner l'un des éléments, puis cliquer sur le signe "-".
 
 # --> Etes-vous sur de vouloir supprimer toutes les données sur sda ?
-# --> Cocher l'option : Supprimer aussi tout les autre système de fichiers dans la racine de "inconnu"
+# --> Cocher l'option : Supprimer aussi tout les autres systèmes de fichiers dans la racine de "inconnu"
 
 Plus aucun disque ne doit apparaitre
 
@@ -77,7 +86,7 @@ Capacité :
 
 Colonne de gauche       Capacité          Colonne de droite
 /boot                   500MB             Nom : boot
-sda                                       Point de montage : /boot
+sda1                                      Point de montage : /boot
                                           Type de périphérique : standard
                                           Système de fichiers : xfs
                                           Niveau de raid :
@@ -93,7 +102,7 @@ Capacité :
 # --> Valider
 
 Colonne de gauche       Capacité          Colonne de droite
-swap                    4096GB            Nom : swap
+swap                    4096MB            Nom : swap
 sda                                       Point de montage : -
                                           Type de périphérique : standard
                                           Système de fichiers : xfs
@@ -106,12 +115,12 @@ Cliquer sur le signe "+"
 # --> Point de montage :
    # --> /
 Capacité :
-   # --> 949000 (adapter en fonction du disque)
+   # --> 950000 (adapter en fonction du disque)
 # --> Valider
 
 Colonne de gauche       Capacité          Colonne de droite
 /                       949.139GB         Nom : root
-sda                                       Point de montage : /
+sda3                                      Point de montage : /
                                           Type de périphérique : standart
                                           Système de fichiers : xfs
                                           Niveau de raid :
@@ -156,7 +165,7 @@ Capacité :
 
 Colonne de gauche       Capacité          Colonne de droite
 /boot                   500MB             Nom : boot
-sda                                       Point de montage : /boot
+boot                                      Point de montage : /boot
                                           Type de périphérique : Raid
                                           Système de fichiers : xfs
                                           Niveau de raid : raid1 (redondance)
@@ -173,7 +182,7 @@ Capacité :
 
 Colonne de gauche       Capacité          Colonne de droite
 swap                    4096GB            Nom : swap
-sda                                       Point de montage : -
+swap                                      Point de montage : -
                                           Type de périphérique : Raid
                                           Système de fichiers : xfs
                                           Niveau de raid : raid1 (redondance)
@@ -190,7 +199,7 @@ Capacité :
 
 Colonne de gauche       Capacité          Colonne de droite
 /                       949.139GB         Nom : root
-sda                                       Point de montage : /
+root                                      Point de montage : /
                                           Type de périphérique : Raid
                                           Système de fichiers : xfs
                                           Niveau de raid : raid1 (redondance)
@@ -210,10 +219,10 @@ Mot de passe Root
 Mot de passe utilisateur
 Nous le créerons quand le système sera installé
 
-La barre de progression indique :
-le nombre de paquets qui vont être installés : 265
-Configuration du système
-Installation du chargeur de démarrage
+- La barre de progression indique :
+    le nombre de paquets qui vont être installés : 265
+- Configuration du système
+- Installation du chargeur de démarrage
 
 # --> Terminé
 

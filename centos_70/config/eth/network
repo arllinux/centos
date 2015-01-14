@@ -1,7 +1,6 @@
 # /etc/sysconfig/network
 # Paramétrer également le fichier
 # /etc/sysconfig/network-scripts/ifcfc-ethO
-HOSTNAME=centos7.labo.arles
-DNS1=192.168.2.1
-DNS2=8.8.8.8
+HOSTNAME=centos7.labo2.arles
 SEARCH=labo.arles
+GATEWAY=192.168.0.254

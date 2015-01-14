@@ -1,0 +1,165 @@
+# ==============================
+# Intaller dnsmasq sous centOS 7
+# ==============================
+
+Jean-Pierre Antinoux - janvier 2015
+S'appuie sur la documentation de Nicolas Kovacs
+
+Dnsmasq permet non seulement de disposer d'un cache DNS mais aussi d'un
+serveur dhcp facile à configurer.
+
+
+
+Toutes les actions expliquées ici sont réalisées par le script :
+# 004_firewall.sh
+
+Ouverture du parefeu tcp-udp : 53 - udp : 67 et 68
+
+
+
+&&& script &&&
+
+Ouvrir le fichier firewall pour permettre les modifications      
+# vim /usr/local/sbin/firewall.sh
+
+Relancer le service pour mettre à jour et figer les règles      
+# systemctl restart firewall.service
+
+Configuration de dnsmasq
+Le script réalise les actions suivantes :
+
+Ouvre le modèle de fichier dnsmasq.conf pour permettre les modifications      
+# vim dnsmasq/dnsmasq.conf
+
+Copie le fichier de configuration en "fichier.old"        
+# cp /etc/dnsmasq.conf /etc/dnsmasq.conf.old
+
+Envoie les données du modèle vers le fichier de configuration.      
+#cat $CWD ../dnsmasq/dnsmasq.conf > /etc/dnsmasq.conf
+
+&&& script &&&
+
+
+
+#### Equivalent manuel ###
+# cd /etc
+# cp dnsmasq.conf dnsmasq.conf.old
+# vim dnsmasq.conf
+Vider le contenu :
+gg pour se placer sur le premier caractère du fichier
+Touche d puis shift + g
+Efface les 500 lignes que contient le fichier
+Modèle de base (à aménager)
+Nous sommes ici dans une configuration avec une seule interface réseau
+
+# /etc/dnsmasq.conf
+domain-needed
+bogus-priv
+interface=eth0
+dhcp-range=192.168.0.100,192.168.0.200,24h
+local=/labo2.arles/
+domain=labo2.arles
+expand-hosts
+server=8.8.8.8
+server=8.8.4.4
+
+dhcp-host=00:1d:72:ae:e3:26,frankeinstein,192.168.0.1
+
+quitter avec :wq
+
+- - - - - - - - - - - - - - - - - - 
+
+On choisira les adresses IP en-dehors de la plage d'adresses dynamiques.
+
+Si l'on souhaite attribuer une adresse IP et un nom d'hôte fixe à un portable
+que l'on connecte aussi bien par le wifi que par une connexion filaire, on
+peut utiliser la syntaxe suivante :
+
+dhcp-host=44:1E:A1:E6:FA:93,E4:D5:3D:BD:EA:05,gaston,192.168.0.3
+dhcp-host=00:27:19:F1:BC:3A,00:19:E0:83:3A:C1,prunelle,192.168.0.4
+
+---------------------------------------------------------------------------
+
+> Les deux premières options 'domain-needed' et 'bogus-priv' évitent que
+    Dnsmasq ne relaie les noms d'hôtes locaux à un ou plusieurs serveurs DNS
+    en amont.
+
+  > L'option 'interface' spécifie l'interface réseau que l'on souhaite
+    utiliser.
+
+  > L'option 'dhcp-range' définit la plage d'adresses dynamiques utilisée par
+    le serveur DHCP. Dans le cas présent, les adresses attribuées auront une
+    durée de validité de 24 heures. Passé ce délai, elles devront être
+    renouvelées par les clients.
+
+  > L'option 'local' indique que les réponses aux requêtes pour le domaine
+    spécifié doivent être fournies directement par Dnsmasq, et non pas par un
+    serveur DNS en amont.
+
+  > L'option 'domain' attribue le nom de domaine spécifié aux clients. Pour
+    des raisons évidentes, il doit coïncider avec le domaine défini dans
+    l'option 'local'.
+
+  > L'option 'expand-hosts' concerne les requêtes DNS sans le domaine et se
+    charge d'ajouter celui-ci automatiquement. Concrètement, lorsqu'on essaie
+    d'envoyer un 'ping' sur 'alphamule', Dnsmasq retournera automatiquement
+    l'adresse IP de 'alphamule.microlinux.montpezat'.
+
+  > L'option 'server' spécifie l'adresse IP d'un ou plusieurs serveurs DNS en
+    amont.
+
+------------------------------------------------------------
+
+&&& suite du script &&&
+
+Ecrit l'adresse ip du server dans resolv.conf (dns)
+echo "nameserver 192.168.0.250" > /etc/resolv.conf
+
+Ouvre le fichier resolv.conf pour vérification        
+# vim /etc/resolv.conf
+      
+Ecrit l'IP, le nom d'hote et le domaine du serveur dans le fichier hosts
+echo "192.168.0.250 centos7 centos7.labo2.arles" >> /etc/hosts
+
+Ouvre le fichier hosts pour vérification        
+# vim /etc/hosts
+        
+Ecrit la directive PERRDNS=no dans ifcfg-eth0 pour vérouillage du resolv.conf
+echo "PEERDNS=no" >> /etc/sysconfig/network-scripts/ifcfg-eth0
+  
+Ouvre le fichier ifcfg-eth0 pour vérification        
+# vim /etc/sysconfig/network-scripts/ifcfg-eth0
+
+Activation de dnsmasq
+# systemctl enable dnsmasq.service
+# systemctl start dnsmasq.service
+
+&&& Fin du script &&&
+
+------------------------------------------------------------
+
+Ajouter des hôtes statiques
+---------------------------
+
+L'ajout d'hôtes statiques est extrêmement simple avec Dnsmasq. Il suffit
+d'ajouter l'entrée correspondante dans le fichier '/etc/hosts' du serveur, et
+celui-ci se chargera de relayer l'info :
+
+-- /etc/hosts ----------------------------------------------------
+...
+192.168.0.5   bart
+...
+------------------------------------------------------------------
+
+Relancer Dnsmasq pour prendre en compte les modifications :
+
+  # systemctl restart dnsmasq.service
+
+On peut également ajouter un raccourci pour une adresse IP externe :
+
+-- /etc/hosts ----------------------------------------------------
+...
+88.191.189.120  dedibox
+...
+------------------------------------------------------------------
+

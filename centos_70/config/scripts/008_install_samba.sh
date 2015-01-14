@@ -11,7 +11,7 @@ if [ $? = "0" ]
     then
 	echo "Pour exécuter ce script il faut être l'utilisateur root !"
     else
-      yum -y install samba smbclient
+      yum -y install samba samba-client
 
   echo "-------------------------------------------------------------"
   echo ":: Création de l'utilistateur public pour le serveur samba ::"

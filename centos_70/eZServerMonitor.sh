@@ -32,20 +32,26 @@ PING_HOSTS=("google.com" "free.fr" "orange.fr")
 # syntax : 
 #   SERVICES_NAME[port_number]="label"
 #   SERVICES_HOST[port_number]="localhost"
-SERVICES_NAME[21]="FTP Server"
-SERVICES_HOST[21]="localhost"
+#SERVICES_NAME[21]="FTP Server"
+#SERVICES_HOST[21]="localhost"
 
 SERVICES_NAME[22]="SSH"
 SERVICES_HOST[22]="localhost"
 
-SERVICES_NAME[80]="Web Server"
-SERVICES_HOST[80]="localhost"
+#SERVICES_NAME[80]="Web Server"
+#SERVICES_HOST[80]="localhost"
 
-SERVICES_NAME[3306]="Database"
-SERVICES_HOST[3306]="localhost"
+#SERVICES_NAME[3306]="Database"
+#SERVICES_HOST[3306]="localhost"
 
 SERVICES_NAME[53]="DNS"
 SERVICES_HOST[53]="localhost"
+
+SERVICES_NAME[67]="DHCP"
+SERVICES_HOST[67]="localhost"
+
+SERVICES_NAME[68]="DHCP2"
+SERVICES_HOST[68]="localhost"
 
 SERVICES_NAME[445]="Samba"
 SERVICES_HOST[445]="localhost"
@@ -53,8 +59,6 @@ SERVICES_NAME[137]="Samba"
 SERVICES_HOST[137]="localhost"
 SERVICES_NAME[138]="Samba"
 SERVICES_HOST[138]="localhost"
-SERVICES_NAME[123]="Samba"
-SERVICES_HOST[123]="localhost"
 SERVICES_NAME[139]="Samba"
 SERVICES_HOST[139]="localhost"
 # Temperatures blocks (true for enable)

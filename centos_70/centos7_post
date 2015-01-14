@@ -2,9 +2,17 @@
 'Réglages initiaux après installation minimale de CentOs 7'
 #==========================================================
 
+Jean-Pierre Antinoux - janvier 2015
+Pour une installation serveur basique il faut uniquement réaliser les points 1 à x
 
-Installer deux outils de base :
+# 1 #
+
+'Installer deux outils de base :'
+#-------------------------------
 # yum install vim git
+
+
+# 2 #
 
 'Récupérer la documentation et les scripts de personnalisation'
 #-------------------------------------------------------------
@@ -17,22 +25,24 @@ Lancer le script
 Puis pour que la console prennent des couleurs, taper :
 # source /root/.bashrc
 
+
+# 3 #
+
 'Changer le nom par defaut de la carte réseau par "eth0"'
 #--------------------------------------------------------
 CentOs 7 propose par défaut des noms du type "enpS..", Pour changer ceci déplacer-vous dans :
-# vim /etc/default/grub
-Cherchez la ligne "GRUB_CMDLINE_LINUX" et ajoutez à la fin :
-net.ifnames=0 biosdevname=0
-
-Créer une nouvelle configuration basée sur le système en cours d'exécution en utilisant la commande grub2-mkconfig :
-# grub2-mkconfig -o /boot/grub2/grub.cfg
+# cd centos/centos_70/config/scripts
+Lancer le script
+# ./002_grub.sh
 
 Renommer le fichier "ifcfg-enp2s0.." en "eth0"
 # cd /etc/sysconfig/network-scripts/
 # mv ifcfg-enp2s0 ifcfg-eth0
 
-Si vous avez deux cartes réseau procéder de la même manière pour "eth1"
+Si vous avez deux cartes réseau renommer de la même manière pour "eth1"
 
+
+# 4 #
 
 'Mise à jour initiale du système'
 #-------------------------------
@@ -44,16 +54,22 @@ Redemarrer
 Après le redémarrage vérifier que la modification des interfaces réseau a bien été prise en compte.
 # ifconfig
 
+
+# 5 #
+
 'Créer un utilisateur simple'
 #---------------------------
 Créer l'utilisateur
 # adduser nom
 Lui attribuer un mot de passe
 # passwd nom
-Se connecter sous cet utilisateur
+Se connecter sous cet utilisateur pour vérifier le fonctionnement
 # su - nom
 Repasser en administrateur :
 Ctrl + d
+
+
+# 6 #
 
 'Configurer l'adresse statique du serveur dans le réseau'
 #--------------------------------------------------------
@@ -65,7 +81,7 @@ Utiliser ces paramètres : à adapter en fonction du contexte
 # /etc/sysconfig/network-scripts/ifcfg-eth0
 #
 DEVICE="eth0"
-HWADDR="00:24:1D:13:85:FE"
+HWADDR="xx:xx:xx:xx:xx"
 NM_CONTROLLED="no"
 ONBOOT="yes"
 BOOTPROTO=static
@@ -76,9 +92,7 @@ NETMASQ=255.255.255.0
 Ensuite pour relayer les DNS il faut compléter le fichier
 /etc/sysconfig/network
 # vim /etc/sysconfig/network
-
 Utiliser ces paramètres : à adapter en fonction du contexte
-# /etc/sysconfig/network
 #
 HOSTNAME=centos7.labo.arles
 SEARCH=labo.arles
@@ -98,6 +112,8 @@ Vérifiez que la nouvelle adresse est bien attribuée :
 inet 192.168.0.2
 
 
+# 7 #
+
 'Suppression ancien kernel :'
 #---------------------------
 
@@ -112,6 +128,9 @@ Retourne le nom du kernel utilisé
 3 - suppression du kernel non utilisé :
 # rpm -e kernel-nom_du_kernel
 
+
+# 8 #
+OPTIONNEL
 
 'Ajout et configuration du dépot "rpmforge'
 #-------------------------------------------
@@ -147,6 +166,9 @@ Se déplacer dans la documentation
 
 ------------------------------------------------------------
 
+
+# 9 #
+
 'Gérer les ports du firewall'
 #---------------------------
 Dans la documentation ouvrir le fichier "004_pdt_firewall.sh
@@ -159,6 +181,9 @@ Lancer le script
 
 ------------------------------------------------------------
 
+
+# 10 #
+
 'Installer ntp (Network Time Protocol)'
 #--------------------------------------
 
@@ -168,12 +193,20 @@ Se déplacer dans la documentation
 
 ------------------------------------------------------------
 
+
+# 11 #
+
 'Configurer l'adresse mail pour les avertissements défaut raid'
 #-------------------------------------------------------------
 
 Se déplacer dans la documentation
 # cd centos/centos_70/config/scripts
 # ./006_mail_raid.sh
+
+------------------------------------------------------------
+
+
+# 12 #
 
 'Mise en place de dnsmasq et paramétrages'
 #----------------------------------------

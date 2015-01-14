@@ -20,7 +20,7 @@ iptables -L -n
 
 systemctl list-unit-files | grep enabled | wc -l
 
-
+ifconfig
 
 
 $ nmap -sn 192.168.3.0/24
@@ -32,3 +32,18 @@ Nmap scan report for frankenstein.labo2.arles (192.168.3.2)
 Host is up (0.00024s latency).
 Nmap done: 256 IP addresses (2 hosts up) scanned in 3.01 seconds
 
+Astuces pour vim
+# Commenter et décommenter plusieurs lignes d'un seul coup
+# Commenter :
+ctrl + v
+J (jusqu’à la ligne souhaitée)
+Maj + i
+On tape un # (le dièse est mis sur la première ligne)
+Touche Echap (les commentaires sont mis en place)
+
+# Décommenter :
+ctrl + v
+J (jusqu’à la ligne souhaitée)
+x
+# Dans les deux cas :
+# :wq
