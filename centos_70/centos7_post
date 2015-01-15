@@ -100,7 +100,7 @@ GATEWAY=192.168.0.254
 
 Configurer le fichier /etc/resolv.conf
 # vim /etc/resolv.conf
-nameserver 127.0.0.1
+nameserver 192.168.0.2
 
 
 Relancer le service "network"
@@ -171,13 +171,10 @@ Se déplacer dans la documentation
 
 'Gérer les ports du firewall'
 #---------------------------
-Dans la documentation ouvrir le fichier "004_pdt_firewall.sh
-# cd centos/centos_70/config/scripts
-# vim 004_pdt_firewall.sh
+Dans la documentation lancer le script "004_firewall.sh"
+# ./004_pdt_firewall.sh
 Décommenter ou commenter (#) les lignes voulues
 Valider par : :wq
-Lancer le script
-# ./004_pdt_firewall.sh
 
 ------------------------------------------------------------
 
