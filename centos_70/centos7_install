@@ -1,3 +1,8 @@
+- Sélectionne système- préférences -menu principal
+- Colonne de gauche: clique sur Internet; puis à droite "nouvel élément". Une fenêtre s'ouvre.
+- Nom: tu tapes skype2 ; commande: env LD_PRELOAD=/usr/lib/i386-linux-gnu/libv4l/v4l1compat.so /usr/bin/skype ; tu cliques enfin sur l'icône, et tu cherches celle de skype dans le dossier urs/share
+- Tu valides. 
+
 #--------------------------------------------------------
 # Installation CentOS 7 minimal
 #--------------------------------------------------------
