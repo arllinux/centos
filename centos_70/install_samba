@@ -93,6 +93,7 @@ force group = users
 create mode = 0660
 directory mode = 0770
 
+# Répertoire accéssible sans restriction
 [Public]
 path = /srv/samba/public
 comment = Partage Public
@@ -110,13 +111,13 @@ recycle:exclude = *.tmp
 recycle:exclude_dir = /tmp
 recycle:noversions = *.doc
 
-
-
+# Répertoire accessible par mot de passe pour 1 utilisateur
 [Confidentiel]
 path = /srv/samba/confidentiel
 comment = Partage Confidentiel
 read only = no
 invalid users = root nobody smbguest
+valid users = toto
 
 vfs object = recycle
 recycle:repository = .Corbeille
@@ -127,6 +128,14 @@ recycle:maxsixe = 0
 recycle:exclude = *.tmp
 recycle:exclude_dir = /tmp
 recycle:noversions = *.doc
+
+# Répertoire consultable en lecture seule (pas de modif, pas de suppression)
+[Lecture]
+path = /srv/samba/lecture
+comment = Archives en lecture seule
+public = yes
+only guest = yes
+read only = yes
 
 --------//---------
 
