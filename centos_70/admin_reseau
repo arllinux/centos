@@ -1,6 +1,6 @@
-#-----------------------------------------------------------
-les outils de l'administrateur réseau
-#-----------------------------------------------------------
+#--------------------------------------------------
+les outils de l'administrateur réseau sous CentOS 7
+#--------------------------------------------------
 
 1 Les fichiers de configuration réseau
 	Le fichier /etc/hosts
@@ -29,50 +29,50 @@ les outils de l'administrateur réseau
 
 	Le fichier /etc/hosts
 	&-------------------------------------------------------------------------------
-		127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
-		192.168.0.250 centos7 centos7.labo2.arles
+	127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+	192.168.0.250 centos7 centos7.labo2.arles
 	&-------------------------------------------------------------------------------
 
 
 	Le fichier /etc/networks
 	&-------------------------------------------------------------------------------
-		default 0.0.0.0
-		loopback 127.0.0.0
-		link-local 169.254.0.0
+	default 0.0.0.0
+	loopback 127.0.0.0
+	link-local 169.254.0.0
 	&-------------------------------------------------------------------------------
 		
 	&-------------------------------------------------------------------------------
-		# /etc/sysconfig/network
-		#
-		HOSTNAME=centos7.labo.arles
-		SEARCH=labo.arles
-		GATEWAY=192.168.0.254
+	# /etc/sysconfig/network
+	#
+	HOSTNAME=centos7.labo.arles
+	SEARCH=labo.arles
+	GATEWAY=192.168.0.254
 	&-------------------------------------------------------------------------------
 
 	Le fichier /etc/host.conf
 	&-------------------------------------------------------------------------------
-		multi on
+	multi on
 	&-------------------------------------------------------------------------------
 
 	Le fichier /etc/resolv.conf
 	&-------------------------------------------------------------------------------
-		nameserver 192.168.0.250
+	nameserver 192.168.0.250
 	&-------------------------------------------------------------------------------
 
 
 	Les fichiers de configuration des interfaces réseau
 	&-------------------------------------------------------------------------------
-	 	# ifcfg-eth0
- 		#
- 		DEVICE="eth0"
- 		HWADDR="00:24:1D:13:85:FE"
- 		NM_CONTROLLED="no"
- 		ONBOOT="yes"
- 		BOOTPROTO=static
- 		IPADDR=192.168.0.250
- 		NETMASQ=255.255.255.0
- 		# Empêcher la réécriture automatique de /etc/resolv.conf ##
- 		PEERDNS=no
+ 	# ifcfg-eth0
+	#
+ 	DEVICE="eth0"
+ 	HWADDR="00:24:1D:13:85:FE"
+ 	NM_CONTROLLED="no"
+ 	ONBOOT="yes"
+ 	BOOTPROTO=static
+ 	IPADDR=192.168.0.250
+ 	NETMASQ=255.255.255.0
+ 	# Empêcher la réécriture automatique de /etc/resolv.conf ##
+ 	PEERDNS=no
 	&-------------------------------------------------------------------------------
 
 2 La commande ifconfig
@@ -80,47 +80,48 @@ les outils de l'administrateur réseau
 
 # ifconfig
 eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
-    inet 192.168.0.250  netmask 255.255.255.0  broadcast 192.168.0.255
-		ether 00:24:1d:13:85:fe  txqueuelen 1000  (Ethernet)
-		RX packets 35933  bytes 3351020 (3.1 MiB)
-		RX errors 0  dropped 0  overruns 0  frame 0
-		TX packets 40495  bytes 5182108 (4.9 MiB)
-		TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+inet 192.168.0.250  netmask 255.255.255.0  broadcast 192.168.0.255
+ether 00:24:1d:13:85:fe  txqueuelen 1000  (Ethernet)
+RX packets 35933  bytes 3351020 (3.1 MiB)
+RX errors 0  dropped 0  overruns 0  frame 0
+TX packets 40495  bytes 5182108 (4.9 MiB)
+TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 
-		lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
-		inet 127.0.0.1  netmask 255.0.0.0
-		loop  txqueuelen 0  (Boucle locale)
-		RX packets 6134  bytes 261856 (255.7 KiB)
-		RX errors 0  dropped 0  overruns 0  frame 0
-		TX packets 6134  bytes 261856 (255.7 KiB)
-		TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+inet 127.0.0.1  netmask 255.0.0.0
+loop  txqueuelen 0  (Boucle locale)
+RX packets 6134  bytes 261856 (255.7 KiB)
+RX errors 0  dropped 0  overruns 0  frame 0
+TX packets 6134  bytes 261856 (255.7 KiB)
+TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 
 
 3 La commande arp
 #----------------
 
 # arp -va
-		frankeinstein.labo2.arles (192.168.0.1) at 00:1d:72:ae:e3:26 [ether] on eth0
-		? (192.168.0.254) at 00:07:cb:bf:47:89 [ether] on eth0 # freebox
-		? (192.168.0.10) at d0:ae:ec:3a:df:78 [ether] on eth0 # switch
-		Entrées: 3	Ignorées: 0	Trouvées: 3
+	frankeinstein.labo2.arles (192.168.0.1) at 00:1d:72:ae:e3:26 [ether] on eth0
+	? (192.168.0.254) at 00:07:cb:bf:47:89 [ether] on eth0 # freebox
+	? (192.168.0.10) at d0:ae:ec:3a:df:78 [ether] on eth0 # switch
+	Entrées: 3	Ignorées: 0	Trouvées: 3
 
 
 4 La commande route
 #------------------
-
+# route -n
 
 5 La commande netstat
 #--------------------
-
+# netstat -taupe
 
 6 La commande traceroute
 #-----------------------
-
+# traceroute google.fr
 
 7 La commande dig
 #----------------
-
+# dig google.fr
 
 8 La commande host
 #-----------------
+# host ???
