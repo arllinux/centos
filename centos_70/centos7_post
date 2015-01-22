@@ -26,7 +26,7 @@ Puis pour que la console prennent des couleurs, taper :
 # source /root/.bashrc
 
 
-# 3 #
+& 3 &
 
 'Changer le nom par defaut de la carte réseau par "eth0"'
 #--------------------------------------------------------

@@ -75,10 +75,42 @@ les outils de l'administrateur réseau sous CentOS 7
  	PEERDNS=no
 	&-------------------------------------------------------------------------------
 
+==================================================================================
+
 2 La commande ifconfig
 #---------------------
+#
+# La commande ifconfig permet la configuration locale ou à distance des
+# interfaces réseau de tous types d'équipements (unité centrale, routeur). Sans
+# paramètres, la commande ifconfig permet d'afficher les paramètres réseau des
+# interfaces.
 
-# ifconfig
+Les tests sont effectués sur un poste client qui passe par le serveur local 
+
+# ifconfig (sur machine client)
+--&------------------------------------------------------------
+eth0      Link encap:Ethernet  HWaddr 00:1d:72:ae:e3:26  
+inet adr:192.168.0.1  Bcast:192.168.0.255  Masque:255.255.255.0
+UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+Packets reçus:162 erreurs:0 :0 overruns:0 frame:1
+TX packets:152 errors:0 dropped:0 overruns:0 carrier:0
+collisions:0 lg file transmission:1000 
+Octets reçus:35966 (35.9 KB) Octets transmis:21455 (21.4 KB)
+
+lo        Link encap:Boucle locale  
+inet adr:127.0.0.1  Masque:255.0.0.0
+UP LOOPBACK RUNNING  MTU:65536  Metric:1
+Packets reçus:101 erreurs:0 :0 overruns:0 frame:0
+TX packets:101 errors:0 dropped:0 overruns:0 carrier:0
+collisions:0 lg file transmission:0 
+Octets reçus:6933 (6.9 KB) Octets transmis:6933 (6.9 KB)
+--&------------------------------------------------------------
+
+Les tests sont effectués sur le serveur local avec une
+seule interface réseau qui gère les entrées et les sorties
+
+# ifconfig (sur serveur)
+--&------------------------------------------------------------
 eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
 inet 192.168.0.250  netmask 255.255.255.0  broadcast 192.168.0.255
 ether 00:24:1d:13:85:fe  txqueuelen 1000  (Ethernet)
@@ -94,34 +126,268 @@ RX packets 6134  bytes 261856 (255.7 KiB)
 RX errors 0  dropped 0  overruns 0  frame 0
 TX packets 6134  bytes 261856 (255.7 KiB)
 TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+--&------------------------------------------------------------
 
 
 3 La commande arp
 #----------------
+#
+# La commande arp permet de visualiser ou modifier la table du cache arp de
+# l'interface. Cette table peut être statique et (ou) dynamique. Elle donne la
+# correspondance entre une adresse IP et une adresse MAC (Ethernet).
+#
+# A chaque nouvelle requête, le cache ARP de l'interface est mis à jour. Il y a
+# un nouvel enregistrement. Cet enregistrement à une durée de vie (ttl ou Time
+# To Live).
+
+Les tests sont effectués sur un poste client qui passe par le serveur local 
 
 # arp -va
-	frankeinstein.labo2.arles (192.168.0.1) at 00:1d:72:ae:e3:26 [ether] on eth0
+--&------------------------------------------------------------
+	centos7.labo2.arles (192.168.0.250) à 00:24:1d:13:85:fe [ether] sur eth0 # serveur
+	? (192.168.0.254) à 00:07:cb:bf:47:89 [ether] sur eth0 # freebox
+	Entrées: 2	Ignorées: 0	Trouvées: 2
+--&------------------------------------------------------------
+
+Les tests sont effectués sur le serveur local avec une
+seule interface réseau qui gère les entrées et les sorties
+
+# arp -va
+--&------------------------------------------------------------
+	frankeinstein.labo2.arles (192.168.0.1) at 00:1d:72:ae:e3:26 [ether] on eth0 # poste client
 	? (192.168.0.254) at 00:07:cb:bf:47:89 [ether] on eth0 # freebox
 	? (192.168.0.10) at d0:ae:ec:3a:df:78 [ether] on eth0 # switch
 	Entrées: 3	Ignorées: 0	Trouvées: 3
+--&------------------------------------------------------------
 
 
 4 La commande route
 #------------------
+#
+# Le routage définit le chemin emprunté par les paquets entre son point de
+# départ et son point d'arrivée. Cette commande permet également la
+# configuration de pc, de switchs de routeurs.
+# Elle permet de voir la passerelle vers l'extérieur
+
+Les tests sont effectués sur un poste client qui passe par le serveur local
+
 # route -n
+--&------------------------------------------------------------
+Table de routage IP du noyau
+Destination     Passerelle      Genmask         Indic Metric Ref    Use Iface
+0.0.0.0         192.168.0.250   0.0.0.0         UG    0      0        0 eth0
+192.168.0.0     0.0.0.0         255.255.255.0   U     1      0        0 eth0
+--&------------------------------------------------------------
+
+Les tests sont effectués sur le serveur local avec une
+seule interface réseau qui gère les entrées et les sorties
+
+# arp -va
+--&------------------------------------------------------------
+Table de routage IP du noyau
+Destination     Passerelle      Genmask         Indic Metric Ref    Use Iface
+0.0.0.0         192.168.0.254   0.0.0.0         UG    0      0        0 eth0
+169.254.0.0     0.0.0.0         255.255.0.0     U     1002   0        0 eth0
+192.168.0.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0
+--&------------------------------------------------------------
 
 5 La commande netstat
 #--------------------
+#
+# La commande netstat, permet de tester la configuration du réseau, visualiser
+# l'état des connexions, établir des statistiques, notamment pour surveiller
+# les serveurs.
+
+Les tests sont effectués sur un poste client qui passe par le serveur local
+
 # netstat -taupe
+--&------------------------------------------------------------
+Connexions Internet actives (serveurs et établies)
+Proto Recv-Q Send-Q Adresse locale          Adresse distante        Etat       User       Inode       PID/Program name
+tcp        0      0 *:ssh                   *:*                     LISTEN      root       8910        1300/sshd       
+tcp        0      0 localhost.labo2.arl:ipp *:*                     LISTEN      root       22116       3022/cupsd      
+tcp        0      0 *:microsoft-ds          *:*                     LISTEN      root       8620        676/smbd        
+tcp        0      0 localhost.labo2.a:mysql *:*                     LISTEN      mysql      11435       1451/mysqld     
+tcp        0      0 *:netbios-ssn           *:*                     LISTEN      root       8621        676/smbd        
+tcp        1      0 localhost.labo2.a:49345 localhost.labo2.arl:ipp CLOSE_WAIT  root       14473       1414/cups-browsed
+tcp        0      0 frankeinstein.lab:52682 centos7.labo2.arles:ssh ESTABLISHED jpantinoux 77407       3807/ssh        
+tcp6       0      0 [::]:ssh                [::]:*                  LISTEN      root       8912        1300/sshd       
+tcp6       0      0 [::]:microsoft-ds       [::]:*                  LISTEN      root       8618        676/smbd        
+tcp6       0      0 [::]:netbios-ssn        [::]:*                  LISTEN      root       8619        676/smbd        
+tcp6       0      0 [::]:http               [::]:*                  LISTEN      root       11538       1776/apache2    
+udp        0      0 *:ipp                   *:*                                 root       13682       1414/cups-browsed
+udp        0      0 *:41769                 *:*                                 avahi      8591        841/avahi-daemon: r
+udp        0      0 *:mdns                  *:*                                 avahi      8589        841/avahi-daemon: r
+udp        0      0 *:11762                 *:*                                 root       10350       908/dhclient    
+udp        0      0 *:bootpc                *:*                                 root       10363       908/dhclient    
+udp        0      0 192.168.0.25:netbios-ns *:*                                 root       10432       1035/nmbd       
+udp        0      0 frankeinstei:netbios-ns *:*                                 root       10431       1035/nmbd       
+udp        0      0 *:netbios-ns            *:*                                 root       10428       1035/nmbd       
+udp        0      0 192.168.0.2:netbios-dgm *:*                                 root       10434       1035/nmbd       
+udp        0      0 frankeinste:netbios-dgm *:*                                 root       10433       1035/nmbd       
+udp        0      0 *:netbios-dgm           *:*                                 root       10429       1035/nmbd       
+udp6       0      0 [::]:16933              [::]:*                              root       10351       908/dhclient    
+udp6       0      0 [::]:mdns               [::]:*                              avahi      8590        841/avahi-daemon: r
+udp6       0      0 [::]:47484              [::]:*                              avahi      8592        841/avahi-daemon: r
+
+--&------------------------------------------------------------
+
+Les tests sont effectués sur le serveur local avec une
+seule interface réseau qui gère les entrées et les sorties
+
+# netstat -taupe
+--&------------------------------------------------------------
+Connexions Internet actives (serveurs et établies)
+Proto Recv-Q Send-Q Adresse locale          Adresse distante        Etat        Utilisatr  Inode      PID/Program name    
+tcp        0      0 localhost:smtp          0.0.0.0:*               LISTEN      root       17923      1853/master         
+tcp        0      0 centos7:microsoft-ds    0.0.0.0:*               LISTEN      root       17800      1321/smbd           
+tcp        0      0 localhost:microsoft-ds  0.0.0.0:*               LISTEN      root       17798      1321/smbd           
+tcp        0      0 centos7:netbios-ssn     0.0.0.0:*               LISTEN      root       17801      1321/smbd           
+tcp        0      0 localhost:netbios-ssn   0.0.0.0:*               LISTEN      root       17799      1321/smbd           
+tcp        0      0 0.0.0.0:domain          0.0.0.0:*               LISTEN      root       18484      1113/dnsmasq        
+tcp        0      0 0.0.0.0:ssh             0.0.0.0:*               LISTEN      root       18532      1120/sshd           
+tcp        0      0 centos7:ssh             frankeinstein.lab:52682 ESTABLISHED root       19622      2171/sshd: root@pts 
+tcp6       0      0 [::]:domain             [::]:*                  LISTEN      root       18486      1113/dnsmasq        
+tcp6       0      0 [::]:ssh                [::]:*                  LISTEN      root       18534      1120/sshd           
+udp        0      0 0.0.0.0:domain          0.0.0.0:*                           root       18483      1113/dnsmasq        
+udp        0      0 0.0.0.0:bootps          0.0.0.0:*                           root       18478      1113/dnsmasq        
+udp        0      0 centos7:ntp             0.0.0.0:*                           ntp        17025      891/ntpd            
+udp        0      0 localhost:ntp           0.0.0.0:*                           root       17505      891/ntpd            
+udp        0      0 0.0.0.0:ntp             0.0.0.0:*                           root       16622      891/ntpd            
+udp        0      0 192.168.0.25:netbios-ns 0.0.0.0:*                           root       18555      1214/nmbd           
+udp        0      0 centos7:netbios-ns      0.0.0.0:*                           root       18554      1214/nmbd           
+udp        0      0 0.0.0.0:netbios-ns      0.0.0.0:*                           root       18548      1214/nmbd           
+udp        0      0 192.168.0.2:netbios-dgm 0.0.0.0:*                           root       18557      1214/nmbd           
+udp        0      0 centos7:netbios-dgm     0.0.0.0:*                           root       18556      1214/nmbd           
+udp        0      0 0.0.0.0:netbios-dgm     0.0.0.0:*                           root       18549      1214/nmbd           
+udp        0      0 0.0.0.0:53680           0.0.0.0:*                           avahi      16612      714/avahi-daemon: r 
+udp        0      0 0.0.0.0:mdns            0.0.0.0:*                           avahi      16611      714/avahi-daemon: r 
+udp6       0      0 [::]:domain             [::]:*                              root       18485      1113/dnsmasq        
+udp6       0      0 [::]:ntp                [::]:*                              root       16623      891/ntpd     
+--&------------------------------------------------------------
 
 6 La commande traceroute
 #-----------------------
+#
+# La commande traceroute permet d'afficher le chemin parcouru par un paquet
+# pour arriver à destination. Cette commande est importante, car elle permet
+# d'équilibrer la charge d'un réseau, en optimisant les routes.
+#
+Les tests sont effectués sur un poste client qui passe par le serveur local
+
 # traceroute google.fr
+--&------------------------------------------------------------
+traceroute to google.fr (173.194.45.88), 30 hops max, 60 byte packets
+1  centos7.labo2.arles (192.168.0.250)  0.169 ms  0.097 ms  0.089 ms
+2  192.168.0.254 (192.168.0.254)  1.559 ms  2.019 ms  2.778 ms
+3  82.240.4.254 (82.240.4.254)  60.274 ms  60.492 ms  61.019 ms
+4  213.228.48.62 (213.228.48.62)  61.332 ms  63.898 ms  64.232 ms
+5  montpellier-9k-2-be1001.intf.routers.proxad.net (212.27.58.133)  64.540 ms  68.196 ms  68.465 ms
+6  p11-cr16-1-be1103.intf.routers.proxad.net (194.149.160.21)  78.934 ms  87.432 ms  87.661 ms
+7  cbv-9k-1-be1001.intf.routers.proxad.net (194.149.161.14)  84.885 ms  84.342 ms  84.544 ms
+8  google-pni-3.routers.proxad.net (212.27.40.102)  90.636 ms * *
+9  72.14.238.234 (72.14.238.234)  76.192 ms  77.387 ms *
+10  66.249.94.77 (66.249.94.77)  79.890 ms  80.137 ms  81.658 ms
+11  par03s13-in-f24.1e100.net (173.194.45.88)  81.130 ms  81.357 ms  84.559 ms
+--&------------------------------------------------------------
+
+Les tests sont effectués sur le serveur local avec une
+seule interface réseau qui gère les entrées et les sorties
+
+# traceroute google.fr
+--&------------------------------------------------------------
+traceroute to google.fr (173.194.45.79), 30 hops max, 60 byte packets
+1  192.168.0.254 (192.168.0.254)  1.252 ms  2.291 ms  3.066 ms
+2  82.240.4.254 (82.240.4.254)  42.133 ms  42.441 ms  42.696 ms
+3  213.228.48.62 (213.228.48.62)  43.080 ms  46.005 ms  46.196 ms
+4  montpellier-9k-2-be1001.intf.routers.proxad.net (212.27.58.133)  48.897 ms  49.115 ms  49.334 ms
+5  p11-cr16-1-be1103.intf.routers.proxad.net (194.149.160.21)  63.615 ms  63.855 ms  64.071 ms
+6  cbv-9k-1-be1001.intf.routers.proxad.net (194.149.161.14)  63.048 ms  62.635 ms  62.469 ms
+7  72.14.216.98 (72.14.216.98)  68.986 ms google-pni-3.routers.proxad.net (212.27.40.102)  61.420 ms  61.595 ms
+8  72.14.238.234 (72.14.238.234)  55.361 ms  50.151 ms  63.234 ms
+9  66.249.94.77 (66.249.94.77)  52.080 ms  52.310 ms  53.968 ms
+10  par03s13-in-f15.1e100.net (173.194.45.79)  53.709 ms  54.723 ms  58.081 ms
+--&------------------------------------------------------------
 
 7 La commande dig
 #----------------
-# dig google.fr
+#
+# La commande dig remplace ce qui était la commande nslookup. Cette commande
+# sert à diagnostiquer des dysfonctionnements dans la résolution de noms
+# (Service DNS).
+#
+Les tests sont effectués sur un poste client qui passe par le serveur local
 
+# dig google.fr
+--&------------------------------------------------------------
+; <<>> DiG 9.9.5-3ubuntu0.1-Ubuntu <<>> google.fr
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 51710
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 4, AUTHORITY: 0, ADDITIONAL: 0
+
+;; QUESTION SECTION:
+;google.fr.			IN	A
+
+;; ANSWER SECTION:
+google.fr.		293	IN	A	173.194.45.88
+google.fr.		293	IN	A	173.194.45.87
+google.fr.		293	IN	A	173.194.45.79
+google.fr.		293	IN	A	173.194.45.95
+
+;; Query time: 1 msec
+;; SERVER: 192.168.0.250#53(192.168.0.250)
+;; WHEN: Thu Jan 22 19:12:57 CET 2015
+;; MSG SIZE  rcvd: 91
+--&------------------------------------------------------------
+
+Les tests sont effectués sur le serveur local avec une
+seule interface réseau qui gère les entrées et les sorties
+
+# dig google.fr
+--&------------------------------------------------------------
+; <<>> DiG 9.9.4-RedHat-9.9.4-14.el7_0.1 <<>> google.fr
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 33976
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 4, AUTHORITY: 0, ADDITIONAL: 0
+
+;; QUESTION SECTION:
+;google.fr.			IN	A
+
+;; ANSWER SECTION:
+google.fr.		241	IN	A	173.194.45.88
+google.fr.		241	IN	A	173.194.45.87
+google.fr.		241	IN	A	173.194.45.79
+google.fr.		241	IN	A	173.194.45.95
+
+;; Query time: 0 msec
+;; SERVER: 192.168.0.250#53(192.168.0.250)
+;; WHEN: jeu. janv. 22 19:13:49 CET 2015
+;; MSG SIZE  rcvd: 91
+
+--&------------------------------------------------------------
 8 La commande host
 #-----------------
-# host ???
+#
+# La commande host interroge les serveurs de noms. Elle peut par exemple être
+# utilisée pour détecter des dysfonctionnement sur un réseau (serveurs hors
+# services). Attention, n'utilisez pas cette commande sur des réseaux dont vous
+# n'avez pas l'administration.
+
+Les tests sont effectués sur un poste client qui passe par le serveur local
+
+# host 192.168.0.250
+--&------------------------------------------------------------
+250.0.168.192.in-addr.arpa domain name pointer centos7.labo2.arles.
+--&------------------------------------------------------------
+
+Les tests sont effectués sur le serveur local avec une
+seule interface réseau qui gère les entrées et les sorties
+
+# host 192.168.0.1
+--&------------------------------------------------------------
+1.0.168.192.in-addr.arpa domain name pointer frankeinstein.labo2.arles.
+--&------------------------------------------------------------
+
+# ---///---
