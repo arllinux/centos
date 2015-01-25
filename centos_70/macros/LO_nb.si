@@ -1,0 +1,49 @@
+# -------------------------------
+# comparer 2 listes de valeurs
+# -------------------------------
+
+Dans une feuille calc (LibreOffice), on veut comparer deux colonnes de valeurs
+
+La première liste est dans la colonne A
+La deuxième liste est dans la colonne B
+
+Quelles valeurs sont présentent dans la liste de la colonne A et ne sont pas
+dans la B.
+
+Comparaison de listes de noms :
+
+Sélectionner la colonne A,puis :
+Presser la touche Shift puis F3
+La première pression passe tous les caractères en majuscules
+La deuxième pression passe tous les caractères en minuscules
+La troisième pression passe le 1er caractère de chaque motes en maj.
+
+Faire un copier/coller des deux premières colonnes dans la feuille vierge du
+fichier "joindreColonne.ods"
+
+Appliquer la macro "String_join"
+
+Copier la colonne C dans la colonne A de la feuille 2
+
+
+Répéter les mêmes opérations pour le deuxième fichier
+
+Supprimer les colonnes A et B de la première feuille de "joindre_colonnes.ods"
+
+Faire un copier/coller des deux premières colonnes dans la feuille vierge du
+fichier "joindreColonne.ods"
+
+Appliquer la macro "String_join"
+
+Copier la colonne C dans la colonne B de la feuille 2
+
+Dans C2, mettre la formule : =NB.SI($A$2:$A$1352;B2)
+
+Faire une recopier incrémentale de la formule jusqu'a la fin de la liste de
+données.
+
+Tous les O sont les noms qui ne sont pas dans la colonne B
+
+Faire un filtre automatique et n'afficher que les 0
+
+Voici la liste des noms qui manquent dans la colonne B
