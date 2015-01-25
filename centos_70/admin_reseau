@@ -45,7 +45,7 @@ les outils de l'administrateur réseau sous CentOS 7
 	# /etc/sysconfig/network
 	#
 	HOSTNAME=centos7.labo.arles
-	SEARCH=labo.arles
+	SEARCH=labo2.arles
 	GATEWAY=192.168.0.xxx
 	&-------------------------------------------------------------------------------
 
