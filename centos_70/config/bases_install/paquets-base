@@ -17,3 +17,4 @@ wget
 yum-priorities
 yum-utils
 gpm
+logwatch
