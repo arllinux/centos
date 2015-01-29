@@ -18,3 +18,5 @@ yum-priorities
 yum-utils
 gpm
 logwatch
+glances
+tcpdump
