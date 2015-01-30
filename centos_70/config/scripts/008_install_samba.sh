@@ -29,7 +29,10 @@ if [ $? = "0" ]
       cp /etc/samba/smb.conf /etc/samba/smb.conf_old
       cat $CWD/ ../samba/etc/samba/smb.conf.template > /etc/samba/smb.conf
       chmod 644 /etc/samba/smb.conf
-
+			
+			# Mise en place d'une corbeille interne aux dossiers créés pour avoir un
+			# droit à l'erreur. Celle-ci est gérée par ce script pour suppression des
+			# fichiers agés de 2 mois.
       cat $CWD/ ../samba/etc/cron.weekly/samba_trash.sh.template > /etc/cron.weekly/samba_trash.sh
       chmod 644 /etc/cron.weekly/samba_trash.sh
 
