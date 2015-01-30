@@ -1,27 +1,23 @@
-- Sélectionne système- préférences -menu principal
-- Colonne de gauche: clique sur Internet; puis à droite "nouvel élément". Une fenêtre s'ouvre.
-- Nom: tu tapes skype2 ; commande: env LD_PRELOAD=/usr/lib/i386-linux-gnu/libv4l/v4l1compat.so /usr/bin/skype ; tu cliques enfin sur l'icône, et tu cherches celle de skype dans le dossier urs/share
-- Tu valides. 
-
 #--------------------------------------------------------
 # Installation CentOS 7 minimal
 #--------------------------------------------------------
 
 Après le passage obligé par le bios, dans le premier écran qui
-apparaît nous choisissons :
+apparaît le choix par défaut est :
 
-# --> Install Centos 7
+# --> Install et verify media
 
 Ensuite il faut patienter environs 1 mn avec un écran noir qui
 fait penser que l'installation a planté...
-
-# --> Install et verify media
 
 Dans le haut à gauche de l'écran survient une liste qui entre
 autre chose, nous indique que le périphérique "/dev/sdx" est en
 train d'être vérifié : checking...
 Si l'on est sur de notre support on peut ignorer cette vérification
 en pressant la touche "Esc"
+
+Si vous êtes sur de votre support d'installation choisir :
+# --> Install Centos 7
 
 
 Nous arrivons a l'interface graphique
