@@ -63,7 +63,7 @@ expand-hosts
 server=8.8.8.8
 server=8.8.4.4
 
-dhcp-host=00:1d:72:ae:e3:26,frankeinstein,192.168.0.1
+dhcp-host=xx:1d:72:ae:e3:xx,frankeinstein,192.168.0.x
 
 quitter avec :wq
 

@@ -13,14 +13,19 @@ Ouvrir les ports suivants :
   * 139 en TCP 
   * 445 en TCP
 
-Utiliser le script :
+Pour ouvrir les ports utiliser le script :
 # cd centos/centos_70/config/scripts/
-# vim 004_pdt_firewall.sh
-Décocher les lignes correspondante à Samba
 Exécuter le script
 # ./004_pdt_firewall.sh
-Relancer le service
-# systemctl restart firewall.service
+Décocher les lignes correspondante à Samba
+
+Toute la procédure ci-dessous est gérée par le script :
+# ./010_install_samba.sh
+
+---------------------------------------------------------------------------------------------
+
+Procédure détaillée
+#------------------
 
 Vérifier avec :
 # iptables -L -n
@@ -45,6 +50,9 @@ REJECT     all  --  0.0.0.0/0            0.0.0.0/0            reject-with icmp-h
 
 Chain OUTPUT (policy ACCEPT)
 target     prot opt source               destination
+
+---------------------------------------------------------------------------------------------
+Les ports 137, 138, 139 et 445 doivent apparaître
 ---------------------------------------------------------------------------------------------
 
 Créer les répertoires :
