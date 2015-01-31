@@ -30,7 +30,7 @@ les outils de l'administrateur réseau sous CentOS 7
 	Le fichier /etc/hosts
 	&-------------------------------------------------------------------------------
 	127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
-	192.168.0.xxx centos7 centos7.labo2.arles
+	#192.168.0.xxx centos7 centos7.labo2.arles
 	&-------------------------------------------------------------------------------
 
 
@@ -56,7 +56,8 @@ les outils de l'administrateur réseau sous CentOS 7
 
 	Le fichier /etc/resolv.conf
 	&-------------------------------------------------------------------------------
-	nameserver 192.168.0.xxx
+	search labo2.arles
+  nameserver 192.168.0.xxx
 	&-------------------------------------------------------------------------------
 
 
