@@ -56,7 +56,7 @@ else
 
     # Activation du service network 
         echo "-----------------------------------"
-        echo ":: Activation du service network ::"
+        echo ":: Activation du service iptables ::"
         echo "-----------------------------------"
         systemctl enable iptables
         systemctl start iptables
