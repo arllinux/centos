@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 004_firewall_eth0.sh
-# JP Antinoux - janvier 2014
+# JP Antinoux - janvier 2015
 
 CWD=$(pwd)
 
