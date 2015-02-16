@@ -37,22 +37,18 @@ else
   # Envoie les données du modèle vers le fichier de configuration.      
         cat $CWD ../dnsmasq/dnsmasq.conf > /etc/dnsmasq.conf
 
-        echo "--------------------------------"
-        echo ":: Verouillage du resolv.conf ::"
-        echo "--------------------------------"
+        echo "-----------------------------------"
+        echo ":: Modification du fichier hosts ::"
+        echo "-----------------------------------"
   # Ecrit l'IP, le nom d'hote et le domaine du serveur dans le fichier hosts
+        ##############################################
+        # !!! Attention adapter à votre contexte !!! #
+        ##############################################
         echo "192.168.0.250 centos7 centos7.labo2.arles" >> /etc/hosts
 
   # Ouvre le fichier hosts pour vérification        
         vim /etc/hosts
         
-  # Ecrit la directive PERRDNS=no dans ifcfg-eth0 pour vérouillage du
-  # resolv.conf
-        echo "PEERDNS=no" >> /etc/sysconfig/network-scripts/ifcfg-eth0
-  
-  # Ouvre le fichier ifcfg-eth0 pour vérification        
-        vim /etc/sysconfig/network-scripts/ifcfg-eth0
-
         echo "------------------------------"
         echo ":: Activation de dnsmasq ::"
         echo "------------------------------"

@@ -22,3 +22,4 @@ glances
 tcpdump
 epel-release
 rpmforge-release
+pciutils

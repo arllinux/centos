@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# config_depots.sh
+# 003_config_depots.sh
 # JP Antinoux - Décembre 2014
 
 CWD=$(pwd)
