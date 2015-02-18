@@ -30,7 +30,7 @@ else
       
       # Copier le fichier qui va permettre les réglages du parefeu
       # vers /usr/local/sbin
-        cp $CWD/firewall.sh /usr/local/sbin/firewall.sh
+        cp $CWD../firewall/firewall.sh /usr/local/sbin/firewall.sh
       
       # l'ouvrir, le modifier...
         vim /usr/local/sbin/firewall.sh

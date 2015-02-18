@@ -26,7 +26,9 @@ echo "----------------------------------------------------------"
    yum clean all
    yum check-update
    yum update
-
+# Installation de deux utilitaires
+   yum -y install logwatch glances
+  
 echo "-----------------------------"
 echo ":: Mise à jour terminée... ::"
 echo "-----------------------------"

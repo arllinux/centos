@@ -17,8 +17,6 @@ wget
 yum-priorities
 yum-utils
 gpm
-logwatch
-glances
 tcpdump
 epel-release
 rpmforge-release

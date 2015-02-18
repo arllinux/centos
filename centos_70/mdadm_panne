@@ -95,7 +95,7 @@ nouveau disque
 # sfdisk /dev/sda < part_table
 
 ## Très important ##
-A partir de maintenant on va indiquer au système de reprendre ne compte les
+A partir de maintenant on va indiquer au système de reprendre en compte les
 partition.
 Il vaut mieux commencer par la partition /boot sans quoi nous seront obligé
 d'attendre (quelquefois plusieurs heures).
