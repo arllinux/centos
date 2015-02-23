@@ -20,9 +20,13 @@ else
         vim /usr/local/sbin/firewall.sh
       
       # Appliquer les modifications
-        systemctl restart iptables.service
+        systemctl restart firewall.service
     
     else
+      
+      # Copier le fichier qui active le service que j'ai créé
+      # vers l'emplacement adhéquat.
+        cp $CWD ../firewall/firewall.service /usr/lib/systemd/system/
       
       # Copier le fichier qui va permettre les réglages du parefeu
       # vers /usr/local/sbin
@@ -31,19 +35,16 @@ else
       # l'ouvrir, le modifier...
         vim /usr/local/sbin/firewall.sh
       
-      # Rendre persistant le relais des paquets
-        cat $CWD../firewall/sysctl.conf2 >> /etc/sysctl.conf
-
       # Lancer le service
-        systemctl restart iptables.service
+        systemctl start firewall.service
       
       # Le rendre persistant pour le prochain démarrage
-        systemctl enable iptables.service
- fi      
+        systemctl enable firewall.service
+      
       echo -e "------------------------------------"
       echo -e ":: Tester si le service est actif ::"
       echo -e "------------------------------------"
-        systemctl status iptables.service
+        systemctl status firewall.service
 
       echo -e "------------------------------------"
       echo -e ":: Patientez 5 secondes : ....... ::"
@@ -53,8 +54,9 @@ else
       echo -e "-----------------------------------"
       echo -e ":: Voir ce qu'en pense le kernel ::"
       echo -e "-----------------------------------"
-        tail -f /var/log/messages | grep firewall
+        tail -f /var/log/messages | grep Firewall
 
+  fi
 fi
 
 exit 0

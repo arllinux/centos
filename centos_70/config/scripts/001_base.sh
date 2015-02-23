@@ -68,10 +68,16 @@ else
         systemctl start gpm.service 
         systemctl enable gpm.service
 
+    # Désactivation de l'ipv6
+        echo "-----------------------------"
+        echo ":: Desactivation de l'IPV6 ::"
+        echo "-----------------------------"
+	      cat $CWD/../firewall/sysctl.conf > /etc/sysctl.conf
+	      chown root:root /etc/sysctl.conf
+	      chmod 0644 /etc/sysctl.conf
+
     # Désactivation de SElinux 
-        echo "------------------------------"
         echo ":: Désactivation de SELinux ::"
-        echo "------------------------------"
         cat $CWD/../selinux/selinux > /etc/sysconfig/selinux
         chown root:root /etc/sysconfig/selinux
         chmod 0644 /etc/sysconfig/selinux
