@@ -37,7 +37,9 @@ else
 	      chmod 0644 "$RC_ROOT"
 
     # Installation de quelques outils en ligne de commande
+        echo "-----------------------------------------"
         echo ":: Installation outils de base. ::"
+        echo "-----------------------------------------"
         TOOLS=$(egrep -v '(^\#)|(^\s+$)' $CWD/../bases_install/paquets-base)
         yum -y install $TOOLS
 
@@ -56,7 +58,7 @@ else
 
     # Activation du service network 
         echo "-----------------------------------"
-        echo ":: Activation du service network ::"
+        echo ":: Activation du service iptables ::"
         echo "-----------------------------------"
         systemctl enable iptables
         systemctl start iptables

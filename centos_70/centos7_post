@@ -3,7 +3,24 @@
 #==========================================================
 
 Jean-Pierre Antinoux - janvier 2015
-Pour une installation serveur basique il faut uniquement réaliser les points 1 à x
+
+# ==================================================================
+Sommaire
+
+# 1 Installer deux outils de base
+# 2 Récupérer la documentation et les scripts de personnalisation
+# 3 Changer le nom par defaut de la carte réseau par "eth0"
+# 4 Mise à jour initiale du système
+# 5 Créer un utilisateur simple
+# 6 Configurer l'adresse statique du serveur dans le réseau
+# 7 Suppression ancien kernel
+# 8 Configuration des dépôts de paquets
+# 9 Gérer les ports du firewall
+# 10 Installer ntp (Network Time Protocol)
+# 11 Configurer l'adresse mail pour les avertissements défaut raid
+# 12 Mise en place de dnsmasq et paramétrages
+
+# ==================================================================
 
 # 1 #
 
@@ -25,8 +42,19 @@ Lancer le script
 Puis pour que la console prennent des couleurs, taper :
 # source /root/.bashrc
 
+Le script va réaliser les actions suivantes :
+- La configuration de vim (/etc/vimrc)
+- La personnalisation de l'invite de commande pour les futurs utilisateurs
+- La personnalisation de l'invite de commande pour root
+- L'installation d'outils de bases pour l'administrateur
+- La désactivation de firewalld
+- La désactivation du NetworkManager
+- L'activation du service iptable
+- l'activation de la souris en console
+- La désactivation de SELinux
 
-& 3 &
+
+# 3 #
 
 'Changer le nom par defaut de la carte réseau par "eth0"'
 #--------------------------------------------------------
@@ -34,6 +62,14 @@ CentOs 7 propose par défaut des noms du type "enpS..", Pour changer ceci dépla
 # cd centos/centos_70/config/scripts
 Lancer le script
 # ./002_grub.sh
+
+Le script va réaliser les actions suivantes :
+- Récupérer le fichier dans /etc/default/grub
+- Insérer à l'endroit approprié "net.iframes=0 biosdevname=0"
+- Replace le fichier modifié à son emplacement d'origine
+- Met à jour grub pour qu'il prenne en compte la modification
+# grub-mkconfig -o /boot/grub2/grub.cfg
+
 
 Renommer le fichier "ifcfg-enp2s0.." en "eth0"
 # cd /etc/sysconfig/network-scripts/
@@ -53,7 +89,14 @@ Redemarrer
 
 Après le redémarrage vérifier que la modification des interfaces réseau a bien été prise en compte.
 # ifconfig
-
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+      inet 192.168.0.x  netmask 255.255.255.0  broadcast 192.168.0.255
+      ether xx:24:1d:13:85:xx  txqueuelen 1000  (Ethernet)
+      RX packets 9930  bytes 1049790 (1.0 MiB)
+      RX errors 0  dropped 0  overruns 0  frame 0
+      TX packets 9093  bytes 2289770 (2.1 MiB)
+      TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+.../...
 
 # 5 #
 
@@ -79,37 +122,46 @@ Editer le fichier : /etc/sysconfig/network-scripts/ifcfg-eth0
 Utiliser ces paramètres : à adapter en fonction du contexte
 
 # /etc/sysconfig/network-scripts/ifcfg-eth0
+---
+# ifcfg-eth0
 #
 DEVICE="eth0"
 HWADDR="xx:xx:xx:xx:xx"
 NM_CONTROLLED="no"
 ONBOOT="yes"
 BOOTPROTO=static
-IPADDR=192.168.0.2
+IPADDR=192.168.0.xxx
 NETMASQ=255.255.255.0
-
+# do not overwrite /etc/resolv.conf ##
+PEERDNS=no
+---
 
 Ensuite pour relayer les DNS il faut compléter le fichier
 /etc/sysconfig/network
 # vim /etc/sysconfig/network
 Utiliser ces paramètres : à adapter en fonction du contexte
+---
+# /etc/sysconfig/network
 #
-HOSTNAME=centos7.labo.arles
-SEARCH=labo.arles
+SEARCH=labo2.arles
 GATEWAY=192.168.0.254
+---
 
 Configurer le fichier /etc/resolv.conf
 # vim /etc/resolv.conf
-nameserver 192.168.0.2
-
+---
+search labo2.arles
+nameserver 192.168.0.xxx
+---
 
 Relancer le service "network"
-Attention, si vous vous connectez à distance, parce que vous serez déconnecté après l'émission de cette commande.
+Attention, si vous vous connectez à distance, parce que vous
+serez déconnecté après l'émission de cette commande.
 # systemctl restart network.service
 
 Vérifiez que la nouvelle adresse est bien attribuée :
 # ifconfig
-inet 192.168.0.2
+inet 192.168.0.xxx
 
 
 # 7 #
@@ -120,20 +172,39 @@ inet 192.168.0.2
 1 - vérification des kernels disponibles :
 # rpm -qa | grep kernel
 Retourne la listes des kernels
+---
+kernel-tools-libs-3.10.0-123.20.1.el7.x86_64
+kernel-headers-3.10.0-123.20.1.el7.x86_64
+kernel-tools-3.10.0-123.20.1.el7.x86_64
+kernel-3.10.0-123.20.1.el7.x86_64
+kernel-3.10.0-123.13.2.el7.x86_64
+---
 
 2 - vérification du kernel actif :
 # uname -r
 Retourne le nom du kernel utilisé
-
+---
+3.10.0-123.20.1.el7.x86_64
+---
 3 - suppression du kernel non utilisé :
 # rpm -e kernel-nom_du_kernel
 
 
 # 8 #
-OPTIONNEL
+
+'Configuration des dépôts de paquets'
+#------------------------------------
+
+- CentOS-Base.repo
+- rpmforge.repo
+- epel.repo
 
 'Ajout et configuration du dépot "rpmforge'
 #-------------------------------------------
+
+Ceci est donné à titre indicatif.
+Cela permet de connaître la procédure pour récupérer un paquet précis "à la main"
+
 
 Créer un répertoire dans root
 # mkdir RPMS
@@ -150,19 +221,29 @@ Taper "d" pour charger le fichier, puis Entrée sur  "Enregistrer le fichier" (e
 Quitter "lynx" --> "q" puis "o"
 
 Retour dans le dossier RPMS
-	Avant d'installer le dépot rpmforge
-	Importer la clé GPG
-	# rpm --import http://apt.sw.be/RPM-GPG-KEY.dag.txt
-	Vérifier le paquet du dépot
-	[root@prunelle:~/RPMS] # rpm -K rpmforge-release-xxxxxx.*.rpm
-	rpmforge-release-xxxxxxx.rpm: (sha1) dsa sha1 md5 gpg OK
-	Installer le paquet !
-	# rpm -ivh rpmforge-release-xxxxxx.i686.rpm
-  
+Avant d'installer le dépot rpmforge
+Importer la clé GPG
+# rpm --import http://apt.sw.be/RPM-GPG-KEY.dag.txt
+Vérifier le paquet du dépot
+[root@prunelle:~/RPMS] # rpm -K rpmforge-release-xxxxxx.*.rpm
+rpmforge-release-xxxxxxx.rpm: (sha1) dsa sha1 md5 gpg OK
+Installer le paquet !
+# rpm -ivh rpmforge-release-xxxxxx.i686.rpm
+
 Se déplacer dans la documentation
 # cd
 # cd centos/centos_70/config/scripts
 # ./003_config_depots.sh
+
+Le script va réaliser les actions suivantes :
+(Les paquets epel-release et rpmforge-release ont été installés par le script 001)
+- Réglages des priorités pour le dépôt de Base
+- Réglages des priorités pour le dépôt rpmforge
+- Réglages des priorités pour le dépôt epel
+- yum repolist
+- yum clean all
+- yum check-update
+- yum update
 
 ------------------------------------------------------------
 
@@ -176,6 +257,27 @@ Dans la documentation lancer le script "004_firewall.sh"
 Décommenter ou commenter (#) les lignes voulues
 Valider par : :wq
 
+# Le script va réaliser les actions suivantes :
+- Si le fichier /usr/local/sbin/firewall.sh est présent
+alors
+- L'ouvrir, le modifier...
+- Appliquer les modification en relancant firewall.service
+sinon
+- Copier le fichier firewall.service dans /usr/lib/systemd/system pour gérer l'état du service.
+- Copier le fichier firewall.sh dans /usr/local/sbin pour permettre les régalages du parefeu.
+- L'ouvrir, le modifier...
+- Lancer le service firwall.service
+    # systemctl start firewall.service
+- Le rendre persistant au démarrage
+    # systemctl enable firewall.service
+- Tester si le service est actif
+    # systemctl status firewall.service
+- Voir ce qu'en pense le kernel
+    # tail -f /var/log/messages | grep Firewall
+---
+Feb 16 18:57:49 centos7 systemd: Starting Firewall personnel...
+Feb 16 18:57:50 centos7 systemd: Started Firewall personnel.
+---
 ------------------------------------------------------------
 
 
@@ -188,6 +290,19 @@ Se déplacer dans la documentation
 # cd centos/centos_70/config/scripts
 # ./005_install_ntp.sh
 
+# Le script va réaliser les actions suivantes :
+- Ouvrir le script firewall.sh pour que nous ouvrions le port 123
+- Relancer le service firewall.service
+- Arrêter le service ntpd.service
+- Mise à jour initiale de l'horloge
+    # ntpdate fr.pool.ntp.org 
+- Mise en place du fichier de configuration /etc/ntp.conf
+- Activer et lancer le service 
+    # systemctl enable ntpd.service
+    # systemctl start ntpd.service
+
+Manuellement, après un peu de patience (10 à 30 mn) vérifier le fontionnement des serveurs
+    # ntpq -p
 ------------------------------------------------------------
 
 
@@ -211,5 +326,16 @@ Se déplacer dans la documentation
 Se déplacer dans la documentation
 # cd centos/centos_70/config/scripts
 # ./007_dnsmasq.sh
+
+# Le script va réaliser les actions suivantes :
+- Ouvrir le script firewall.sh pour que nous ouvrions les ports tcp-udp : 53 - udp : 67 et 68 
+- Relancer le service firewall.service
+- Ouvre le modèle de fichier dnsmasq.conf pour que nous apportions nos modifications
+- Fait une copie du fichier original et envoie les données du modèle vers le fichier de configuration
+- Modifie le fichier /etc/hosts
+- Activation et lancement de dnsmasq
+    # systemctl enable dnsmasq.service
+    # systemctl start dnsmasq.service
+
 
 &===End===&

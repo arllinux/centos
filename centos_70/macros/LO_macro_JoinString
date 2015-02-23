@@ -1,0 +1,31 @@
+'Macro commande pour Libre Office 4.2
+'permettant de regrouper les valeurs de 2 cellules (colonnes A et B)
+'dans une troisième (colonne C)
+'Ex :
+'A					B					C
+'Nom				Prénom				Nom Prénom
+'Antinoux			Jean-Pierre			Antinoux Jean-Pierre
+'Le tableau qui à servi d'exemple comptait 1353 lignes
+
+REM  *****  BASIC  *****
+
+Sub String_join()
+
+ ' Faire une boucle sur tous les noms et prénoms
+    for i = 1 to 1353
+  		part1 = ThisComponent.Sheets(0).getCellByPosition(0, i - 1)
+ 		part2 = ThisComponent.Sheets(0).getCellByPosition(1, i - 1)
+
+  'Regrouper les noms et prénoms dans la colonne C
+ 	    'Si la colonne Prénoms est vide
+ 	    if part2.String = "" Then
+ 	    	result_cell = ThisComponent.Sheets(0).getCellByPosition(2, i - 1)
+  			result_cell.String = part1.String
+  		Else
+  		'Si les colonnes Noms et Prénoms contiennent une valeur
+ 			result_cell = ThisComponent.Sheets(0).getCellByPosition(2, i - 1)
+  			result_cell.String = part1.String & " " & part2.String
+  		End if
+ 	 Next i
+
+End Sub

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 004_firewall_eth0.sh
-# JP Antinoux - janvier 2014
+# JP Antinoux - janvier 2015
 
 CWD=$(pwd)
 
@@ -30,7 +30,7 @@ else
       
       # Copier le fichier qui va permettre les réglages du parefeu
       # vers /usr/local/sbin
-        cp $CWD/firewall.sh /usr/local/sbin/firewall.sh
+        cp $CWD../firewall/firewall.sh /usr/local/sbin/firewall.sh
       
       # l'ouvrir, le modifier...
         vim /usr/local/sbin/firewall.sh

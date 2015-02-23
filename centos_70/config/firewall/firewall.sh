@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# pdt_firewall.sh
+# firwall.sh
 # JP Antinoux - Décembre 2014
 
 IPT=$(which iptables)

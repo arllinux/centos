@@ -1,27 +1,41 @@
 # Les commandes de base
 
 Réseau
-ping 192.168.0.x
-ping google.fr
+# ping 192.168.0.x
+# ping google.fr
 
 Pour connaitre la passerelle
-route -n
+# route -n
 
 Pour savoir par où passe notre demande
-traceroute google.fr
+# traceroute google.fr
 
-nslookup google.fr
+# nslookup google.fr
 
-netstat -tulps
+# netstat -tulps
 
-dig google.fr
+# dig google.fr
 
-iptables -L -n
+# iptables -L -n
 
-systemctl list-unit-files | grep enabled | wc -l
+# systemctl list-unit-files | grep enabled | wc -l
 
-ifconfig
+# ifconfig
 
+A vérifier !!!!!!
+Bloquer les lignes du type
+systemd: Created slice user-0.slice.
+# systemd-analyse set-log-level notice
+!!!!!!!!!!!!!!!!!
+
+# ip route
+default via 192.168.0.254 dev eth0 
+169.254.0.0/16 dev eth0  scope link  metric 1002 
+192.168.0.0/24 dev eth0  proto kernel  scope link  src 192.168.0.250
+
+
+Voir l'activité d'une interface réseau :
+# tcpdump -n -i eth0
 
 $ nmap -sn 192.168.3.0/24
 
@@ -45,5 +59,5 @@ Touche Echap (les commentaires sont mis en place)
 ctrl + v
 J (jusqu’à la ligne souhaitée)
 x
-# Dans les deux cas :
-# :wq
+Dans les deux cas :
+:wq

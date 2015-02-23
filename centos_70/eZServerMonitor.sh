@@ -32,8 +32,8 @@ PING_HOSTS=("google.com" "free.fr" "orange.fr")
 # syntax : 
 #   SERVICES_NAME[port_number]="label"
 #   SERVICES_HOST[port_number]="localhost"
-#SERVICES_NAME[21]="FTP Server"
-#SERVICES_HOST[21]="localhost"
+SERVICES_NAME[21]="FTP Server"
+SERVICES_HOST[21]="localhost"
 
 SERVICES_NAME[22]="SSH"
 SERVICES_HOST[22]="localhost"
@@ -44,23 +44,6 @@ SERVICES_HOST[22]="localhost"
 #SERVICES_NAME[3306]="Database"
 #SERVICES_HOST[3306]="localhost"
 
-SERVICES_NAME[53]="DNS"
-SERVICES_HOST[53]="localhost"
-
-SERVICES_NAME[67]="DHCP"
-SERVICES_HOST[67]="localhost"
-
-SERVICES_NAME[68]="DHCP2"
-SERVICES_HOST[68]="localhost"
-
-SERVICES_NAME[445]="Samba"
-SERVICES_HOST[445]="localhost"
-SERVICES_NAME[137]="Samba"
-SERVICES_HOST[137]="localhost"
-SERVICES_NAME[138]="Samba"
-SERVICES_HOST[138]="localhost"
-SERVICES_NAME[139]="Samba"
-SERVICES_HOST[139]="localhost"
 # Temperatures blocks (true for enable)
 TEMP_ENABLED=false
 
@@ -134,9 +117,9 @@ function system()
     echo -e "  ${GREEN}Hostname\t   ${WHITE}$HOSTNAME"
     echo -e "  ${GREEN}OS\t\t   ${WHITE}$OS $DISTRO"
     echo -e "  ${GREEN}Kernel\t   ${WHITE}$KERNEL_INFO"
-    echo -e "  ${GREEN}Uptime\t   ${WHITE}$UPTIME_DAYS day(s), $UPTIME_HOURS hours(s), $UPTIME_MINUTES minute(s)"
+    echo -e "  ${GREEN}Uptime\t   ${WHITE}$UPTIME_DAYS jour(s), $UPTIME_HOURS heures(s), $UPTIME_MINUTES minute(s)"
     echo -e "  ${GREEN}Last boot\t   ${WHITE}$LAST_BOOT_DATE $LAST_BOOT_TIME"
-    echo -e "  ${GREEN}Current user(s)  ${WHITE}$USERS_NB connected"
+    echo -e "  ${GREEN}Utilisateur(s)  ${WHITE}$USERS_NB connecté"
     echo -e "  ${GREEN}Server datetime  ${WHITE}$CURRENT_DATE"
 }
 
@@ -194,11 +177,11 @@ function load_average()
     fi
 
     echo
-    echo -e "${BOLD}${WHITE_ON_GREY}  Charge moyenne  ${RESET}"
+    echo -e "${BOLD}${WHITE_ON_GREY}  Charge moyenne ${RESET}"
     echo -e "  ${GREEN}Durant 1 minute     $LOAD_1_COLOR $LOAD_1_PERCENT% ($LOAD_1)"
     echo -e "  ${GREEN}Durant 5 minutes    $LOAD_2_COLOR $LOAD_2_PERCENT% ($LOAD_2)"
     echo -e "  ${GREEN}Durant 15 minutes   $LOAD_3_COLOR $LOAD_3_PERCENT% ($LOAD_3)"
-    echo -e "  ${GREEN}Processus\t      ${WHITE}$PROCESS_NB process, including $PROCESS_RUN running"
+    echo -e "  ${GREEN}Processus\t      ${WHITE}$PROCESS_NB process, incluant $PROCESS_RUN en action"
 }
 
 # Function : CPU
@@ -279,15 +262,14 @@ function disk_space()
     #HDD_DATA=`df -hl | grep -v "^Filesystem" | grep -v "^Sys. de fich." | sort -k5r | head -5 | sed s/^/"  "/`
     # HDD_DATA=`df -hl | sed "1 d" | grep -v "^Filesystem" | grep -v "^Sys. de fich." | sort | head -5 | sed s/^/"  "/`
 
-    if
-	[ ${DISK_SHOW_TMPFS} = true ] ; then
-         HDD_DATA=`df -hl | sed "1 d" | grep -v "^Filesystem|Sys." | sort | head - 5 | sed s/^/"  "/`
+    if [ ${DISK_SHOW_TMPFS} = true ] ; then
+        HDD_DATA=`df -hl | sed "1 d" | grep -v "^Filesystem|Sys." | sort | head -5 | sed s/^/"  "/`
     else
-         HDD_DATA=`df -hl | sed "1 d" | grep -v "^Filesystem|Sys." | grep -vE "^tmpfs|udev|/dev" | sort | head - 5 | sed s/^/"  "/`
+        HDD_DATA=`df -hl | sed "1 d" | grep -v "^Filesystem|Sys." | grep -vE "^tmpfs|udev|/dev" | sort | head -5 | sed s/^/"  "/`
     fi
 
     echo
-    echo -e "${BOLD}${WHITE_ON_GREY}  Disk space  ${RESET}"
+    echo -e "${BOLD}${WHITE_ON_GREY}  Espace disque (top ${RESET}"
     echo -e "${GREEN}$HDD_TOP"
     echo -e "${WHITE}$HDD_DATA"
 }
