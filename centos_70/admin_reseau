@@ -182,7 +182,7 @@ Destination     Passerelle      Genmask         Indic Metric Ref    Use Iface
 Les tests sont effectués sur le serveur local avec une
 seule interface réseau qui gère les entrées et les sorties
 
-# arp -va
+# route -n
 --&------------------------------------------------------------
 Table de routage IP du noyau
 Destination     Passerelle      Genmask         Indic Metric Ref    Use Iface
