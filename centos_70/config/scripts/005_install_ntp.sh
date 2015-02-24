@@ -2,7 +2,6 @@
 
 # ./005_install_ntp_serv.sh
 
-# Dernière modifs 20/08/2012 - 10/09/2012 - 25/09/2012 - 21/03/2013
 # JP antinoux - décembre 2014
 CWD=$(pwd)
 
@@ -16,7 +15,7 @@ else
   echo ":: Ouvrir le port du parefeu : 123 ::"
   sleep 3
   vim /usr/local/sbin/firewall.sh
-  systemctl restart firewall.service
+  systemctl restart iptables.service
 
   echo "--------------------------"
   echo ":: Arrêt du service ntp ::"

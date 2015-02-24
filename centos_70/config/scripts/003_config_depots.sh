@@ -29,8 +29,9 @@ echo "----------------------------------------------------------"
 # Installation de deux utilitaires
    yum -y install logwatch glances
   
-echo "-----------------------------"
+echo "-----------------------------------"
 echo ":: Mise à jour terminée... ::"
-echo "-----------------------------"
+echo ":: Logwatch et Glances installés ::"
+echo "-----------------------------------"
 
 exit 0

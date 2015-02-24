@@ -4,6 +4,10 @@
 #
 # JP Antinoux - Janvier 2015
 
+#'''''''''''''''''''''''''''''''''''''''''''''''''''#
+# Modifier les paramètres avant de lancer le script #
+#'''''''''''''''''''''''''''''''''''''''''''''''''''#
+
 CWD=$(pwd)
 
 [ $USER != "root" ]
@@ -20,8 +24,14 @@ if [ $? = "0" ]
       passwd -l smbguest 
       smbpasswd -a smbguest -d
 
-  echo ":: Création de 2 répertoires : public et confidentiel ::"
+  # Choix du nombre de répertoire que l'on veut créer
+  read -p "Pour créer un seul répertoire taper 1 sinon taper 2 :" numrep
+  if [ $numrep = 1 ]
+    then
+      mkdir -pv -m 1777 /srv/samba/public
+    else
       mkdir -pv -m 1777 /srv/samba/{public,confidentiel}
+  fi
 
   echo "-------------------------------------------------"
   echo ":: Mise en place des fichiers de configuration ::"
@@ -49,7 +59,7 @@ if [ $? = "0" ]
   echo "----------------------------------"
   echo ":: Modification du parefeu OK ! ::"
   echo "----------------------------------"
-      systemctl restart firewall.service
+      systemctl restart iptables.service
 
   echo "--------------------------------"
   echo ":: Lancement du serveur Samba ::"

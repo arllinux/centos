@@ -23,7 +23,7 @@ else
         vim /usr/local/sbin/firewall.sh
 
   # Relance le service pour mettre à jour et figer les règles      
-        systemctl restart firewall.service
+        systemctl restart iptables.service
 
         echo "------------------------------"
         echo ":: Configuration de dnsmasq ::"
@@ -37,17 +37,17 @@ else
   # Envoie les données du modèle vers le fichier de configuration.      
         cat $CWD ../dnsmasq/dnsmasq.conf > /etc/dnsmasq.conf
 
-        echo "-----------------------------------"
-        echo ":: Modification du fichier hosts ::"
-        echo "-----------------------------------"
+       # echo "-----------------------------------"
+       # echo ":: Modification du fichier hosts ::"
+       # echo "-----------------------------------"
   # Ecrit l'IP, le nom d'hote et le domaine du serveur dans le fichier hosts
         ##############################################
         # !!! Attention adapter à votre contexte !!! #
         ##############################################
-        echo "192.168.0.250 centos7 centos7.labo2.arles" >> /etc/hosts
+        #echo "192.168.0.250 centos7 centos7.labo2.arles" >> /etc/hosts
 
   # Ouvre le fichier hosts pour vérification        
-        vim /etc/hosts
+        #vim /etc/hosts
         
         echo "------------------------------"
         echo ":: Activation de dnsmasq ::"
