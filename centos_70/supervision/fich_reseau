@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+# Liste des fichiers de configuration du réseau sur le serveur
+
+echo "#----------------------------------------------" > liste_reseau
+echo "# Liste des fichiers de configuration du réseau" >> liste_reseau
+echo "#----------------------------------------------" >> liste_reseau
+echo "# /etc/hostname" >> liste_reseau
+cat /etc/hostname >> liste_reseau
+echo -e "---------------------------------------------\n " >> liste_reseau
+echo "# /etc/hosts" >> liste_reseau
+cat /etc/hosts >> liste_reseau
+echo -e "---------------------------------------------\n " >> liste_reseau
+echo "# /etc/host.conf" >> liste_reseau
+cat /etc/host.conf >> liste_reseau
+echo -e "---------------------------------------------\n " >> liste_reseau
+echo "# /etc/sysconfig/network" >> liste_reseau
+cat /etc/sysconfig/network >> liste_reseau
+echo -e "---------------------------------------------\n " >> liste_reseau
+echo "# /etc/network" >> liste_reseau
+cat /etc/networks >> liste_reseau
+echo -e "---------------------------------------------\n " >> liste_reseau
+echo "# /etc/resolv.conf" >> liste_reseau
+cat /etc/resolv.conf >> liste_reseau
+echo -e "---------------------------------------------\n " >> liste_reseau
+echo "# /etc/sysconfig/network-script/ifcfg-eth0" >> liste_reseau
+cat /etc/sysconfig/network-script/ifcfg-eth0 >> liste_reseau
+echo -e "---------------------------------------------" >> liste_reseau
+vim liste_reseau
+exit 0
