@@ -132,8 +132,6 @@ ONBOOT="yes"
 BOOTPROTO=static
 IPADDR=192.168.0.xxx
 NETMASQ=255.255.255.0
-# do not overwrite /etc/resolv.conf ##
-PEERDNS=no
 ---
 
 Ensuite pour relayer les DNS il faut compléter le fichier
@@ -143,13 +141,15 @@ Utiliser ces paramètres : à adapter en fonction du contexte
 ---
 # /etc/sysconfig/network
 #
-SEARCH=labo2.arles
+NETWORKING=yes
+NETWORKING_IPV6=no
 GATEWAY=192.168.0.254
 ---
 
 Configurer le fichier /etc/resolv.conf
 # vim /etc/resolv.conf
 ---
+domain labo2.arles
 search labo2.arles
 nameserver 192.168.0.xxx
 ---
@@ -261,22 +261,20 @@ Valider par : :wq
 - Si le fichier /usr/local/sbin/firewall.sh est présent
 alors
 - L'ouvrir, le modifier...
-- Appliquer les modification en relancant firewall.service
+- Appliquer les modification en relancant iptables.service
 sinon
-- Copier le fichier firewall.service dans /usr/lib/systemd/system pour gérer l'état du service.
-- Copier le fichier firewall.sh dans /usr/local/sbin pour permettre les régalages du parefeu.
 - L'ouvrir, le modifier...
-- Lancer le service firwall.service
-    # systemctl start firewall.service
+- Lancer le service iptables.service
+    # systemctl start iptables.service
 - Le rendre persistant au démarrage
-    # systemctl enable firewall.service
+    # systemctl enable iptables.service
 - Tester si le service est actif
-    # systemctl status firewall.service
+    # systemctl status iptables.service
 - Voir ce qu'en pense le kernel
-    # tail -f /var/log/messages | grep Firewall
+    # tail -f /var/log/messages | grep firewall
 ---
-Feb 16 18:57:49 centos7 systemd: Starting Firewall personnel...
-Feb 16 18:57:50 centos7 systemd: Started Firewall personnel.
+Feb 16 18:57:49 centos7 systemd: Starting firewall...
+Feb 16 18:57:50 centos7 systemd: Started firewall.
 ---
 ------------------------------------------------------------
 

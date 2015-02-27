@@ -20,24 +20,30 @@ else
         vim /usr/local/sbin/firewall.sh
       
       # Appliquer les modifications
+       ./usr/local/sbin/firewall.sh
+
+      # Appliquer les modifications
         systemctl restart iptables.service
     
     else
       
       # Copier le fichier qui va permettre les réglages du parefeu
       # vers /usr/local/sbin
-        cp $CWD../firewall/firewall.sh /usr/local/sbin/firewall.sh
+        cp $CWD/../firewall/firewall.sh /usr/local/sbin/firewall.sh
       
       # l'ouvrir, le modifier...
         vim /usr/local/sbin/firewall.sh
       
+      # Appliquer les modifications
+       ./usr/local/sbin/firewall.sh
+
       # Rendre persistant le relais des paquets
-        cat $CWD../firewall/sysctl.conf2 >> /etc/sysctl.conf
+        cat $CWD/../firewall/sysctl.conf2 >> /etc/sysctl.conf
 
       # Mettre en place l'encapsuleur TCP
-        vim $CWD../firewall/hosts.allow
-        cat $CWD../firewall/hosts.allow > /etc/hosts.allow
-        cat $CWD../firewall/hosts.deny > /etc/hosts.deny
+        vim $CWD/../firewall/hosts.allow
+        cat $CWD/../firewall/hosts.allow > /etc/hosts.allow
+        cat $CWD/../firewall/hosts.deny > /etc/hosts.deny
 
       # Lancer le service
         systemctl restart iptables.service
