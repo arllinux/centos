@@ -21,6 +21,9 @@ else
         echo "--------------------------------------------------------"
   # Ouvre le fichier firewall pour permettre les modifications      
         vim /usr/local/sbin/firewall.sh
+        
+  # Enregistre les modifications dans le parefeu      
+        bash -c /usr/local/sbin/firewall.sh
 
   # Relance le service pour mettre à jour et figer les règles      
         systemctl restart iptables.service
@@ -42,6 +45,11 @@ else
         echo "------------------------------"
         systemctl enable dnsmasq.service
         systemctl start dnsmasq.service
+
+        echo "----------------------------------------"
+        echo ":: Modifier manuellement les fichiers : "
+        echo ":: /etc/hosts et /etc/resolv.conf :: "
+        echo "----------------------------------------"
 fi
 
 exit 0

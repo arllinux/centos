@@ -20,7 +20,7 @@ else
         vim /usr/local/sbin/firewall.sh
       
       # Appliquer les modifications
-       ./usr/local/sbin/firewall.sh
+        bash -c /usr/local/sbin/firewall.sh
 
       # Appliquer les modifications
         systemctl restart iptables.service
@@ -35,7 +35,7 @@ else
         vim /usr/local/sbin/firewall.sh
       
       # Appliquer les modifications
-       ./usr/local/sbin/firewall.sh
+       bash -c /usr/local/sbin/firewall.sh
 
       # Rendre persistant le relais des paquets
         cat $CWD/../firewall/sysctl.conf2 >> /etc/sysctl.conf

@@ -55,8 +55,9 @@ else
         echo ":: Désactivation du NetworkManager ::"
         systemctl stop NetworkManager
         systemctl disable NetworkManager
+        yum -y remove NetworkManager
 
-    # Activation du service network 
+    # Activation du service iptables (parefeu du noyau)
         echo "-----------------------------------"
         echo ":: Activation du service iptables ::"
         echo "-----------------------------------"

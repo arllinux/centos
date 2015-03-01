@@ -1,6 +1,11 @@
-#-----------------------------------------------------------
-# Liste des fichiers de configuration du réseau sur CentOS 7
-#-----------------------------------------------------------
+# ============================================================
+# MODELE - MODELE - MODELE - MODELE - MODELE - MODELE - MODELE
+# ------------- Avec dnsmasq installé ------------------------
+# ============================================================
+#
+#-------------------------------------------------------------
+# Liste des fichiers de configuration du réseau sur CentOS 7 #
+#-------------------------------------------------------------
 # Fichier /etc/hostname
 centos7
 ---------------------------------------------
@@ -38,10 +43,10 @@ search labo2.arles
 nameserver 192.168.0.250
 ---------------------------------------------
  
-# Fichier /etc/sysconfig/network-script/ifcfg-eth0
-# ifcfg-eth0
+# Fichier /etc/sysconfig/network-script/ifcfg-enp2s0
+# ifcfg-enp2s0
 #
-DEVICE="eth0"
+DEVICE="enp2s0"
 HWADDR="00:24:1D:13:85:FE"
 NM_CONTROLLED="no"
 ONBOOT="yes"

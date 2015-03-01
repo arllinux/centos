@@ -24,8 +24,8 @@ echo -e "---------------------------------------------\n " >> resultat_reseau
 echo "# Fichier /etc/resolv.conf" >> resultat_reseau
 cat /etc/resolv.conf >> resultat_reseau
 echo -e "---------------------------------------------\n " >> resultat_reseau
-echo "# Fichier /etc/sysconfig/network-script/ifcfg-eth0" >> resultat_reseau
-cat /etc/sysconfig/network-scripts/ifcfg-eth0 >> resultat_reseau
+echo "# Fichier /etc/sysconfig/network-scripts/ifcfg-enp2s0" >> resultat_reseau
+cat /etc/sysconfig/network-scripts/ifcfg-enp2s0 >> resultat_reseau
 echo -e "---------------------------------------------" >> resultat_reseau
 vim resultat_reseau
 exit 0
