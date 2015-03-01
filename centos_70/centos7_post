@@ -227,6 +227,7 @@ alors
     # vim /usr/local/sbin/firewall.sh
   - Appliquer les modifications
     # bash -c /usr/local/sbin/firewall.sh
+    (Attention cette commande ne fonctionne qu'à l'intérieur d'un script)
   - Relancer iptables.service
     # systemctl restart iptables.service
 
@@ -234,12 +235,15 @@ sinon
 
   - Copier le fichier firewall.sh dans /usr/local/sbin/
   - L'ouvrir, le modifier...
+  - Appliquer les modifications
+    # bash -c /usr/local/sbin/firewall.sh
+    (Attention cette commande ne fonctionne qu'à l'intérieur d'un script)
+  - Rendre persistant le relais des paquets
+  - Mettre en place l'encapsuleur TCP
   - Lancer le service iptables.service
     # systemctl start iptables.service
   - Le rendre persistant au démarrage
     # systemctl enable iptables.service
-  - Rendre persistant le relais des paquets
-  - Mettre en place l'encapsuleur TCP
   - Tester si le service est actif
     # systemctl status iptables.service
   - Voir ce qu'en pense le kernel
@@ -251,7 +255,7 @@ Feb 16 18:57:50 centos7 systemd: Started firewall.
 ------------------------------------------------------------
 
 
-# 10 #
+# 9 #
 
 'Installer ntp (Network Time Protocol)'
 #--------------------------------------
@@ -276,7 +280,7 @@ Manuellement, après un peu de patience (10 à 30 mn) vérifier le fontionnement
 ------------------------------------------------------------
 
 
-# 11 #
+# 10 #
 
 'Configurer l'adresse mail pour les avertissements défaut raid'
 #-------------------------------------------------------------
@@ -288,7 +292,7 @@ Se déplacer dans la documentation
 ------------------------------------------------------------
 
 
-# 12 #
+# 11 #
 
 'Mise en place de dnsmasq et paramétrages'
 #----------------------------------------
@@ -303,13 +307,15 @@ Se déplacer dans la documentation
 - Ouvre le modèle de fichier dnsmasq.conf pour que nous apportions nos modifications
 - Fait une copie du fichier original et envoie les données du modèle vers le fichier de configuration
 - Modifie le fichier /etc/hosts
+- Modifie le fichier /etc/resolv.conf
 - Activation et lancement de dnsmasq
     # systemctl enable dnsmasq.service
     # systemctl start dnsmasq.service
 
 Configurer le fichier /etc/hosts
-# Fichier /etc/hosts
 ---
+# Fichier /etc/hosts
+#
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
 192.168.0.250 centos7 centos7.labo2.arles
 192.168.0.254 freebox freeboox.labo2.arles
@@ -317,11 +323,15 @@ Configurer le fichier /etc/hosts
 ---
 
 Configurer le fichier /etc/resolv.conf
-# vim /etc/resolv.conf
 ---
+# vim /etc/resolv.conf
+#
 domain labo2.arles
 search labo2.arles
 nameserver 192.168.0.xxx
 ---
+
+Relancer le service network
+# systemctl restart network.service
 
 &===End===&

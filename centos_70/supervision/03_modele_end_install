@@ -11,10 +11,12 @@ centos7
 ---------------------------------------------
  
 # Fichier /etc/hosts
+#
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
 192.168.0.250 centos7 centos7.labo2.arles
 192.168.0.254 freebox freeboox.labo2.arles
 192.168.0.10 tplink tplink.labo2.arles
+
 ---------------------------------------------
  
 # Fichier /etc/host.conf
@@ -28,6 +30,7 @@ NETWORKING=yes
 NETWORKING_IPV6=no
 GATEWAY=192.168.0.254
 
+
 ---------------------------------------------
  
 # Fichier /etc/network
@@ -38,6 +41,7 @@ link-local 169.254.0.0
  
 # Fichier /etc/resolv.conf
 # /etc/resolv.conf
+#
 domain labo2.arles
 search labo2.arles
 nameserver 192.168.0.250
@@ -53,4 +57,6 @@ ONBOOT="yes"
 BOOTPROTO=static
 IPADDR=192.168.0.250
 NETMASQ=255.255.255.0
+
+
 ---------------------------------------------

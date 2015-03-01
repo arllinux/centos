@@ -3,13 +3,18 @@
 #
 # Liste des fichiers de configuration du réseau sur le serveur
 
-echo "#-----------------------------------------------------------" > resultat_reseau
+echo "# ======================================================" > resultat_reseau
+echo "#  RESEAU ACTUEL - RESEAU ACTUEL - RESEAU ACTUEL -  #" >> resultat_reseau
+echo "# --------------------         --------------------" >> resultat_reseau
+echo "# ======================================================" >> resultat_reseau
+echo "#" >> resultat_reseau
+echo "#-----------------------------------------------------------" >> resultat_reseau
 echo "# Liste des fichiers de configuration du réseau sur CentOS 7" >> resultat_reseau
 echo "#-----------------------------------------------------------" >> resultat_reseau
 echo "# Fichier /etc/hostname" >> resultat_reseau
 cat /etc/hostname >> resultat_reseau
 echo -e "---------------------------------------------\n " >> resultat_reseau
-echo "# Fichier /etc/hosts" >> resultat_reseau
+# echo "# Fichier /etc/hosts" >> resultat_reseau
 cat /etc/hosts >> resultat_reseau
 echo -e "---------------------------------------------\n " >> resultat_reseau
 echo "# Fichier /etc/host.conf" >> resultat_reseau
