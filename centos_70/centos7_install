@@ -32,7 +32,7 @@ Résumé de l'installation
 
 Il faut commencer par :
 # --> Réseau et nom d'hôte
-   --> Sélectionner la carte Eternet
+   --> Sélectionner la carte Ethernet
    --> Activer la connection par le bouton en haut à droite (bleu)
    --> Inscrire le nom du serveur
    # --> Terminé
@@ -67,16 +67,16 @@ Si vers le milieu de la colonne de gauche apparait le mot "inconnu" ou "unknow"
 précédé d'une flèche, il s'agit des partition résiduelles.
 Sélectionner l'un des éléments, puis cliquer sur le signe "-".
 
-# --> Etes-vous sur de vouloir supprimer toutes les données sur sda ?
+# --> Êtes-vous sur de vouloir supprimer toutes les données sur sda ?
 # --> Cocher l'option : Supprimer aussi tout les autres systèmes de fichiers dans la racine de "inconnu"
 
 Plus aucun disque ne doit apparaitre
 
 En haut de la colonne de gauche, le menu déroulant indique "LVM"
-Les points de montage utilisent le shéma de partitionnement suivant :
+Les points de montage utilisent le schéma de partitionnement suivant :
 # --> Menu --> Partitionnement standard
 
-Etape 1 :
+Étape 1 :
 Cliquer sur le signe "+"
 # --> Ajouter un nouveau point de montage
 # --> Point de montage :
@@ -110,7 +110,7 @@ sda                                       Point de montage : -
                                           Niveau de raid :
 # ----------------------------------->    Mise à jour des paramètres
 
-Etape 3 :
+Étape 3 :
 Cliquer sur le signe "+"
 # --> Ajouter un nouveau point de montage
 # --> Point de montage :
@@ -229,4 +229,4 @@ Nous le créerons quand le système sera installé
 
 # --> Redémarrer
 
-#---&&---#
+---&&---#

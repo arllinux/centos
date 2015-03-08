@@ -21,6 +21,9 @@ else
         echo "--------------------------------------------------------"
   # Ouvre le fichier firewall pour permettre les modifications      
         vim /usr/local/sbin/firewall.sh
+        
+  # Enregistre les modifications dans le parefeu      
+        bash -c /usr/local/sbin/firewall.sh
 
 	# Exécuter le script
 				bash -c /usr/local/sbin/firewall.sh
@@ -32,31 +35,24 @@ else
         echo ":: Configuration de dnsmasq ::"
         echo "------------------------------"
   # Ouvre le modèle de fichier dnsmasq.conf pour permettre les modifications      
-        vim $CWD ../dnsmasq/dnsmasq.conf
+        vim $CWD/../dnsmasq/dnsmasq.conf
 
   # Copie le fichier de configuration en "fichier.old"        
         cp /etc/dnsmasq.conf /etc/dnsmasq.conf.old
 
   # Envoie les données du modèle vers le fichier de configuration.      
-        cat $CWD ../dnsmasq/dnsmasq.conf > /etc/dnsmasq.conf
+        cat $CWD/../dnsmasq/dnsmasq.conf > /etc/dnsmasq.conf
 
-       # echo "-----------------------------------"
-       # echo ":: Modification du fichier hosts ::"
-       # echo "-----------------------------------"
-  # Ecrit l'IP, le nom d'hote et le domaine du serveur dans le fichier hosts
-        ##############################################
-        # !!! Attention adapter à votre contexte !!! #
-        ##############################################
-        #echo "192.168.0.250 centos7 centos7.labo2.arles" >> /etc/hosts
-
-  # Ouvre le fichier hosts pour vérification        
-        #vim /etc/hosts
-        
         echo "------------------------------"
         echo ":: Activation de dnsmasq ::"
         echo "------------------------------"
         systemctl enable dnsmasq.service
         systemctl start dnsmasq.service
+
+        echo "----------------------------------------"
+        echo ":: Modifier manuellement les fichiers : "
+        echo ":: /etc/hosts et /etc/resolv.conf :: "
+        echo "----------------------------------------"
 fi
 
 exit 0

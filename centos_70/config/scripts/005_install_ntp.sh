@@ -14,7 +14,14 @@ else
 	# NTP
   echo ":: Ouvrir le port du parefeu : 123 ::"
   sleep 3
+
+  # Ouvrir le fichier firewall.sh
   vim /usr/local/sbin/firewall.sh
+
+  # Enregistrer les nouvelles règles
+  bash -c /usr/local/sbin/firewall.sh
+
+  # Relancer le service iptables
   systemctl restart iptables.service
 
   echo "--------------------------"

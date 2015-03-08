@@ -5,18 +5,20 @@
 Jean-Pierre Antinoux - janvier 2015
 
 # ==================================================================
-  Sommaire
+Sommaire
+
 # 1 Installer deux outils de base
 # 2 Récupérer la documentation et les scripts de personnalisation
-# 3 Mise à jour initiale du système
-# 4 Créer un utilisateur simple
-# 5 Configurer l'adresse statique du serveur dans le réseau
-# 6 Suppression ancien kernel
-# 7 Configuration des dépôts de paquets
-# 8 Gérer les ports du firewall
-# 9 Installer ntp (Network Time Protocol)
-# 10 Configurer l'adresse mail pour les avertissements défaut raid
-# 11 Mise en place de dnsmasq et paramétrages
+# 3 Changer le nom par defaut de la carte réseau par "eth0"
+# 4 Mise à jour initiale du système
+# 5 Créer un utilisateur simple
+# 6 Configurer l'adresse statique du serveur dans le réseau
+# 7 Suppression ancien kernel
+# 8 Configuration des dépôts de paquets
+# 9 Gérer les ports du firewall
+# 10 Installer ntp (Network Time Protocol)
+# 11 Configurer l'adresse mail pour les avertissements défaut raid
+# 12 Mise en place de dnsmasq et paramétrages
 
 # ==================================================================
 
@@ -47,20 +49,43 @@ Le script va réaliser les actions suivantes :
 - L'installation d'outils de bases pour l'administrateur
 - La désactivation de firewalld
 - La désactivation du NetworkManager
-- L'activation du service iptables
+- L'activation du service iptable
 - l'activation de la souris en console
 - La désactivation de SELinux
 
 
-
 # 3 #
+
+'Changer le nom par defaut de la carte réseau par "eth0"'
+#--------------------------------------------------------
+CentOs 7 propose par défaut des noms du type "enpS..", Pour changer ceci déplacer-vous dans :
+# cd centos/centos_70/config/scripts
+Lancer le script
+# ./002_grub.sh
+
+Le script va réaliser les actions suivantes :
+- Récupérer le fichier dans /etc/default/grub
+- Insérer à l'endroit approprié "net.iframes=0 biosdevname=0 grub"
+- Replace le fichier modifié à son emplacement d'origine
+- Met à jour grub pour qu'il prenne en compte la modification
+# grub2-mkconfig -o /boot/grub2/grub.cfg
+
+
+Renommer le fichier "ifcfg-enp2s0.." en "eth0"
+# cd /etc/sysconfig/network-scripts/
+# mv ifcfg-enp2s0 ifcfg-eth0
+
+Si vous avez deux cartes réseau renommer de la même manière pour "eth1"
+
+
+# 4 #
 
 'Mise à jour initiale du système'
 #-------------------------------
 # yum update
 
 
-# 4 #
+# 5 #
 
 'Suppression ancien kernel :'
 #---------------------------
@@ -88,9 +113,20 @@ Retourne le nom du kernel utilisé
 Redemarrer
 # reboot
 
+Après le redémarrage vérifier que la modification des interfaces réseau a bien été prise en compte.
+# ifconfig
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+      inet 192.168.0.x  netmask 255.255.255.0  broadcast 192.168.0.255
+      ether xx:24:1d:13:85:xx  txqueuelen 1000  (Ethernet)
+      RX packets 9930  bytes 1049790 (1.0 MiB)
+      RX errors 0  dropped 0  overruns 0  frame 0
+      TX packets 9093  bytes 2289770 (2.1 MiB)
+      TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+.../...
 
 
-# 5 #
+
+# 6 #
 
 'Créer un utilisateur simple'
 #---------------------------
@@ -104,7 +140,7 @@ Repasser en administrateur :
 Ctrl + d
 
 
-# 6 #
+# 7 #
 
 'Configurer l'adresse statique du serveur dans le réseau'
 #--------------------------------------------------------
@@ -150,7 +186,7 @@ inet 192.168.0.xxx
 
 
 
-# 7 #
+# 8 #
 
 'Configuration des dépôts de paquets'
 #------------------------------------
@@ -208,7 +244,7 @@ Le script va réaliser les actions suivantes :
 ------------------------------------------------------------
 
 
-# 8 #
+# 9 #
 
 'Gérer les ports du firewall'
 #---------------------------
@@ -218,35 +254,19 @@ Décommenter ou commenter (#) les lignes voulues
 Valider par : :wq
 
 # Le script va réaliser les actions suivantes :
-
-  - Si le fichier /usr/local/sbin/firewall.sh est présent
-
+- Si le fichier /usr/local/sbin/firewall.sh est présent
 alors
-
-  - L'ouvrir, le modifier...
-    # vim /usr/local/sbin/firewall.sh
-  - Appliquer les modifications
-    # bash -c /usr/local/sbin/firewall.sh
-    (Attention cette commande ne fonctionne qu'à l'intérieur d'un script)
-  - Relancer iptables.service
-    # systemctl restart iptables.service
-
+- L'ouvrir, le modifier...
+- Appliquer les modification en relancant iptables.service
 sinon
-
-  - Copier le fichier firewall.sh dans /usr/local/sbin/
-  - L'ouvrir, le modifier...
-  - Appliquer les modifications
-    # bash -c /usr/local/sbin/firewall.sh
-    (Attention cette commande ne fonctionne qu'à l'intérieur d'un script)
-  - Rendre persistant le relais des paquets
-  - Mettre en place l'encapsuleur TCP
-  - Lancer le service iptables.service
+- L'ouvrir, le modifier...
+- Lancer le service iptables.service
     # systemctl start iptables.service
-  - Le rendre persistant au démarrage
+- Le rendre persistant au démarrage
     # systemctl enable iptables.service
-  - Tester si le service est actif
+- Tester si le service est actif
     # systemctl status iptables.service
-  - Voir ce qu'en pense le kernel
+- Voir ce qu'en pense le kernel
     # tail -f /var/log/messages | grep firewall
 ---
 Feb 16 18:57:49 centos7 systemd: Starting firewall...
@@ -255,7 +275,7 @@ Feb 16 18:57:50 centos7 systemd: Started firewall.
 ------------------------------------------------------------
 
 
-# 9 #
+# 10 #
 
 'Installer ntp (Network Time Protocol)'
 #--------------------------------------
@@ -280,7 +300,7 @@ Manuellement, après un peu de patience (10 à 30 mn) vérifier le fontionnement
 ------------------------------------------------------------
 
 
-# 10 #
+# 11 #
 
 'Configurer l'adresse mail pour les avertissements défaut raid'
 #-------------------------------------------------------------
@@ -292,7 +312,7 @@ Se déplacer dans la documentation
 ------------------------------------------------------------
 
 
-# 11 #
+# 12 #
 
 'Mise en place de dnsmasq et paramétrages'
 #----------------------------------------
@@ -307,15 +327,13 @@ Se déplacer dans la documentation
 - Ouvre le modèle de fichier dnsmasq.conf pour que nous apportions nos modifications
 - Fait une copie du fichier original et envoie les données du modèle vers le fichier de configuration
 - Modifie le fichier /etc/hosts
-- Modifie le fichier /etc/resolv.conf
 - Activation et lancement de dnsmasq
     # systemctl enable dnsmasq.service
     # systemctl start dnsmasq.service
 
 Configurer le fichier /etc/hosts
----
 # Fichier /etc/hosts
-#
+---
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
 192.168.0.250 centos7 centos7.labo2.arles
 192.168.0.254 freebox freeboox.labo2.arles
@@ -323,15 +341,11 @@ Configurer le fichier /etc/hosts
 ---
 
 Configurer le fichier /etc/resolv.conf
----
 # vim /etc/resolv.conf
-#
+---
 domain labo2.arles
 search labo2.arles
 nameserver 192.168.0.xxx
 ---
-
-Relancer le service network
-# systemctl restart network.service
 
 &===End===&
