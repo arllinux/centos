@@ -38,6 +38,12 @@ else
         TOOLS=$(egrep -v '(^\#)' $CWD/../bases_install/paquets-base)
         yum -y install $TOOLS
 
+		# Personnalisation de screen
+        echo "------------------------------"
+        echo ":: Peronnalisation de scree ::"
+        echo "------------------------------"
+				cat $CWD/../screen/screenrc > /etc/screenrc
+				
     # Désactivation de firewalld
         echo "---------------------------------"
         echo ":: Désactivation de firewalld. ::"

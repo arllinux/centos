@@ -24,4 +24,13 @@ wget
 whois
 yum-plugin-priorities
 yum-utils
+<<<<<<< HEAD
 
+=======
+gpm
+tcpdump
+epel-release
+rpmforge-release
+pciutils
+screen
+>>>>>>> 61593fedf4be62142a337aebead244fbb7a5cb7e
