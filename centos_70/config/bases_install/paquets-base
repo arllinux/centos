@@ -21,3 +21,4 @@ tcpdump
 epel-release
 rpmforge-release
 pciutils
+screen
