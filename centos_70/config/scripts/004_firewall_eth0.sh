@@ -40,15 +40,12 @@ else
       
       # l'ouvrir, le modifier...
         vim /usr/local/sbin/firewall.sh
-<<<<<<< HEAD
 
       # Exécuter le script
 				bash -c /usr/local/sbin/firewall.sh
-=======
       
       # Appliquer les modifications
        bash -c /usr/local/sbin/firewall.sh
->>>>>>> a2d02908a0d9ec9a5e17686a45147e5c6cb0de42
 
       # Rendre persistant le relais des paquets
         cat $CWD/../firewall/sysctl.conf2 >> /etc/sysctl.conf

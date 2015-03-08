@@ -126,7 +126,7 @@ SYS=$(which sysctl)
        #$IPT -A INPUT -p udp --dport 3128 -j ACCEPT
 
        # Proxy transparent :
-       # $IPT -A PREROUTING -t nat -p tcp ! -d 192.168.2.1 \
+       # $IPT -A PREROUTING -t nat -i eth0 -p tcp ! -d 192.168.0.250 \
        # --dport 80 -j REDIRECT --to-port 3128
 
        # MPD :

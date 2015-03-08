@@ -1,5 +1,0 @@
-Pour mettre de la couleur dans les commandes de git :
-
-# git config --global --add color.ui true
-
-
