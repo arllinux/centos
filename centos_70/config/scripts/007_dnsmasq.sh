@@ -22,6 +22,9 @@ else
   # Ouvre le fichier firewall pour permettre les modifications      
         vim /usr/local/sbin/firewall.sh
 
+	# Exécuter le script
+				bash -c /usr/local/sbin/firewall.sh
+
   # Relance le service pour mettre à jour et figer les règles      
         systemctl restart iptables.service
 

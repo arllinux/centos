@@ -84,6 +84,9 @@ Continuer tant que l'on trouve des partitions
 Remettre la table des partitions à zero
 # dd if=/dev/zero of=/dev/sda bs=512 count=1
 
+Redémarrer
+# reboot
+
 - Etape 6 :
 #--------
 Mettre en place la table des partitions dans le nouveau disque
