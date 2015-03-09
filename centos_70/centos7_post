@@ -24,7 +24,7 @@ Jean-Pierre Antinoux - janvier 2015
 
 # 1 #
 
-'Installer deux outils de base :'
+'Installer trois outils de base :'
 #-------------------------------
 # yum install deltarpm
 # yum install vim git
