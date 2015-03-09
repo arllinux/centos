@@ -2,22 +2,35 @@
 #
 # Outils
 bind-utils
+epel-release
+gpm
 iptables-services
-nmap
-time
-tree
-whois
-net-tools
-ntp
 lynx
 man-pages
+man-pages-fr
+man-pages-overrides
+net-tools
+nmap
+ntp
 ntsysv
+pciutils         
+pinfo
+rpmforge-release
+tcpdump
+time
 traceroute
+tree
 wget
-yum-priorities
+whois
+yum-plugin-priorities
 yum-utils
+<<<<<<< HEAD
+
+=======
 gpm
 tcpdump
 epel-release
 rpmforge-release
 pciutils
+screen
+>>>>>>> 61593fedf4be62142a337aebead244fbb7a5cb7e

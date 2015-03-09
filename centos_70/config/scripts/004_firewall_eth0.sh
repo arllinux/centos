@@ -12,13 +12,17 @@ if [ $? = "0" ]
 else
 
 # Si le fichier "firewall.sh" est présent
+# Autrement dit : si ce n'est pas la première utilisation
   if [ -f /usr/local/sbin/firewall.sh ] ;
     
     then
       
       # l'ouvrir, le modifier...
         vim /usr/local/sbin/firewall.sh
-      
+     	
+			# Exécuter le script
+				bash -c /usr/local/sbin/firewall.sh
+
       # Appliquer les modifications
         bash -c /usr/local/sbin/firewall.sh
 
@@ -26,13 +30,19 @@ else
         systemctl restart iptables.service
     
     else
-      
+			#########################################
+     	# Si le script n'est pas encore en place#
+			#########################################
+
       # Copier le fichier qui va permettre les réglages du parefeu
       # vers /usr/local/sbin
         cp $CWD/../firewall/firewall.sh /usr/local/sbin/firewall.sh
       
       # l'ouvrir, le modifier...
         vim /usr/local/sbin/firewall.sh
+
+      # Exécuter le script
+				bash -c /usr/local/sbin/firewall.sh
       
       # Appliquer les modifications
        bash -c /usr/local/sbin/firewall.sh

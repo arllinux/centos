@@ -19,30 +19,31 @@ else
         echo ":: Configuration de Vim. ::"
         echo "---------------------------"
 	      cat $CWD/../vim/vimrc > /etc/vimrc
-	      chown root:root /etc/vimrc
-	      chmod 0644 /etc/vimrc
 
     # Personnalisation invite pour les futurs utilisateurs
 	      echo ":: Personnalisation invite pour les futurs utilisateurs. ::"
 	      cat $CWD/../bash/$FILE_U > /etc/skel/.bashrc
-	      chown root:root /etc/skel/.bashrc
-	      chmod 0644 /etc/skel/.bashrc
 
     # Installation invite root
         echo "-----------------------------------------"
         echo ":: Coloration invite de commande root. ::"
         echo "-----------------------------------------"
 	      cat $CWD/../bash/$FILE_R > "$RC_ROOT"
-	      chown root:root "$RC_ROOT"
-	      chmod 0644 "$RC_ROOT"
 
     # Installation de quelques outils en ligne de commande
         echo "-----------------------------------------"
         echo ":: Installation outils de base. ::"
         echo "-----------------------------------------"
-        TOOLS=$(egrep -v '(^\#)|(^\s+$)' $CWD/../bases_install/paquets-base)
+        # TOOLS=$(egrep -v '(^\#)|(^\s+$)' $CWD/../bases_install/paquets-base)
+        TOOLS=$(egrep -v '(^\#)' $CWD/../bases_install/paquets-base)
         yum -y install $TOOLS
 
+		# Personnalisation de screen
+        echo "------------------------------"
+        echo ":: Peronnalisation de scree ::"
+        echo "------------------------------"
+				cat $CWD/../screen/screenrc > /etc/screenrc
+				
     # Désactivation de firewalld
         echo "---------------------------------"
         echo ":: Désactivation de firewalld. ::"
@@ -74,15 +75,14 @@ else
         echo ":: Desactivation de l'IPV6 ::"
         echo "-----------------------------"
 	      cat $CWD/../firewall/sysctl.conf > /etc/sysctl.conf
-	      chown root:root /etc/sysctl.conf
-	      chmod 0644 /etc/sysctl.conf
 
     # Désactivation de SElinux 
         echo ":: Désactivation de SELinux ::"
         cat $CWD/../selinux/selinux > /etc/sysconfig/selinux
-        chown root:root /etc/sysconfig/selinux
-        chmod 0644 /etc/sysconfig/selinux
-  
+
+ 		# Activer la coloration de l'invite root
+		basch -c source $RC_ROOT
+
         echo "-------------------------------"
       	echo ":: Réglages de base terminés ::"
         echo "-------------------------------"

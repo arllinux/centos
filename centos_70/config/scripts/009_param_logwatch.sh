@@ -16,8 +16,6 @@ else
         echo ":: Configuration de logwatch. ::"
         echo "--------------------------------"
 	      cat $CWD/../logwatch/logwatch.conf > /etc/logwatch/logwatch.conf
-	      chown root:root /etc/logwatch/logwatch.conf
-	      chmod 0644 /etc/logwatch/logwatch.conf
 
         echo "----------------------------------"
         echo ":: Modification des paramètres. ::"

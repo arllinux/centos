@@ -6,9 +6,9 @@ Jean-Pierre Antinoux - janvier 2015
 
 # ==================================================================
   Sommaire
-# 1 Installer deux outils de base
-# 2 Récupérer la documentation et les scripts de personnalisation
-# 3 Mise à jour initiale du système
+# 1 Installer deltarpm puis deux outils de base
+# 2 Mise à jour initiale du système
+# 3 Récupérer la documentation et les scripts de personnalisation
 # 4 Créer un utilisateur simple
 # 5 Configurer l'adresse statique du serveur dans le réseau
 # 6 Suppression ancien kernel
@@ -20,14 +20,29 @@ Jean-Pierre Antinoux - janvier 2015
 
 # ==================================================================
 
+
+
 # 1 #
 
 'Installer deux outils de base :'
 #-------------------------------
+# yum install deltarpm
 # yum install vim git
+
+Pour colorer les commandes de git
+# git config --global --add color.ui true
+
 
 
 # 2 #
+
+'Mise à jour initiale du système'
+#-------------------------------
+# yum update
+
+
+
+# 3 #
 
 'Récupérer la documentation et les scripts de personnalisation'
 #-------------------------------------------------------------
@@ -37,8 +52,6 @@ Se déplacer dans :
 # cd centos/centos_70/config/scripts
 Lancer le script
 # ./001_base.sh
-Puis pour que la console prennent des couleurs, taper :
-# source /root/.bashrc
 
 Le script va réaliser les actions suivantes :
 - La configuration de vim (/etc/vimrc)
@@ -50,14 +63,8 @@ Le script va réaliser les actions suivantes :
 - L'activation du service iptables
 - l'activation de la souris en console
 - La désactivation de SELinux
+- Activer la couleur de la console
 
-
-
-# 3 #
-
-'Mise à jour initiale du système'
-#-------------------------------
-# yum update
 
 
 # 4 #
@@ -129,6 +136,7 @@ NETMASQ=255.255.255.0
 Ensuite pour relayer les DNS il faut compléter le fichier
 /etc/sysconfig/network
 # vim /etc/sysconfig/network
+
 Utiliser ces paramètres : à adapter en fonction du contexte
 ---
 # /etc/sysconfig/network

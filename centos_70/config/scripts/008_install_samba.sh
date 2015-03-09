@@ -55,8 +55,15 @@ if [ $? = "0" ]
   echo ":: Ouvrir les ports pour Samba ::"
   echo "---------------------------------"
       vim /usr/local/sbin/firewall.sh
+<<<<<<< HEAD
+
+			# Exécuter le script
+			bash -c /usr/local/sbin/firewall.sh 
+
+=======
       bash -c /usr/local/sbin/firewall.sh
   
+>>>>>>> a2d02908a0d9ec9a5e17686a45147e5c6cb0de42
   echo "----------------------------------"
   echo ":: Modification du parefeu OK ! ::"
   echo "----------------------------------"

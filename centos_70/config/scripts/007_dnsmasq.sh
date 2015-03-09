@@ -25,6 +25,9 @@ else
   # Enregistre les modifications dans le parefeu      
         bash -c /usr/local/sbin/firewall.sh
 
+	# Exécuter le script
+				bash -c /usr/local/sbin/firewall.sh
+
   # Relance le service pour mettre à jour et figer les règles      
         systemctl restart iptables.service
 
