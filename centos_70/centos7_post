@@ -65,6 +65,9 @@ Le script va réaliser les actions suivantes :
 - La désactivation de SELinux
 - Activer la couleur de la console
 
+Redemarrer
+# reboot
+
 
 
 # 4 #
@@ -91,9 +94,6 @@ Retourne le nom du kernel utilisé
 ---
 3 - suppression du kernel non utilisé :
 # rpm -e kernel-nom_du_kernel
-
-Redemarrer
-# reboot
 
 
 
