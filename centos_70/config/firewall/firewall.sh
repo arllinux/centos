@@ -122,8 +122,8 @@ SYS=$(which sysctl)
        # $IPT -A INPUT -p udp --dport 834 -j ACCEPT
 
        # Squid :
-       #$IPT -A INPUT -p tcp --dport 3128 -j ACCEPT
-       #$IPT -A INPUT -p udp --dport 3128 -j ACCEPT
+       #$IPT -A INPUT -p tcp -i eth0 --dport 3128 -j ACCEPT
+       #$IPT -A INPUT -p udp -i eth0 --dport 3128 -j ACCEPT
 
        # Proxy transparent :
        # $IPT -A PREROUTING -t nat -i eth0 -p tcp ! -d 192.168.0.250 \

@@ -80,8 +80,16 @@ else
         echo ":: Désactivation de SELinux ::"
         cat $CWD/../selinux/selinux > /etc/sysconfig/selinux
 
- 		# Activer la coloration de l'invite root
-		basch -c source $RC_ROOT
+    # Lien symbolique de eZServerMonitor.sh vers diag -a
+        echo "------------------------------"
+        echo ":: Mise en place de diag -a ::"
+        echo "------------------------------"
+        mkdir /root/bin
+        ln -s /root/centos/centos_70/eZServerMonitor.sh /root/bin/diag
+        diag -a
+
+ 	# Activer la coloration de l'invite root
+	basch -c source $RC_ROOT
 
         echo "-------------------------------"
       	echo ":: Réglages de base terminés ::"
