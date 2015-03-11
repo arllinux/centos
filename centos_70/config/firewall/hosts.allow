@@ -10,6 +10,6 @@
 #
 ALL   : localhost               : ALLOW
 ALL   : centos7                 : ALLOW
-ALL   : centos7.labo2.arles     : ALLOW
+ALL   : centos7.regards.arles     : ALLOW
 sshd  : ALL                     : ALLOW
 
