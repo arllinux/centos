@@ -1,12 +1,11 @@
 #!/bin/bash
 
-# ./005_install_ntp_serv.sh
+# 005_install_ntp_serv.sh
 
 # JP antinoux - décembre 2014
 CWD=$(pwd)
 
-[ $USER != "root" ]
-if [ $? = "0" ]
+if [ $USER != "root" ]
     then
 	echo "Pour exécuter ce script il faut être l'utilisateur root !"
 else

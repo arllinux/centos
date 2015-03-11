@@ -9,8 +9,7 @@
 
 CWD=$(pwd)
 
-[ $USER != "root" ] ;
-if [ $? = "0" ]
+if [ $USER != "root" ] ;
     then
 	echo "Pour exécuter ce script il faut être l'utilisateur root !"
 else
@@ -22,19 +21,16 @@ else
   # Ouvre le fichier firewall pour permettre les modifications      
         vim /usr/local/sbin/firewall.sh
         
-  # Enregistre les modifications dans le parefeu      
-        bash -c /usr/local/sbin/firewall.sh
-
 	# Exécuter le script
 				bash -c /usr/local/sbin/firewall.sh
 
   # Relance le service pour mettre à jour et figer les règles      
         systemctl restart iptables.service
 
+  # Ouvre le modèle de fichier dnsmasq.conf pour permettre les modifications      
         echo "------------------------------"
         echo ":: Configuration de dnsmasq ::"
         echo "------------------------------"
-  # Ouvre le modèle de fichier dnsmasq.conf pour permettre les modifications      
         vim $CWD/../dnsmasq/dnsmasq.conf
 
   # Copie le fichier de configuration en "fichier.old"        

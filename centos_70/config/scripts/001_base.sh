@@ -8,8 +8,7 @@ FILE_R='invite_root'
 RC_ROOT='/root/.bashrc'
 CWD=$(pwd)
 
-[ $USER != "root" ] ;
-if [ $? = "0" ]
+if [ $USER != "root" ] ;
     then
 	echo "Pour exécuter ce script il faut être l'utilisateur root !"
 else
