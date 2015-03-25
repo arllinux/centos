@@ -29,7 +29,7 @@ echo -e "---------------------------------------------\n " >> resultat_reseau
 echo "# Fichier /etc/resolv.conf" >> resultat_reseau
 cat /etc/resolv.conf >> resultat_reseau
 echo -e "---------------------------------------------\n " >> resultat_reseau
-if [ d /etc/sysconfig/network-scripts/ifcfg-enp2s0 ];
+if [ -d /etc/sysconfig/network-scripts/ifcfg-enp2s0 ];
   then
 echo "# Fichier /etc/sysconfig/network-scripts/ifcfg-enp2s0" >> resultat_reseau
 cat /etc/sysconfig/network-scripts/ifcfg-enp2s0 >> resultat_reseau

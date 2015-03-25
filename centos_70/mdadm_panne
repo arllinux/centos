@@ -97,6 +97,17 @@ nouveau disque
 # sfdisk -l /dev/sdb > part_table
 # sfdisk /dev/sda < part_table
 
+Vérifier avec la commande fdisk si la table est bien prise en compte par le disque :
+# fdisk /dev/sda
+Device Boot      Start         End      Blocks   Id  System
+/dev/sda1               1          13       96256   fd  Linux raid autodetect
+/dev/sda2              13         256     1951744   fd  Linux raid autodetect
+/dev/sda3             256       60802   486334464   fd  Linux raid autodetect
+
+Chaque partition est bien détecté comme "linux raid autodetect"
+Si ce n'est pas le cas redémarrer la machine.
+
+
 ## Très important ##
 A partir de maintenant on va indiquer au système de reprendre en compte les
 partition.
