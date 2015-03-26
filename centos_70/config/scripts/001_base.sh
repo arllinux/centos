@@ -33,7 +33,6 @@ else
         echo "-----------------------------------------"
         echo ":: Installation outils de base. ::"
         echo "-----------------------------------------"
-        # TOOLS=$(egrep -v '(^\#)|(^\s+$)' $CWD/../bases_install/paquets-base)
         TOOLS=$(egrep -v '(^\#)' $CWD/../bases_install/paquets-base)
         yum -y install $TOOLS
 
