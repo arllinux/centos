@@ -1,0 +1,25 @@
+Test des disques
+dev-sda.device - Hitachi_HCT721010SLA360
+dev-sda1.device - Hitachi_HCT721010SLA360
+dev-sda2.device - Hitachi_HCT721010SLA360
+dev-sda3.device - Hitachi_HCT721010SLA360
+dev-sdb.device - Hitachi_HCT721010SLA360
+dev-sdb1.device - Hitachi_HCT721010SLA360
+dev-sdb2.device - Hitachi_HCT721010SLA360
+dev-sdb3.device - Hitachi_HCT721010SLA360
+   Active: active (plugged)
+   Active: active (plugged)
+   Active: active (plugged)
+   Active: active (plugged)
+   Active: active (plugged)
+   Active: active (plugged)
+   Active: active (plugged)
+   Active: active (plugged)
+dev-md.device
+dev-md125.device - /dev/md125
+dev-md126.device - /dev/md126
+dev-md127.device - /dev/md127
+   Active: inactive (dead)
+   Active: active (plugged)
+   Active: active (plugged)
+   Active: active (plugged)

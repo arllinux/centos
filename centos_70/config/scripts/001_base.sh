@@ -41,7 +41,7 @@ else
         echo "------------------------------"
         echo ":: Peronnalisation de scree ::"
         echo "------------------------------"
-				cat $CWD/../screen/screenrc > /etc/screenrc
+	cat $CWD/../screen/screenrc > /etc/screenrc
 				
     # Désactivation de firewalld
         echo "---------------------------------"
