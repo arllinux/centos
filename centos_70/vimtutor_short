@@ -1,6 +1,6 @@
-===============================================================================
-=    B i e n v e n u e  dans  l e  T u t o r i e l  de  V I M  -  Version 1.7 =
-===============================================================================
+#===============================================================================
+#=    B i e n v e n u e  dans  l e  T u t o r i e l  de  V I M  -  Version 1.7 =
+#===============================================================================
 
      Vim est un éditeur très puissant qui a trop de commandes pour pouvoir
      toutes les expliquer dans un cours comme celui-ci, qui est conçu pour en
@@ -25,7 +25,7 @@
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                      Leçon 1.1 : DÉPLACEMENT DU CURSEUR
+#                      Leçon 1.1 : DÉPLACEMENT DU CURSEUR
 
   ** Pour déplacer le curseur, appuyez les touches h,j,k,l comme indiqué. **
           ^
@@ -35,7 +35,7 @@
           v
 
 ---------------------------------------------------------------------------
-                     Leçon 1.2 : SORTIR DE VIM
+#                     Leçon 1.2 : SORTIR DE VIM
 
   1. Appuyez la touche  <Échap>  (pour être sûr d'être en mode Normal).
 
@@ -44,7 +44,7 @@
      faits.
 
 ---------------------------------------------------------------------------
-                  Leçon 1.3 : ÉDITION DE TEXTE - EFFACEMENT
+#                  Leçon 1.3 : ÉDITION DE TEXTE - EFFACEMENT
 
          ** Appuyez   x   pour effacer le caractère sous le curseur. **
 
@@ -54,7 +54,7 @@ NOTE : En avançant dans ce cours, n'essayez pas de mémoriser, apprenez par
        la pratique.
 
 ---------------------------------------------------------------------------
-                    Leçon 1.4 : ÉDITION DE TEXTE - INSERTION
+#                    Leçon 1.4 : ÉDITION DE TEXTE - INSERTION
 
 
                     ** Appuyez  i  pour insérer du texte. **
@@ -69,7 +69,7 @@ Normal. Répétez les étapes 2 à 4 pour corriger la phrase.
      Leçon 1.5.
 
 ---------------------------------------------------------------------------
-                     Leçon 1.5 : ÉDITION DE TEXTE - AJOUTER
+#                     Leçon 1.5 : ÉDITION DE TEXTE - AJOUTER
 
 
                     ** Appuyez  A  pour ajouter du texte. **
@@ -86,13 +86,13 @@ Normal. Répétez les étapes 2 à 4 pour corriger la phrase.
      Il manque aussi du texte ici.
 
 ---------------------------------------------------------------------------
-                         Leçon 1.6 : ÉDITER UN FICHIER
+#                         Leçon 1.6 : ÉDITER UN FICHIER
 
 
           ** Utilisez  :wq  pour enregistrer un fichier et sortir. **
 
 ---------------------------------------------------------------------------
-                       Leçon 2.1 : COMMANDES D'EFFACEMENT
+#                       Leçon 2.1 : COMMANDES D'EFFACEMENT
 
 
                      ** Tapez  dw  pour effacer un mot. **
@@ -104,7 +104,7 @@ Normal. Répétez les étapes 2 à 4 pour corriger la phrase.
 ---> Il y a quelques drôle mots qui n'ont rien à faire papier sur cette ligne.
 
 ---------------------------------------------------------------------------
-                  Leçon 2.2 : PLUS DE COMMANDES D'EFFACEMENTS
+#                  Leçon 2.2 : PLUS DE COMMANDES D'EFFACEMENTS
 
 
           ** Tapez  d$  pour effacer jusqu'à la fin de la ligne. **
@@ -112,7 +112,7 @@ Normal. Répétez les étapes 2 à 4 pour corriger la phrase.
 ---> Quelqu'un a tapé la fin de cette ligne deux fois. cette ligne deux fois.
 
 ---------------------------------------------------------------------------
-                       Leçon 2.6 : OPÉREZ SUR DES LIGNES
+#                       Leçon 2.6 : OPÉREZ SUR DES LIGNES
 
 
               ** Tapez   dd   pour effacer une ligne complète. **
@@ -128,14 +128,14 @@ Normal. Répétez les étapes 2 à 4 pour corriger la phrase.
 --->  7)  Tout comme vous.
 
 ---------------------------------------------------------------------------
-                            Leçon 2.7 : L'ANNULATION
+#                            Leçon 2.7 : L'ANNULATION
 
 
             ** Tapez  u  pour annuler les dernières commandes. **
                ** Tapez  U  pour récupérer toute une ligne. **
 
 ---------------------------------------------------------------------------
-                             Leçon 3.1 : LE COLLAGE
+#                             Leçon 3.1 : LE COLLAGE
 
 
    ** Tapez  p  pour placer après le curseur ce qui vient d'être effacé. **
@@ -149,12 +149,14 @@ Normal. Répétez les étapes 2 à 4 pour corriger la phrase.
 
   5. Répétez les étapes 2 à 4 pour mettre toutes les lignes dans le bon ordre.
 
+
 ---> d) Et vous, qu'apprenez-vous ?
----> a) Les roses sont rouges,
 ---> b) Les violettes sont bleues,
+---> c) L'intelligence s'apprend,
+---> a) Les roses sont rouges,
 
 ---------------------------------------------------------------------------
-                    Leçon 3.2 : LA COMMANDE DE REMPLACEMENT
+#                    Leçon 3.2 : LA COMMANDE DE REMPLACEMENT
 
 
      ** Tapez  rx  pour remplacer un caractère sous le curseur par  x . **
@@ -163,7 +165,7 @@ Normal. Répétez les étapes 2 à 4 pour corriger la phrase.
 --->  Quand cette ligne a été saisie, quelqu'un a fait des fautes de frappe !
 
 ---------------------------------------------------------------------------
-                            Leçon 4.2 : LA RECHERCHE
+#                            Leçon 4.2 : LA RECHERCHE
 
 
           ** Tapez  /  suivi d'un texte pour rechercher ce texte. **
@@ -185,7 +187,7 @@ NOTE : Quand la recherche atteint la fin du fichier, elle reprend au début
        sauf si l'option 'wrapscan' est désactivée.
 
 ---------------------------------------------------------------------------
-              Leçon 5.1 : COMMENT EXÉCUTER UNE COMMANDE EXTERNE
+#              Leçon 5.1 : COMMENT EXÉCUTER UNE COMMANDE EXTERNE
 
 
  ** Tapez  :!  suivi d'une commande externe pour exécuter cette commande. **
@@ -195,7 +197,7 @@ NOTE : Quand la recherche atteint la fin du fichier, elle reprend au début
      commande à l'invite du shell. Utilisez  :!dir  si  :!ls  ne marche pas.
 
 ---------------------------------------------------------------------------
-         Leçon 5.2 : PLUS DE DÉTAILS SUR L'ENREGISTREMENT DE FICHIERS
+#         Leçon 5.2 : PLUS DE DÉTAILS SUR L'ENREGISTREMENT DE FICHIERS
 
 
  ** Pour enregistrer les changements faits au texte, tapez  :w FICHIER . **
@@ -209,7 +211,7 @@ NOTE : Si vous quittez Vim et le redémarrez de nouveau avec le fichier TEST,
        enregistré.
 
 ---------------------------------------------------------------------------
-                  Leçon 5.3 : SÉLECTION DU TEXTE À ENREGISTRER
+#                  Leçon 5.3 : SÉLECTION DU TEXTE À ENREGISTRER
 
 
                   ** Pour enregistrer une portion du fichier,
@@ -235,7 +237,7 @@ NOTE : L'appui de  v  démarre la sélection Visuelle. Vous pouvez déplacer le
        exemple,  d  efface le texte.
 
 ---------------------------------------------------------------------------
-                 Leçon 5.4 : RÉCUPÉRATION ET FUSION DE FICHIERS
+#                 Leçon 5.4 : RÉCUPÉRATION ET FUSION DE FICHIERS
 
 
         ** Pour insérer le contenu d'un fichier, tapez  :r FICHIER **
@@ -258,7 +260,7 @@ NOTE :  Vous pouvez aussi lire la sortie d'une commande externe. Par exemple,
         curseur.
 
 ---------------------------------------------------------------------------
-                      Leçon 6.1 : LA COMMANDE D'OUVERTURE
+#                      Leçon 6.1 : LA COMMANDE D'OUVERTURE
 
 
 ** Tapez  o  pour ouvrir une ligne sous le curseur et y aller en Insertion. **
@@ -277,7 +279,7 @@ NOTE :  Vous pouvez aussi lire la sortie d'une commande externe. Par exemple,
 ---> Ouvrez une ligne ci-dessus en tapant O lorsque le curseur est ici.
 
 ---------------------------------------------------------------------------
-                        Leçon 6.2 : LA COMMANDE D'AJOUT
+#                        Leçon 6.2 : LA COMMANDE D'AJOUT
 
 
             ** Tapez  a  pour insérer du texte APRÈS le curseur. **

@@ -19,13 +19,10 @@ else
       # l'ouvrir, le modifier...
         vim /usr/local/sbin/firewall.sh
      	
-			# Exécuter le script
-				bash -c /usr/local/sbin/firewall.sh
-
       # Appliquer les modifications
         bash -c /usr/local/sbin/firewall.sh
 
-      # Appliquer les modifications
+      # Relancer iptables
         systemctl restart iptables.service
     
     else
@@ -40,9 +37,6 @@ else
       # l'ouvrir, le modifier...
         vim /usr/local/sbin/firewall.sh
 
-      # Exécuter le script
-				bash -c /usr/local/sbin/firewall.sh
-      
       # Appliquer les modifications
        bash -c /usr/local/sbin/firewall.sh
 

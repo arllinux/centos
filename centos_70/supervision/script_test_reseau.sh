@@ -29,6 +29,7 @@ echo -e "---------------------------------------------\n " >> resultat_reseau
 echo "# Fichier /etc/resolv.conf" >> resultat_reseau
 cat /etc/resolv.conf >> resultat_reseau
 echo -e "---------------------------------------------\n " >> resultat_reseau
+<<<<<<< HEAD
 if [ -f "/etc/sysconfig/network-scripts/ifcfg-enp2s0" ]; then
 	echo "# Fichier /etc/sysconfig/network-scripts/ifcfg-enp2s0" >> resultat_reseau
 	cat /etc/sysconfig/network-scripts/ifcfg-enp2s0 >> resultat_reseau
@@ -45,6 +46,17 @@ if [ -f "/etc/sysconfig/network-scripts/ifcfg-enp2s0" ]; then
 	echo -e "---------------------------------------------" >> resultat_reseau
       fi
    fi
+=======
+if [ -d /etc/sysconfig/network-scripts/ifcfg-enp2s0 ];
+  then
+echo "# Fichier /etc/sysconfig/network-scripts/ifcfg-enp2s0" >> resultat_reseau
+cat /etc/sysconfig/network-scripts/ifcfg-enp2s0 >> resultat_reseau
+echo -e "---------------------------------------------" >> resultat_reseau
+  else
+echo "# Fichier /etc/sysconfig/network-scripts/ifcfg-eth0" >> resultat_reseau
+cat /etc/sysconfig/network-scripts/ifcfg-eth0 >> resultat_reseau
+echo -e "---------------------------------------------" >> resultat_reseau
+>>>>>>> 36bbe92e86cefe30c1ab889449de24c056568348
 fi
 	vim resultat_reseau
 exit 0
