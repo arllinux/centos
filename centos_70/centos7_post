@@ -69,9 +69,6 @@ Le script va réaliser les actions suivantes :
 - Activer la couleur de la console
 - Crée le lien symbolique pour lancez eZmonitor.sh avec la commande diag -a
 
-Redemarrer
-# reboot
-
 
 
 # 4 #
@@ -99,6 +96,8 @@ Retourne le nom du kernel utilisé
 3 - suppression du kernel non utilisé :
 # rpm -e kernel-nom_du_kernel
 
+Redemarrer
+# reboot
 
 
 # 5 #
