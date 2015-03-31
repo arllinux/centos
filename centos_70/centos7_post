@@ -31,7 +31,8 @@ Jean-Pierre Antinoux - janvier 2015
 
 Pour colorer les commandes de git
 # git config --global --add color.ui true
-
+Pour supprimer le long message lors de l'export de données
+# git config --global push.default matching
 
 
 # 2 #
