@@ -65,14 +65,11 @@ Le script va réaliser les actions suivantes :
 - l'activation de la souris en console
 - La désactivation de SELinux
 - Activer la couleur de la console
-<<<<<<< HEAD
 - Crée le lien symbolique pour lancez eZmonitor.sh avec la commande diag -a
-=======
 
 Redemarrer
 # reboot
 
->>>>>>> a6fc0774e640fac8ee63adab963bb6929b09fc60
 
 
 # 4 #

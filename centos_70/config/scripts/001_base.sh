@@ -33,7 +33,6 @@ else
         echo "-----------------------------------------"
         echo ":: Installation outils de base. ::"
         echo "-----------------------------------------"
-        # TOOLS=$(egrep -v '(^\#)|(^\s+$)' $CWD/../bases_install/paquets-base)
         TOOLS=$(egrep -v '(^\#)' $CWD/../bases_install/paquets-base)
         yum -y install $TOOLS
 
@@ -41,7 +40,7 @@ else
         echo "------------------------------"
         echo ":: Peronnalisation de scree ::"
         echo "------------------------------"
-				cat $CWD/../screen/screenrc > /etc/screenrc
+	cat $CWD/../screen/screenrc > /etc/screenrc
 				
     # Désactivation de firewalld
         echo "---------------------------------"

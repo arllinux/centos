@@ -23,7 +23,7 @@ Ouvrir le fichier firewall pour permettre les modifications
 # vim /usr/local/sbin/firewall.sh
 
 Relancer le service pour mettre à jour et figer les règles      
-# systemctl restart firewall.service
+# systemctl restart iptables.service
 
 Configuration de dnsmasq
 Le script réalise les actions suivantes :
