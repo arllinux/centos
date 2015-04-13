@@ -1,0 +1,30 @@
+Si vous ne avez besoin que l'accès à distance à partir d'une adresse IP, envisager le filtrage des connexions à votre pare-feu soit en ajoutant une règle de pare-feu sur votre routeur ou dans iptables pour limiter l'accès sur le port 22 à seulement IP spécifique adresse. Par exemple, dans iptables cela pourrait être réalisé avec le type de règle suivante:
+
+iptables -A INPUT -p tcp -s 72.232.194.162 --dport 22 -j ACCEPT
+
+Si vous êtes incapable de limiter les adresses IP source et devez ouvrir le port ssh globalement, puis iptables peut aider à prévenir les attaques en force en se connectant et en bloquant les tentatives répétées de se connecter à partir de la même adresse IP. Par exemple,
+
+iptables -A INPUT -p tcp --dport 22 -m state --state NEW -m recent --set --name ssh --rsource
+iptables -A INPUT -p tcp --dport 22 -m state --state NEW -m recent ! --rcheck --seconds 60 --hitcount 4 --name ssh --rsource -j ACCEPT
+
+La première règle enregistre l'adresse IP de chaque nouvelle tentative d'accéder au port 22 en utilisant le module récente. La deuxième règle vérifie si l'adresse IP a tenté de se connecter 4 fois ou plus dans les 60 dernières secondes, et si pas alors le paquet est accepté. Noter que cette règle exigerait une politique par défaut de DROP sur la chaîne d'entrée.
+
+Ne oubliez pas de changer le port, le cas échéant, si vous utilisez ssh sur un port non-standard. Lorsque cela est possible, le filtrage au pare-feu est une méthode extrêmement efficace pour sécuriser l'accès à un serveur ssh.
+
+
+Filter SSH at the Firewall
+
+If you only need remote access from one IP address (say from work to your home server), then consider filtering connections at your firewall by either adding a firewall rule on your router or in iptables to limit access on port 22 to only that specific IP address. For example, in iptables this could be achieved with the following type of rule:
+
+iptables -A INPUT -p tcp -s 72.232.194.162 --dport 22 -j ACCEPT
+
+SSH also natively supports TCP wrappers and access to the ssh service may be similarly controlled using hosts.allow and hosts.deny.
+
+If you are unable to limit source IP addresses, and must open the ssh port globally, then iptables can still help prevent brute-force attacks by logging and blocking repeated attempts to login from the same IP address. For example,
+
+iptables -A INPUT -p tcp --dport 22 -m state --state NEW -m recent --set --name ssh --rsource
+iptables -A INPUT -p tcp --dport 22 -m state --state NEW -m recent ! --rcheck --seconds 60 --hitcount 4 --name ssh --rsource -j ACCEPT
+
+The first rule records the IP address of each new attempt to access port 22 using the recent module. The second rule checks to see if that IP address has attempted to connect 4 or more times within the last 60 seconds, and if not then the packet is accepted. Note this rule would require a default policy of DROP on the input chain.
+
+Don't forget to change the port as appropriate if you are running ssh on a non-standard port. Where possible, filtering at the firewall is an extremely effective method of securing access to an ssh server. 

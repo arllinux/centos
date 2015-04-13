@@ -1,0 +1,43 @@
+# Pour accéder à un serveur web local il faut modifier le fichier hosts sous
+  Windows 8.1 :
+Celui-ci se trouve ici
+
+C:\windows\system32\drivers\etc\hosts
+Il s'ouvre avec le bloc note
+
+Voici le contenu original
+
+# Copyright (c) 1993-2009 Microsoft Corp.
+#
+# This is a sample HOSTS file used by Microsoft TCP/IP for Windows.
+#
+# This file contains the mappings of IP addresses to host names. Each
+# entry should be kept on an individual line. The IP address should
+# be placed in the first column followed by the corresponding host name.
+# The IP address and the host name should be separated by at least one
+# space.
+#
+# Additionally, comments (such as these) may be inserted on individual
+# lines or following the machine name denoted by a '#' symbol.
+#
+# For example:
+#
+#      102.54.94.97     rhino.acme.com          # source server
+#       38.25.63.10     x.acme.com              # x client host
+
+# localhost name resolution is handled within DNS itself.
+#	127.0.0.1       localhost
+#	::1             localhost
+
+# J'ai rajouté à la suite les deux lignes suivantes :
+192.168.0.116  centos7serveur.regards.arles	         		centos7serveur
+192.168.0.116	 dolibarr.centos7serveur.regards.arles 		dollibarr.centos7serveur
+
+# J'ai tapé dans le navigateur du poste de travail :
+# centos7serveur
+Je suis arrivé sur la page d'exemple du serveur Apache
+
+# J'ai ensuite tapé :
+# dolibarr.cento7serveur/htdocs
+Je suis bien arrivé sur la page d'authentification de Dolibarr
+
