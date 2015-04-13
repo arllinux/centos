@@ -39,6 +39,14 @@ else
 	cp /etc/ntp.conf /etc/ntp.conf_old
 	cat $CWD/../ntp/etc/ntp.conf > /etc/ntp.conf
 
+  echo "----------------------------------------------------"
+  echo ":: Désactivation de Avahi-daemon qui fait doublon ::"
+  echo "----------------------------------------------------"
+  systemctl stop avahi-daemon.socket
+  systemctl disable avahi-daemon.socket
+  systemctl stop avahi-daemon.service
+  systemctl disable avahi-daemon.service
+  
   echo ":: activation et lancement du service ::"
   systemctl enable ntpd.service
   systemctl start ntpd.service

@@ -208,8 +208,8 @@ function cpu()
 # Function : memory
 function memory()
 {
-    MEM_TOTAL=`/usr/bin/free -mt | grep Mem: | awk '{print $2}'`
-    MEM_FREE=`/usr/bin/free -mt | grep Mem: | awk '{print $4+$6}'`
+    MEM_TOTAL=`/usr/bin/free -mto | grep Mem: | awk '{print $2}'`
+    MEM_FREE=`/usr/bin/free -mto | grep Mem: | awk '{print $4+$6+$7}'`
     TOTAL=$((MEM_TOTAL-MEM_FREE))
 
     echo
