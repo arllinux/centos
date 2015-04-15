@@ -31,7 +31,8 @@ Jean-Pierre Antinoux - janvier 2015
 
 Pour colorer les commandes de git
 # git config --global --add color.ui true
-
+Pour supprimer le long message lors de l'export de données
+# git config --global push.default matching
 
 
 # 2 #
@@ -39,6 +40,9 @@ Pour colorer les commandes de git
 'Mise à jour initiale du système'
 #-------------------------------
 # yum update
+
+Redemarrer
+# reboot
 
 
 
@@ -65,10 +69,12 @@ Le script va réaliser les actions suivantes :
 - La désactivation de SELinux
 - Activer la couleur de la console
 - Crée le lien symbolique pour lancez eZmonitor.sh avec la commande diag -a
-=======
 
+<<<<<<< HEAD
 Redemarrer
 # reboot
+=======
+>>>>>>> 52a4d91471c8edcf0fa6511e961f48d47f01398d
 
 
 # 4 #
@@ -96,6 +102,8 @@ Retourne le nom du kernel utilisé
 3 - suppression du kernel non utilisé :
 # rpm -e kernel-nom_du_kernel
 
+Redemarrer
+# reboot
 
 
 # 5 #

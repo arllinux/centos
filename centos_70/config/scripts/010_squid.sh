@@ -15,10 +15,20 @@ else
 
       # Mettre en place la configuration
       cat $CWD/../squid/squid > /etc/squid/squid.conf
+  
+    	# Ouverture des ports du parefeu
+      # Ouvre le fichier firewall pour permettre les modifications      
+        vim /usr/local/sbin/firewall.sh
+        
+	    # Exécuter le script
+				bash -c /usr/local/sbin/firewall.sh
 
-      # Activer squid et le lancer
-      systemctl enable squid
-      systemctl start squid
+       # Relance le service pour mettre à jour et figer les règles      
+        systemctl restart iptables.service
+
+       # Activer squid et le lancer
+        systemctl enable squid
+        systemctl start squid
 fi
 
 exit 0

@@ -42,8 +42,8 @@ if [ $USER != "root" ]
 			# Mise en place d'une corbeille interne aux dossiers créés pour avoir un
 			# droit à l'erreur. Celle-ci est gérée par ce script pour suppression des
 			# fichiers agés de 2 mois.
-      cat $CWD/ ../samba/etc/cron.weekly/samba_trash.sh.template > /etc/cron.weekly/samba_trash.sh
-      chmod 644 /etc/cron.weekly/samba_trash.sh
+      cat $CWD/../samba/etc/cron.weekly/samba_trash.sh.template > /etc/cron.weekly/samba_trash.sh
+      chmod 0755 /etc/cron.weekly/samba_trash.sh
 
   echo "----------------------------------------------"
   echo ":: Adaptation des fichiers de configuration ::"
