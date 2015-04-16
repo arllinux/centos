@@ -5,10 +5,9 @@
 
 CWD=$(pwd)
 
-[ $USER != "root" ] ;
-if [ $? = "0" ]
+if [ $USER != "root" ] ;
     then
-	echo "Pour exécuter ce script il faut être l'utilisateur root !"
+	      echo "Pour exécuter ce script il faut être l'utilisateur root !"
   else
       # Correction du bug "Failed to load file microcode_amd.bin"
         echo "-----------------------------------------"
