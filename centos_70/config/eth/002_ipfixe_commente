@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# 002_ipfixe.sh
+# JP Antinoux - Avril 2015
+
+# Chemin du scripts depuis la racine du système
+CWD=$(pwd)
+
+# Chemin vers le répertoire des fichiers d'interface réseau
+WAY="/etc/sysconfig/network-scripts/"
+
+# Préfixe de tous les fichiers d'interface réseau
+PREFIX="ifcfg-"
+
+# Liste des noms des interfaces possibles
+IFACES="enp2s0 \
+        enp3s7 \
+        eth0"
+
+if [ $USER != "root" ] ;
+    then
+	    echo "Pour exécuter ce script il faut être l'utilisateur root !"
+    else
+
+    # Pour chaque éléments dans la variable IFACES
+    # Vérifier si le fichier existe.
+    for IFACE in $IFACES; do
+      if [ -f $WAY$PREFIX$IFACE ]; then
+        
+        # Si le fichier est présent mettre le code de retour réussi dans la
+        # variable STOP
+        STOP=$?
+        
+        # Transférer le contenu des fichiers modèles
+        cat $CWD/../eth/ifcfg-xxx >> $WAY$PREFIX$IFACE
+        cat $CWD/../eth/network >> /etc/sysconfig/network
+
+        # Editer les fichiers, adapter le contenu
+        vim $WAY$PREFIX$IFACE
+        vim /etc/sysconfig/network
+          
+          # Si la variable STOP est égale à 0, arrêter la boucle puisque la
+          # configuration est réalisée
+          if [ $STOP = "0" ]; then
+            exit
+          fi
+      fi  
+    done
+fi
+
+exit 0
+    

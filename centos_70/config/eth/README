@@ -1,0 +1,16 @@
+# Ces deux fichiers sont les modèles pour avoir une adresse ip fixe sur un
+# serveur
+ifcfg-xxx
+L'emplacement est le suivant :
+/etc/sysconfig/network-scripts/
+S'il n'y a qu'une carte le nom du fichier sera le suivant : ifcfg-enp2so
+C'est là que le contenu du modèle ira se placer. Si ce fichier n'existe pas le
+script nous en averti et nous demande de renommer la carte.
+
+network
+L'emplacement est le suivant :
+/etc/sysconfig/
+Le nom du fichier est le suivant : network
+
+Le fichier 002_ipfixe_commente, est comme son nom l'indique une version commentée
+du script pour faciliter la compréhension

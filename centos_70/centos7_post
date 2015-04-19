@@ -136,7 +136,7 @@ IPADDR=192.168.0.xxx
 NETMASQ=255.255.255.0
 ---
 
-Ensuite pour relayer les DNS il faut compléter le fichier
+Ensuite pour indiquer la passerelle vers internet :
 /etc/sysconfig/network
 # vim /etc/sysconfig/network
 
@@ -149,6 +149,16 @@ NETWORKING_IPV6=no
 GATEWAY=192.168.0.254
 ---
 
+Se déplacer dans la documentation
+# cd
+# cd centos/centos_70/config/scripts
+# ./002_ip_fixe.sh
+
+Le script va réaliser les actions suivantes :
+- Faire un boucle pour trouver la carte réseau
+- Ouvrir les fichiers de configuration et adapter le contenu (manuellement)
+
+------------------------------------------------------------
 
 Relancer le service "network"
 Attention, si vous vous connectez à distance, parce que vous
