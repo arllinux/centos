@@ -3,8 +3,10 @@ les outils de l'administrateur réseau sous CentOS 7
 #--------------------------------------------------
 
 1 Les fichiers de configuration réseau
+  Le fichier /etc/hostname
 	Le fichier /etc/hosts
 	Le fichier /etc/networks
+  Le fichier /etc/sysconfig/network
 	Le fichier /etc/host.conf
 	Le fichier /etc/resolv.conf
 	Les fichiers de configuration des interfaces réseau
@@ -27,52 +29,58 @@ les outils de l'administrateur réseau sous CentOS 7
 1 Les fichiers de configuration réseau
 #-------------------------------------
 
-	Le fichier /etc/hosts
+  Le fichier /etc/hostname
+  # Fichier /etc/hostname
+  centos7
 	&-------------------------------------------------------------------------------
-	127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
-	#192.168.0.xxx centos7 centos7.labo2.arles
+
+	Le fichier /etc/hosts
+	# Fichier /etc/hosts
+  #
+  127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+	192.168.0.xxx centos7 centos7.labo2.arles
+	&-------------------------------------------------------------------------------
+	
+  # /etc/sysconfig/network
+	#
+  NETWORKING=yes
+  NETWORKING_IPV6=no
+	GATEWAY=192.168.0.xxx
 	&-------------------------------------------------------------------------------
 
 
 	Le fichier /etc/networks
-	&-------------------------------------------------------------------------------
 	default 0.0.0.0
 	loopback 127.0.0.0
 	link-local 169.254.0.0
 	&-------------------------------------------------------------------------------
 		
-	&-------------------------------------------------------------------------------
-	# /etc/sysconfig/network
-	#
-	SEARCH=labo2.arles
-	GATEWAY=192.168.0.xxx
-	&-------------------------------------------------------------------------------
 
 	Le fichier /etc/host.conf
-	&-------------------------------------------------------------------------------
-	multi on
+  # Fichier /etc/host.conf
+  multi on
 	&-------------------------------------------------------------------------------
 
 	Le fichier /etc/resolv.conf
-	&-------------------------------------------------------------------------------
+  # /etc/resolv.conf
+  #
+  domain labo2.arles
 	search labo2.arles
   nameserver 192.168.0.xxx
 	&-------------------------------------------------------------------------------
 
 
 	Les fichiers de configuration des interfaces réseau
-	&-------------------------------------------------------------------------------
- 	# ifcfg-eth0
-	#
- 	DEVICE="eth0"
- 	HWADDR="XX:24:1D:13:85:XX"
- 	NM_CONTROLLED="no"
- 	ONBOOT="yes"
- 	BOOTPROTO=static
- 	IPADDR=192.168.0.xxx
- 	NETMASQ=255.255.255.0
- 	# Empêcher la réécriture automatique de /etc/resolv.conf ##
- 	PEERDNS=no
+  # Fichier /etc/sysconfig/network-script/ifcfg-enp2s0
+  # ifcfg-enp2s0
+  #
+  DEVICE="enp2s0"
+  HWADDR="00:24:1D:13:85:FE"
+  NM_CONTROLLED="no"
+  ONBOOT="yes"
+  BOOTPROTO=static
+  IPADDR=192.168.0.250
+  NETMASQ=255.255.255.0
 	&-------------------------------------------------------------------------------
 
 ==================================================================================
