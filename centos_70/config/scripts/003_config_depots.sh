@@ -15,31 +15,39 @@ else
 		echo "----------------------------------------------------------"
 
 	# Réglage du dépot de base   
-  	 cat $CWD/../repositories/CentOS-Base.repo >\
-   	/etc/yum.repos.d/CentOS-Base.repo
-
-	# Téléchargement du paquet rpmforge
-	#	lynx http://apt.sw.be/redhat/el7/en/x86_64/rpmforge/RPMS/
-
+  	cat $CWD/../repositories/CentOS-Base.repo >\
+  	/etc/yum.repos.d/CentOS-Base.repo
+  
+    mkdir RPMS
+    cd RPMS
+  
+	# Téléchargement du paquet rpmforge et installation
+		lynx http://apt.sw.be/redhat/el7/en/x86_64/rpmforge/RPMS/
+    paquet=$(echo rpmforge*)
+    rpm -Uvh $paquet
+    
 	# Réglage du dépot rpmforge-release
-  #	cat $CWD/../repositories/rpmforge.repo >\
-  #	/etc/yum.repos.d/rpmforge.repo
+  	cat $CWD/../repositories/rpmforge.repo >\
+  	/etc/yum.repos.d/rpmforge.repo
+  
+  # Installation du paquet epel-release
+    yum -y install epel-release
 
 	# Réglage du dépot epel-release
-  #	 cat $CWD/../repositories/epel.repo >\
-  #	/etc/yum.repos.d/epel.repo
+   cat $CWD/../repositories/epel.repo >\
+  /etc/yum.repos.d/epel.repo
 
 	# Nettoyage, mise à jour et vérification dépots
-		yum repolist
-   	yum clean all
-   	yum check-update
-   	yum update
+	yum repolist
+  yum clean all
+  yum check-update
+  yum update
 	# Installation de deux utilitaires
-		yum -y install logwatch glances
+	yum -y install logwatch glances
   
 	echo "-----------------------------------"
 	echo ":: Mise à jour terminée... ::"
-	echo ":: Logwatch et Glances installés ::"
+	echo ":: Logwatch et glances installés ::"
 	echo "-----------------------------------"
 fi
 exit 0
