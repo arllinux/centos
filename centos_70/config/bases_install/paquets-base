@@ -2,7 +2,6 @@
 #
 # Outils
 bind-utils
-epel-release
 gpm
 iptables-services
 lynx
@@ -15,7 +14,6 @@ ntp
 ntsysv
 pciutils         
 pinfo
-rpmforge-release
 tcpdump
 time
 traceroute
@@ -24,9 +22,4 @@ wget
 whois
 yum-plugin-priorities
 yum-utils
-gpm
-tcpdump
-epel-release
-rpmforge-release
-pciutils
 screen
