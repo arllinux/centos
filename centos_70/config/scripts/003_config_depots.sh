@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 003_config_depots.sh
-# JP Antinoux - Décembre 2014
+# JP Antinoux - Décembre 2014 - modifié mai 2015
 
 CWD=$(pwd)
 
@@ -18,12 +18,17 @@ else
   	cat $CWD/../repositories/CentOS-Base.repo >\
   	/etc/yum.repos.d/CentOS-Base.repo
   
-    mkdir RPMS
-    cd RPMS
-  
+    mkdir $CWD/RPMS
+    cd $CWD/RPMS
+  # Téléchargement de la clé du dépôt
+    rpm --import http://apt.sw.be/RPM-GPG-KEY.dag.txt
+
 	# Téléchargement du paquet rpmforge et installation
 		lynx http://apt.sw.be/redhat/el7/en/x86_64/rpmforge/RPMS/
     paquet=$(echo rpmforge*)
+
+    # Vérifier le et installer le paquet
+    rpm -K $paquet
     rpm -Uvh $paquet
     
 	# Réglage du dépot rpmforge-release
@@ -44,6 +49,9 @@ else
   yum update
 	# Installation de deux utilitaires
 	yum -y install logwatch glances
+  
+  # Suppression du répertoire crée au début du script
+  rm -rf $CWD/RPMS
   
 	echo "-----------------------------------"
 	echo ":: Mise à jour terminée... ::"

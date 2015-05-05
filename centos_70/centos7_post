@@ -2,11 +2,11 @@
 'Réglages initiaux après installation minimale de CentOs 7'
 #==========================================================
 
-Jean-Pierre Antinoux - janvier 2015
+Jean-Pierre Antinoux - mai 2015
 
 # ==================================================================
   Sommaire
-# 1 Installer deltarpm puis deux outils de base
+# 1 Installer deltarpm, git, vim
 # 2 Mise à jour initiale du système
 # 3 Récupérer la documentation et les scripts de personnalisation
 # 4 Créer un utilisateur simple
@@ -24,15 +24,9 @@ Jean-Pierre Antinoux - janvier 2015
 
 # 1 #
 
-'Installer trois outils de base :'
+'Installer deltarpm, git, vim :'
 #-------------------------------
-# yum install deltarpm
-# yum install vim git
-
-Pour colorer les commandes de git
-# git config --global --add color.ui true
-Pour supprimer le long message lors de l'export de données
-# git config --global push.default matching
+# yum install deltarpm vim git
 
 
 # 2 #
@@ -55,7 +49,22 @@ Importer la documentation
 Se déplacer dans :
 # cd centos/centos_70/config/scripts
 Lancer le script
+----------------------
+# ./000_config_git.sh
+----------------------
+
+Le script va réaliser les actions suivantes :
+
+Colorer les commandes de git
+# git config --global --add color.ui true
+Supprimer le long message lors de l'export de données
+# git config --global push.default matching
+
+Puis
+Lancer le script
+----------------
 # ./001_base.sh
+----------------
 
 Le script va réaliser les actions suivantes :
 - La configuration de vim (/etc/vimrc)
@@ -118,47 +127,16 @@ Ctrl + d
 
 'Configurer l'adresse statique du serveur dans le réseau'
 #--------------------------------------------------------
-Editer le fichier : /etc/sysconfig/network-scripts/ifcfg-enp2s0
-# vim /etc/sysconfig/network-scripts/ifcfg-enp2s0
-
-Utiliser ces paramètres : à adapter en fonction du contexte
-
-# /etc/sysconfig/network-scripts/ifcfg-enp2s0
----
-# ifcfg-enp2s0
-#
-DEVICE="enp2s0"
-HWADDR="xx:xx:xx:xx:xx"
-NM_CONTROLLED="no"
-ONBOOT="yes"
-BOOTPROTO=static
-IPADDR=192.168.0.xxx
-NETMASQ=255.255.255.0
----
-
-Ensuite pour indiquer la passerelle vers internet :
-/etc/sysconfig/network
-# vim /etc/sysconfig/network
-
-Utiliser ces paramètres : à adapter en fonction du contexte
----
-# /etc/sysconfig/network
-#
-NETWORKING=yes
-NETWORKING_IPV6=no
-GATEWAY=192.168.0.254
----
-
 Se déplacer dans la documentation
 # cd
 # cd centos/centos_70/config/scripts
+-------------------
 # ./002_ip_fixe.sh
+-------------------
 
 Le script va réaliser les actions suivantes :
 - Faire un boucle pour trouver la carte réseau
 - Ouvrir les fichiers de configuration et adapter le contenu (manuellement)
-
-------------------------------------------------------------
 
 Relancer le service "network"
 Attention, si vous vous connectez à distance, parce que vous
@@ -180,44 +158,27 @@ inet 192.168.0.xxx
 - rpmforge.repo
 - epel.repo
 
-'Ajout et configuration du dépot "rpmforge'
-#-------------------------------------------
-
-Ceci est donné à titre indicatif.
-Cela permet de connaître la procédure pour récupérer un paquet précis "à la main"
-
-
-Créer un répertoire dans root
-# mkdir RPMS
-# cd RPMS
-
-Utiliser un navigateur en mode texte
-# lynx apt.sw.be
-Aller dans le dossier : "redhat" --> "el7" --> "en" --> "x86_64" --> "rpmforge" --> "RPMS"
-Après avoir tapé : shift + / pour définir la requète : rechercher "rpmforge-release"
-Choisir la version la plus récente.
-Taper "d" pour charger le fichier, puis Entrée sur  "Enregistrer le fichier" (en jaune),
---> Enfin "Entrée" pour confirmer.
-
-Quitter "lynx" --> "q" puis "o"
-
-Retour dans le dossier RPMS
-Avant d'installer le dépot rpmforge
-Importer la clé GPG
-# rpm --import http://apt.sw.be/RPM-GPG-KEY.dag.txt
-Vérifier le paquet du dépot
-[root@prunelle:~/RPMS] # rpm -K rpmforge-release-xxxxxx.*.rpm
-rpmforge-release-xxxxxxx.rpm: (sha1) dsa sha1 md5 gpg OK
-Installer le paquet !
-# rpm -ivh rpmforge-release-xxxxxx.i686.rpm
+'Ajout et configuration du dépot "rpmforge" et autres'
+#-----------------------------------------------------
 
 Se déplacer dans la documentation
 # cd
 # cd centos/centos_70/config/scripts
+-------------------------
 # ./003_config_depots.sh
+-------------------------
 
 Le script va réaliser les actions suivantes :
-(Les paquets epel-release et rpmforge-release ont été installés par le script 001)
+- lancement du mirroir de paquet rpmforge dans lequel il faudra chercher
+  manuellement le paquet "rpmforge" :-)
+    Voici comment pratique lorque l'on se trouve dans le dépôt :
+      Après avoir tapé : shift + / pour définir la requète : rechercher "rpmforge"
+      Choisir la version la plus récente.
+      Taper "d" pour charger le fichier, puis Entrée sur  "Enregistrer le fichier" (en jaune),
+      --> Enfin "Entrée" pour confirmer.
+      Quitter "lynx" --> "q" puis "o"
+  A partir de là l'automatisme reprend la main...
+
 - Réglages des priorités pour le dépôt de Base
 - Réglages des priorités pour le dépôt rpmforge
 - Réglages des priorités pour le dépôt epel
