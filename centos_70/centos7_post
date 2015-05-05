@@ -279,6 +279,9 @@ Se déplacer dans la documentation
 'Mise en place de dnsmasq et paramétrages'
 #----------------------------------------
 
+Complément d'information à cette adresse
+# lynx http://www.microlinux.fr/microlinux/Linux-HOWTOs/Dnsmasq-HOWTO.txt
+
 Se déplacer dans la documentation
 # cd centos/centos_70/config/scripts
 # ./007_dnsmasq.sh

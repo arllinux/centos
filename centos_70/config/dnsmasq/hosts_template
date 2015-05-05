@@ -1,0 +1,16 @@
+# Fichier /etc/hosts
+#
+127.0.0.1      localhost localhost.localdomain  localhost4 localhost4.localdomain4
+192.168.0.250  centos7              centos7.labo2.arles
+192.168.0.254  freebox              freeboox.labo2.arles
+192.168.0.10   tplink               tplink.labo2.arles
+192.168.0.250  freebsd.centos7      freebsd.centos7.labo2.arles
+192.168.0.250  slackware.centos7    slackware.centos7.labo2.arles
+192.168.0.250  phpinfo.centos7      phpinfo.centos7.labo2.arles
+192.168.0.250  dolibarr.centos7     dolibarr.centos7.labo2.arles
+192.168.0.250  ezmonitor.centos7    ezmonitor.centos7.labo2.arles
+192.168.0.250  galette.centos7      galette.centos7.labo2.arles
+192.168.0.250  laurux.centos7       laurux.centos7.labo2.arles
+192.168.0.250  glpi.centos7         glpi.centos7.labo2.arles
+192.168.0.250  owncloud.centos7     owncloud.centos7.labo2.arles
+
