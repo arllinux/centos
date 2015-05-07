@@ -6,6 +6,8 @@
 IPT=$(which iptables)
 MOD=$(which modprobe)
 SYS=$(which sysctl)
+INET=enp2s0
+ETH=192.168.0.250
 
        #---------------#
        # Tout accepter #
@@ -51,9 +53,9 @@ SYS=$(which sysctl)
        done
 
        # Modifications des politiques par défaut :
-       # $IPT -P INPUT DROP
-       # $IPT -P OUTPUT ACCEPT
-       # $IPT -P FORWARD ACCEPT
+       $IPT -P INPUT DROP
+       $IPT -P OUTPUT ACCEPT
+       $IPT -P FORWARD ACCEPT
 
        # Relais des paquets (yes/no)
        # MASQ=yes
@@ -75,67 +77,67 @@ SYS=$(which sysctl)
 
        # FTP local :
        # $MOD ip_conntrack_ftp
-       # $IPT -A INPUT -p tcp --dport 21 -j ACCEPT
+       # $IPT -A INPUT -p tcp -i $INET --dport 21 -j ACCEPT
 
        # SSH local :
-       # $IPT -A INPUT -p tcp --dport 22 -j ACCEPT
+       # $IPT -A INPUT -p tcp -i $INET --dport 22 -j ACCEPT
 
        # SSH limité en provenance de l'extérieur :
-       # $IPT -A INPUT -p tcp --dport 22 -m state --state NEW -m recent --set --name SSH
-       # $IPT -A INPUT -p tcp --dport 22 -m state --state NEW -m recent --update --seconds 60 --hitcount 2 --rttl --name SSH -j DROP
+       # $IPT -A INPUT -p tcp -i $INET --dport 22 -m state --state NEW -m recent --set --name SSH
+       # $IPT -A INPUT -p tcp -i $INET --dport 22 -m state --state NEW -m recent --update --seconds 60 --hitcount 2 --rttl --name SSH -j DROP
 
        # DNS :
-       # $IPT -A INPUT -p tcp --dport 53 -j ACCEPT
-       # $IPT -A INPUT -p udp --dport 53 -j ACCEPT
+       # $IPT -A INPUT -p tcp -i $INET --dport 53 -j ACCEPT
+       # $IPT -A INPUT -p udp -i $INET --dport 53 -j ACCEPT
 
        # DHCP :
-       # $IPT -A INPUT -p udp --dport 67:68 -j ACCEPT
+       # $IPT -A INPUT -p udp -i $INET --dport 67:68 -j ACCEPT
 
        # HTTP :
-       # $IPT -A INPUT -p tcp --dport 80 -j ACCEPT
+       # $IPT -A INPUT -p tcp -i $INET --dport 80 -j ACCEPT
 
        # HTTPS :
-       # $IPT -A INPUT -p tcp --dport 443 -j ACCEPT
+       # $IPT -A INPUT -p tcp -i $INET --dport 443 -j ACCEPT
 
        # NTP :
-       # $IPT -A INPUT -p udp --dport 123 -j ACCEPT
+       # $IPT -A INPUT -p udp -i $INET --dport 123 -j ACCEPT
 
        # Samba :
-       # $IPT -A INPUT -p udp --dport 137:138 -j ACCEPT
-       # $IPT -A INPUT -p tcp --dport 139 -j ACCEPT
-       # $IPT -A INPUT -p tcp --dport 445 -j ACCEPT
+       # $IPT -A INPUT -p udp -i $INET --dport 137:138 -j ACCEPT
+       # $IPT -A INPUT -p tcp -i $INET --dport 139 -j ACCEPT
+       # $IPT -A INPUT -p tcp -i $INET --dport 445 -j ACCEPT
 
        # CUPS :
-       # $IPT -A INPUT -p tcp --dport 631 -j ACCEPT
-       # $IPT -A INPUT -p udp --dport 631 -j ACCEPT
+       # $IPT -A INPUT -p tcp -i $INET --dport 631 -j ACCEPT
+       # $IPT -A INPUT -p udp -i $INET --dport 631 -j ACCEPT
 
        # NFS :
-       # $IPT -A INPUT -p tcp --dport 111 -j ACCEPT
-       # $IPT -A INPUT -p udp --dport 111 -j ACCEPT
-       # $IPT -A INPUT -p tcp --dport 2049 -j ACCEPT
-       # $IPT -A INPUT -p udp --dport 2049 -j ACCEPT
-       # $IPT -A INPUT -p tcp --dport 32765:32769 -j ACCEPT
-       # $IPT -A INPUT -p udp --dport 32765:32769 -j ACCEPT
+       # $IPT -A INPUT -p tcp -i $INET --dport 111 -j ACCEPT
+       # $IPT -A INPUT -p udp -i $INET --dport 111 -j ACCEPT
+       # $IPT -A INPUT -p tcp -i $INET --dport 2049 -j ACCEPT
+       # $IPT -A INPUT -p udp -i $INET --dport 2049 -j ACCEPT
+       # $IPT -A INPUT -p tcp -i $INET --dport 32765:32769 -j ACCEPT
+       # $IPT -A INPUT -p udp -i $INET --dport 32765:32769 -j ACCEPT
 
        # NIS :
-       # $IPT -A INPUT -p tcp --dport 834 -j ACCEPT
-       # $IPT -A INPUT -p udp --dport 834 -j ACCEPT
+       # $IPT -A INPUT -p tcp -i $INET --dport 834 -j ACCEPT
+       # $IPT -A INPUT -p udp -i $INET --dport 834 -j ACCEPT
 
        # Squid :
-       #$IPT -A INPUT -p tcp -i eth0 --dport 3128 -j ACCEPT
-       #$IPT -A INPUT -p udp -i eth0 --dport 3128 -j ACCEPT
+       # $IPT -A INPUT -p tcp -i $INET --dport 3128 -j ACCEPT
+       # $IPT -A INPUT -p udp -i $INET --dport 3128 -j ACCEPT
 
        # Proxy transparent :
-       # $IPT -A PREROUTING -t nat -i eth0 -p tcp ! -d 192.168.0.250 \
+       # $IPT -A PREROUTING -t nat -i $INET -p tcp ! -d $ETH \
        # --dport 80 -j REDIRECT --to-port 3128
 
        # MPD :
-       # $IPT -A INPUT -p tcp --dport 8000 -j ACCEPT
+       # $IPT -A INPUT -p tcp -i $INET --dport 8000 -j ACCEPT
        
        # Activer le relais des paquets
        # if [ $MASQ = 'yes' ]; then
-       #   $IPT -t nat -A POSTROUTING -o 192.168.0.250 -s 192.168.0.250 -j MASQUERADE
-       #   $SYS -q -w net.ipv4.ip_forward=1
+         # $IPT -t nat -A POSTROUTING -o $ETH -s $ETH -j MASQUERADE
+         # $SYS -q -w net.ipv4.ip_forward=1
        # fi
 
        # Enregistrer les connexions refusées :
