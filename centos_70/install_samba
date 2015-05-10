@@ -15,9 +15,6 @@ Ouvrir les ports suivants :
 
 Pour ouvrir les ports utiliser le script :
 # cd centos/centos_70/config/scripts/
-Exécuter le script
-# ./004_pdt_firewall.sh
-Décocher les lignes correspondante à Samba
 
 Toute la procédure ci-dessous est gérée par le script :
 # ./010_install_samba.sh

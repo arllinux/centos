@@ -79,7 +79,7 @@ Le script va réaliser les actions suivantes :
 - Activer la couleur de la console
 - Crée le lien symbolique pour lancez eZmonitor.sh avec la commande diag -a
 
-Redemarrer
+Redemarrer pour prendre en compte la désactivation de SELinux
 # reboot
 
 
