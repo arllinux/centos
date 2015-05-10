@@ -1,0 +1,15 @@
+RAID hardware failed and both SATA x 2 TB stops working, tried enable/disable
+RAID controller without luck, Add/Remove drives but no boot, kernel panic and
+stuck.
+
+Now what I want is to boot one hard disk to restore services so I tried:
+# fsck /dec/sda
+
+but it gives error
+# unknown filesystem type 'isw_raid_member'
+
+So the solution is , remove RAID metadata from the drives and boot normally.
+# dmraid -rE /dev/sda
+# reboot
+
+And Hard disk start working…..

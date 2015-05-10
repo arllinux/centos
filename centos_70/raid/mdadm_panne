@@ -1,0 +1,133 @@
+# ====================================================
+# Remplacer un disque d'un ensemble raid sous CentOS7
+# ====================================================
+
+Normalement nous recevons un mail qui nous indique une défaillance
+
+# '''''''''''''''''''''''''''''''''''''''''''''''''
+This is an automatically generated mail message from mdadm
+running on centos7
+
+A DegradedArray event had been detected on md device /dev/md/boot.
+
+Faithfully yours, etc.
+
+P.S. The /proc/mdstat file currently contains the following:
+
+Personalities : [raid1] 
+md125 : active raid1 sda2 (F) sdb2[1]
+511936 blocks super 1.0 [2/1] [_U]
+			      
+md126 : active raid1 sda3 [2] sdb3[1]
+971918144 blocks super 1.2 [2/2] [UU]
+bitmap: 5/8 pages [20KB], 65536KB chunk
+
+md127 : active raid1 sda1 [2] sdb1[1]
+4194240 blocks super 1.2 [2/2] [UU]
+															      
+unused devices: <none>
+# '''''''''''''''''''''''''''''''''''''''''''''''''
+
+Dans le cas d'un fonctionnement normal l'affichage
+devrait être le suivant :
+md125 : active raid1 sda2[2] sdb2[1]
+511936 blocks super 1.0 [2/1] [UU]
+Comme c'est le cas pour md126 et md127
+
+Nous voyons que l'ensemble md125 à un problème :
+"[_U]" indique un problème avec la partition du 
+disque "sda2" qui est indiquée "sda2 (F)"
+
+Il faut maintenant remplacer le disque sda
+
+- Etape 1 :
+#--------
+Indiquer au système que les partitions du disque sda vont être
+désactivées :
+
+# mdadm --manage --set--faulty  /dev/md126 /dev/sda3
+mdadm: set /dev/sda3 faulty in /dev/md126
+# mdadm --manage --set--faulty  /dev/md127 /dev/sda1
+mdadm: set /dev/sda1 faulty in /dev/md127
+
+- Etape 2 :
+#--------
+Ensuite on les démontent à chaud :
+# mdadm /dev/md125 --remove /dev/sda2
+# mdadm /dev/md126 --remove /dev/sda3
+# mdadm /dev/md127 --remove /dev/sda1
+
+- Etape 3 :
+#--------
+On retire le disque :
+Logiquement le disque sda se trouve sur le port sata1 et le dique
+sdb sur le port sata2
+Une vérification supplémentaire ne coute rien si ce n'est une ligne
+de commande
+Si smartmontools n'est pase installé : # yum install smartmontools
+# smartctl -x /dev/sda | grep -i serial
+Serial Number:    MH12HV0B
+
+- Etape 4 :
+#--------
+On met physiquement en place le nouveau disque
+
+- Etape 5 :
+#--------
+Si le disque n'est pas neuf, il pourrait avoir fait parti d'une grappe
+raid. Il faut donc effacer son superblock
+# mdadm --zero-superblock /dev/sda1
+# mdadm --zero-superblock /dev/sda2
+# mdadm --zero-superblock /dev/sda3
+Continuer tant que l'on trouve des partitions
+
+Remettre la table des partitions à zero
+# dd if=/dev/zero of=/dev/sda bs=512 count=1
+
+Redémarrer
+# reboot
+
+- Etape 6 :
+#--------
+Mettre en place la table des partitions dans le nouveau disque
+Soit on utilise le fichier qui avait été créé par prudence lors de l'installation
+# sfdisk /dev/sda < part_table
+Soit on crée à partir du disque sain un fichier que l'on va réinjecter dans le 
+nouveau disque
+# sfdisk -l /dev/sdb > part_table
+# sfdisk /dev/sda < part_table
+
+Vérifier avec la commande fdisk si la table est bien prise en compte par le disque :
+# fdisk /dev/sda
+Device Boot      Start         End      Blocks   Id  System
+/dev/sda1               1          13       96256   fd  Linux raid autodetect
+/dev/sda2              13         256     1951744   fd  Linux raid autodetect
+/dev/sda3             256       60802   486334464   fd  Linux raid autodetect
+
+Chaque partition est bien détecté comme "linux raid autodetect"
+Si ce n'est pas le cas redémarrer la machine.
+
+
+## Très important ##
+A partir de maintenant on va indiquer au système de reprendre en compte les
+partition.
+Il vaut mieux commencer par la partition /boot sans quoi nous seront obligé
+d'attendre (quelquefois plusieurs heures).
+
+Donc dans notre cas :
+# mdadm /dev/md125 --add /sda2
+# mdadm /dev/md127 --add /sda1
+# mdadm /dev/md126 --add /sda3
+
+- Etape 7 :
+#--------
+Si grub refuse de rédémarrer il faut lancer le disque d'installation
+--> Troubleshooting
+--> system rescue
+$ chroot /mnt/sysimage
+# grub-install /dev/sda
+# grub2-mkconfig -o /boot/grub2/grub.cfg
+# exit
+# reboot
+
+A partir de maintenant tout est rentré dans l'ordre

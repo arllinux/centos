@@ -1,0 +1,105 @@
+#--------------------------------------------------
+les outils de l'administrateur réseau sous CentOS 7
+#--------------------------------------------------
+
+1 Les fichiers de configuration réseau
+
+2 La commande ifconfig
+
+3 La commande arp
+
+4 La commande route
+
+5 La commande netstat
+
+6 La commande traceroute
+
+7 La commande dig
+
+8 La commande host
+
+
+
+2 La commande ifconfig
+#---------------------
+#
+# La commande ifconfig permet la configuration locale ou à distance des
+# interfaces réseau de tous types d'équipements (unité centrale, routeur). Sans
+# paramètres, la commande ifconfig permet d'afficher les paramètres réseau des
+# interfaces.
+
+Principales utilisations :
+Voir les interfaces réseaux et leurs paramètres
+# ifconfig
+
+Arreter et activer l'interface eth0
+# ifconfig eth0 down
+# ifconfig eth0 up
+
+
+3 La commande arp
+#----------------
+#
+# Elle donne la correspondance entre une adresse IP et une adresse MAC (Ethernet).
+
+# arp -va
+
+
+4 La commande route
+#------------------
+#
+# Le routage définit le chemin emprunté par les paquets entre son point de
+# départ et son point d'arrivée. Cette commande permet également la
+# configuration de pc, de switchs de routeurs.
+# Elle permet de voir la passerelle vers l'extérieur
+
+# route -n
+
+5 La commande netstat
+#--------------------
+#
+# La commande netstat, permet de tester la configuration du réseau, visualiser
+# l'état des connexions, établir des statistiques, notamment pour surveiller
+# les serveurs.
+
+
+# netstat -taupe
+
+
+6 La commande traceroute
+#-----------------------
+#
+# La commande traceroute permet d'afficher le chemin parcouru par un paquet
+# pour arriver à destination. Cette commande est importante, car elle permet
+# d'équilibrer la charge d'un réseau, en optimisant les routes.
+#
+
+# traceroute google.fr
+
+
+7 La commande dig
+#----------------
+#
+# La commande dig remplace ce qui était la commande nslookup. Cette commande
+# sert à diagnostiquer des dysfonctionnements dans la résolution de noms
+# (Service DNS).
+#
+
+# dig google.fr
+
+
+--&------------------------------------------------------------
+8 La commande host
+#-----------------
+#
+# La commande host interroge les serveurs de noms. Elle peut par exemple être
+# utilisée pour détecter des dysfonctionnement sur un réseau (serveurs hors
+# services). Attention, n'utilisez pas cette commande sur des réseaux dont vous
+# n'avez pas l'administration.
+
+Les tests sont effectués sur un poste client qui passe par le serveur local
+
+# host 192.168.0.xxx
+
+
+# ---///---
