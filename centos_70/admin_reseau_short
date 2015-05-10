@@ -3,6 +3,13 @@ les outils de l'administrateur réseau sous CentOS 7
 #--------------------------------------------------
 
 1 Les fichiers de configuration réseau
+  Le fichier /etc/hostname # Contient le nom de la machine
+	Le fichier /etc/hosts # Contient le nom des machines vers lesquelles on veut pointer
+	Le fichier /etc/networks # Contient entre autre la passerelle
+  Le fichier /etc/sysconfig # Contient les paramètres par défaut
+	Le fichier /etc/host.conf # Priorité des fichiers pour DNS
+	Le fichier /etc/resolv.conf # Contient le nom du réseau local et l'ip du serveur
+	Les fichiers de configuration des interfaces réseau # tous les paramètres de l'interface réseau
 
 2 La commande ifconfig
 
