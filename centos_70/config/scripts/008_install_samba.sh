@@ -28,8 +28,11 @@ if [ $USER != "root" ]
   if [ $numrep = 1 ]
     then
       mkdir -pv -m 1777 /srv/samba/public
+			mkdir -pv -m 1777 /srv/samba/public/.Corbeille
     else
       mkdir -pv -m 1777 /srv/samba/{public,confidentiel}
+			mkdir -pv -m 1777 /srv/samba/public/.Corbeille
+			mkdir -pv -m 1777 /srv/samba/confidentiel/.Corbeille
   fi
 
   echo "-------------------------------------------------"

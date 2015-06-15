@@ -36,12 +36,6 @@ else
         TOOLS=$(egrep -v '(^\#)' $CWD/../bases_install/paquets-base)
         yum -y install $TOOLS
 
-		# Personnalisation de screen
-        echo "------------------------------"
-        echo ":: Peronnalisation de scree ::"
-        echo "------------------------------"
-	cat $CWD/../screen/screenrc > /etc/screenrc
-				
     # Désactivation de firewalld
         echo "---------------------------------"
         echo ":: Désactivation de firewalld. ::"
@@ -62,11 +56,6 @@ else
         echo "-----------------------------------"
         systemctl enable iptables
         systemctl start iptables
-
-    # Activation de la souris en console 
-        echo ":: Activation de la souris en console. ::"
-        systemctl start gpm.service 
-        systemctl enable gpm.service
 
     # Désactivation de l'ipv6
         echo "-----------------------------"

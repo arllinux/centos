@@ -39,6 +39,17 @@ else
   # Envoie les données du modèle vers le fichier de configuration.      
         cat $CWD/../dnsmasq/dnsmasq.conf > /etc/dnsmasq.conf
 
+  # Mise en place de l'encapsuleur TCP
+        echo "----------------------------------------"
+        echo ":: Mise en place de l'encapsuleur tcp ::"
+        echo "----------------------------------------"
+        vim $CWD/../firewall/hosts.allow
+        cat $CWD/../firewall/hosts.allow > /etc/hosts.allow
+        cat $CWD/../firewall/hosts.deny > /etc/hosts.deny
+
+  # Relancer le service iptatble
+        systemctl restart iptables.service
+
         echo "------------------------------"
         echo ":: Activation de dnsmasq ::"
         echo "------------------------------"

@@ -2,7 +2,6 @@
 #
 # Outils
 bind-utils
-gpm
 iptables-services
 lynx
 man-pages
@@ -22,4 +21,3 @@ wget
 whois
 yum-plugin-priorities
 yum-utils
-screen

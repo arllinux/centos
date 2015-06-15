@@ -44,11 +44,6 @@ else
       # Rendre persistant le relais des paquets
         cat $CWD/../firewall/sysctl.conf2 >> /etc/sysctl.conf
 
-      # Mettre en place l'encapsuleur TCP
-        vim $CWD/../firewall/hosts.allow
-        cat $CWD/../firewall/hosts.allow > /etc/hosts.allow
-        cat $CWD/../firewall/hosts.deny > /etc/hosts.deny
-
       # Lancer le service
         systemctl restart iptables.service
       

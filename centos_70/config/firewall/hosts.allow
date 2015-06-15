@@ -9,7 +9,8 @@
 #		See 'man tcpd' for information on tcp_wrappers
 #
 ALL   : localhost               : ALLOW
-ALL   : centos7                 : ALLOW
-ALL   : centos7.labo2.arles     : ALLOW
+# Adapter les 2 lignes ci-dessous et décomenter-les
+#ALL   : centos7                 : ALLOW
+#ALL   : centos7.labo2.arles     : ALLOW
 sshd  : ALL                     : ALLOW
 
