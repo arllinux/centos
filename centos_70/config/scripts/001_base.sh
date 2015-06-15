@@ -76,7 +76,7 @@ else
         diag -a
 
  	# Activer la coloration de l'invite root
-	basch -c source $RC_ROOT
+	bash -c source $RC_ROOT
 
         echo "-------------------------------"
       	echo ":: Réglages de base terminés ::"
