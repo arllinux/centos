@@ -13,15 +13,31 @@ if [ $USER != "root" ] ;
 	echo "Pour exécuter ce script il faut être l'utilisateur root !"
 else
 
+    # Vérification du nom d'utilisateur
+       read -p 'Utilisateur (login) à personnaliser : ' nom
+       while [ -z $nom ]; do
+       echo "Veuillez saisir votre nom"
+       read nom
+       done
+       cat /etc/passwd | grep bash | awk -F ":" '{print $1}' | grep -w $nom > /dev/null
+ if [ $? = "0" ]
+   then
+       echo ":: Configuration invite de commande pour l'utilisateur courant. ::"
+       cat $CWD/../bash/invite_users > /home/$nom/.bashrc
+    
     # Configuration de Vim
         echo "---------------------------"
         echo ":: Configuration de Vim. ::"
         echo "---------------------------"
-	      cat $CWD/../vim/vimrc > /etc/vimrc
+	cat $CWD/../vim/vimrc > /etc/vimrc
 
     # Personnalisation invite pour les futurs utilisateurs
-	      echo ":: Personnalisation invite pour les futurs utilisateurs. ::"
-	      cat $CWD/../bash/$FILE_U > /etc/skel/.bashrc
+        echo ":: Personnalisation invite pour les futurs utilisateurs. ::"
+        cat $CWD/../bash/$FILE_U > /etc/skel/.bashrc
+
+    # Personnalisation pour l'utiisateur actif
+        echo ":: Personnalisation invite pour l'utilisateurs actif. ::"
+        cat $CWD/../bash/$FILE_U > /home/$nom/.bashrc
 
     # Installation invite root
         echo "-----------------------------------------"
@@ -75,12 +91,16 @@ else
         ln -s /root/centos/centos_70/eZServerMonitor.sh /root/bin/diag
         diag -a
 
- 	# Activer la coloration de l'invite root
+ 	# Activer la coloration de l'invite root et utilisateur
 	bash -c source $RC_ROOT
+	bash -c source /home/$nom/.bashrc
 
         echo "-------------------------------"
       	echo ":: Réglages de base terminés ::"
         echo "-------------------------------"
+  else
+        echo "Ce nom d'utilisateur n'existe pas. Réessayez !"
+ fi
 fi
 
 exit 0
