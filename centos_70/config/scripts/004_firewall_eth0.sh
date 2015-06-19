@@ -55,16 +55,6 @@ else
       echo -e "------------------------------------"
         systemctl status iptables.service
 
-      echo -e "------------------------------------"
-      echo -e ":: Patientez 5 secondes : ....... ::"
-      echo -e "------------------------------------"
-        sleep 5
-      
-      echo -e "-----------------------------------"
-      echo -e ":: Voir ce qu'en pense le kernel ::"
-      echo -e "-----------------------------------"
-        tail -f /var/log/messages | grep firewall
-
 fi
 
 exit 0

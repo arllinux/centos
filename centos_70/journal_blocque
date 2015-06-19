@@ -1,0 +1,15 @@
+# Si lors de l'appel de la commande :
+# journalctl -xn
+On trouve comme retour en bas du fichier :
+May  7 22:26:09 host-074 rsyslogd: [origin software="rsyslogd"
+swVersion="7.4.7" x-pid="547" x-info="http://www.rsyslog.com"] start
+May  7 22:26:09 host-074 rsyslogd-2027: imjournal: fscanf on state file
+`/var/lib/rsyslog/imjournal.state' failed
+
+Une partie des lignes est en rouge et le message se termine par failed
+
+Il faut invoquer les deux commandes suivantes :
+
+# rm -f /var/lib/rsyslog/imjournal.state
+# systemctl restart rsyslog
+
