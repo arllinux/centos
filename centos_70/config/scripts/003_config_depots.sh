@@ -24,6 +24,11 @@ else
     rpm --import http://apt.sw.be/RPM-GPG-KEY.dag.txt
 
 	# Téléchargement du paquet rpmforge et installation
+		echo ":: Le navigateur lynx va se lancer"
+		echo ":: Il faut taper '/rpmforge' pour trouver le paquet"
+		echo ":: Confirmer ensuite par la touche d (download)"
+    echo ":: Valider en tapant sur entrée puis quitter Lynx 'q' puis 'o'"
+		bash -c chono.sh
 		lynx http://apt.sw.be/redhat/el7/en/x86_64/rpmforge/RPMS/
     paquet=$(echo rpmforge*)
 
@@ -38,24 +43,26 @@ else
   # Installation du paquet epel-release
     yum -y install epel-release
 
-	# Réglage du dépot epel-release
+	 # Réglage du dépot epel-release
    cat $CWD/../repositories/epel.repo >\
-  /etc/yum.repos.d/epel.repo
+   /etc/yum.repos.d/epel.repo
 
-	# Nettoyage, mise à jour et vérification dépots
-	yum repolist
-  yum clean all
-  yum check-update
-  yum update
-	# Installation de deux utilitaires
-	yum -y install logwatch glances
+	 # Nettoyage, mise à jour et vérification dépots
+	 yum repolist
+   yum clean all
+   yum check-update
+   yum update
+	
+	 # Installation de deux utilitaires
+	 yum -y install logwatch glances
   
-  # Suppression du répertoire crée au début du script
-  rm -rf $CWD/RPMS
+   # Suppression du répertoire crée au début du script
+   rm -rf $CWD/RPMS
   
 	echo "-----------------------------------"
 	echo ":: Mise à jour terminée... ::"
 	echo ":: Logwatch et glances installés ::"
 	echo "-----------------------------------"
 fi
+
 exit 0

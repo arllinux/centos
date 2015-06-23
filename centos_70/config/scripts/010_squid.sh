@@ -18,17 +18,20 @@ else
   
     	# Ouverture des ports du parefeu
       # Ouvre le fichier firewall pour permettre les modifications      
-        vim /usr/local/sbin/firewall.sh
+			echo ":: le fichier de configuration du parefeu va s'ouvrir pour
+  		permettre les modifications"
+  		bash -c chrono.sh
+      vim /usr/local/sbin/firewall.sh
         
 	    # Exécuter le script
-				bash -c /usr/local/sbin/firewall.sh
+		 	bash -c /usr/local/sbin/firewall.sh
 
-       # Relance le service pour mettre à jour et figer les règles      
-        systemctl restart iptables.service
+      # Relance le service pour mettre à jour et figer les règles      
+      systemctl restart iptables.service
 
-       # Activer squid et le lancer
-        systemctl enable squid
-        systemctl start squid
+      # Activer squid et le lancer
+      systemctl enable squid
+      systemctl start squid
 fi
 
 exit 0
