@@ -17,8 +17,8 @@ else
     
     then
      
-			 echo ":: le fichier de configuration du parefeu va s'ouvrir pour
-			 permettre les modifications"
+			 echo ":: le fichier de configuration du parefeu va"
+       echo ":: s'ouvrir pour permettre les modifications"
 			 bash -c chrono.sh
       # l'ouvrir, le modifier...
         vim $WAY
@@ -38,9 +38,9 @@ else
       # vers /usr/local/sbin
         cp $CWD/../firewall/firewall.sh $WAY
       
-			echo ":: le fichier de configuration du parefeu va s'ouvrir pour
-			permettre les modifications"
-			bash -c chrono.sh
+			 echo ":: le fichier de configuration du parefeu va"
+       echo ":: s'ouvrir pour permettre les modifications"
+			 bash -c chrono.sh
       # l'ouvrir, le modifier...
         vim $WAY
 
