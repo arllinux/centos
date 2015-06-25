@@ -1,7 +1,9 @@
 #!/bin/sh
 #
-# firwall.sh
-# JP Antinoux - Décembre 2014
+# firewall.sh
+# JP Antinoux - Mai 2015
+# Les programmes d'administration système installés en local doivent être
+# placés dans /usr/local/sbin. 
 
 IPT=$(which iptables)
 MOD=$(which modprobe)

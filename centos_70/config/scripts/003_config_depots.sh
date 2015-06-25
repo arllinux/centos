@@ -24,11 +24,11 @@ else
     rpm --import http://apt.sw.be/RPM-GPG-KEY.dag.txt
 
 	# Téléchargement du paquet rpmforge et installation
-		echo ":: Le navigateur lynx va se lancer"
-		echo ":: Il faut taper '/rpmforge' pour trouver le paquet"
-		echo ":: Confirmer ensuite par la touche d (download)"
-    echo ":: Valider en tapant sur entrée puis quitter Lynx 'q' puis 'o'"
-		bash -c chono.sh
+		echo ":: 1 - Le navigateur lynx va se lancer"
+		echo ":: 2 - Il faut taper '/rpmforge' pour trouver le paquet"
+		echo ":: 3 - Confirmer ensuite par la touche d (download)"
+    echo ":: 4 - Valider en tapant sur entrée puis quitter Lynx 'q' puis 'o'"
+		$CWD/chrono.sh
 		lynx http://apt.sw.be/redhat/el7/en/x86_64/rpmforge/RPMS/
     paquet=$(echo rpmforge*)
 

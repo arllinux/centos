@@ -67,6 +67,10 @@ else
         echo ":: Désactivation de SELinux ::"
         cat $CWD/../selinux/selinux > /etc/sysconfig/selinux
 
+ 		 # Activer la coloration de l'invite root et utilisateur
+				bash -c source $RC_ROOT
+				bash -c source /home/$nom/.bashrc
+
     # Lien symbolique de eZServerMonitor.sh vers diag -a
         echo "------------------------------"
         echo ":: Mise en place de diag -a ::"
@@ -74,10 +78,6 @@ else
         mkdir /root/bin
         ln -s /root/centos/centos_70/eZServerMonitor.sh /root/bin/diag
         diag -a
-
- 		 # Activer la coloration de l'invite root et utilisateur
-				bash -c source $RC_ROOT
-				bash -c source /home/$nom/.bashrc
 
         echo "-------------------------------"
       	echo ":: Réglages de base terminés ::"

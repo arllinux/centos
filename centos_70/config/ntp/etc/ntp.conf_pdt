@@ -1,9 +1,13 @@
+# /etc/ntp.conf - poste de travail
+#
 driftfile /var/lib/ntp/ntp.drift
 logfile /var/log/ntp.log
+# Ligne à adapter
 server 192.168.2.1
 server 127.127.1.0
 fudge 127.127.1.0 stratum 10
 restrict default ignore
 restrict 127.0.0.1 mask 255.0.0.0
+# ligne à adapter
 restrict 192.168.2.1 mask 255.255.255.255
 

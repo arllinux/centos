@@ -49,24 +49,25 @@ if [ $USER != "root" ]
 			# fichiers agés de 2 mois.
       cat $CWD/../samba/etc/cron.weekly/samba_trash.sh.template > /etc/cron.weekly/samba_trash.sh
       chmod 0755 /etc/cron.weekly/samba_trash.sh
-			echo ":: le script de gestion de la corbeille va s'ouvrir pour visualiser
-			sa mise en place"
-  		bash -c chrono.sh
+      echo "------------------------------------------------"
+			echo ":: --> le script de gestion de la corbeille va"
+      echo ":: --> s'ouvrir pour visualiser sa mise en place"
+      echo "------------------------------------------------"
+  		$CWD/chrono.sh
+      vim /etc/cron.weekly/samba_trash.sh
 
-	echo ":: le fichier de configuration de samba va s'ouvrir pour
-  permettre les modifications"
-  bash -c chrono.sh
-  echo "----------------------------------------------"
-  echo ":: Adaptation des fichiers de configuration ::"
-  echo "----------------------------------------------"
+      echo "----------------------------------------------"
+    	echo ":: --> le fichier de configuration de samba va"
+      echo ":: --> s'ouvrir pour permettre les modifications"
+      echo "----------------------------------------------"
+      $CWD/chrono.sh
       vim /etc/samba/smb.conf
 
-  echo "---------------------------------"
-  echo ":: Ouvrir les ports pour Samba ::"
-  echo "---------------------------------"
-	echo ":: le fichier de configuration du parefeu va s'ouvrir pour
-  permettre les modifications"
-  		bash -c chrono.sh
+      echo "------------------------------------------------"
+	    echo ":: --> le fichier de configuration du parefeu va"
+      echo ":: --> s'ouvrir pour permettre les modifications"
+      echo "------------------------------------------------"
+      $CWD/chrono.sh
       vim /usr/local/sbin/firewall.sh
 
 			# Exécuter le script

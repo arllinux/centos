@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 004_firewall_eth0.sh
-# JP Antinoux - janvier 2015
+# JP Antinoux - juin 2015
 
 CWD=$(pwd)
 WAY='/usr/local/sbin/firewall.sh'
@@ -17,9 +17,9 @@ else
     
     then
      
-			 echo ":: le fichier de configuration du parefeu va"
-       echo ":: s'ouvrir pour permettre les modifications"
-			 bash -c chrono.sh
+			 echo ":: --> le fichier de configuration du parefeu va"
+       echo ":: --> s'ouvrir pour permettre les modifications"
+			 $CWD/chrono.sh
       # l'ouvrir, le modifier...
         vim $WAY
      	
@@ -38,9 +38,9 @@ else
       # vers /usr/local/sbin
         cp $CWD/../firewall/firewall.sh $WAY
       
-			 echo ":: le fichier de configuration du parefeu va"
-       echo ":: s'ouvrir pour permettre les modifications"
-			 bash -c chrono.sh
+			 echo ":: --> le fichier de configuration du parefeu va"
+       echo ":: -- > s'ouvrir pour permettre les modifications"
+			 $CWD/chrono.sh
       # l'ouvrir, le modifier...
         vim $WAY
 

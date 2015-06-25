@@ -1,5 +1,8 @@
 # ifcfg-enpxxx
-#
+
+# jpantinoux - juin 2015
+# Ici les paramètres à renseigner - En 2 lire les instructions pour faire
+# apparaitre les paramètres
 DEVICE="enpxxx"
 HWADDR="xx:xx:xx:xx:xx:xx"
 NM_CONTROLLED="no"
@@ -8,11 +11,15 @@ BOOTPROTO=static
 IPADDR=192.168.x.x
 NETMASQ=255.255.255.0
 
+# ================ 2 ==============================
+#
 # ATTENTION
 # Pour connaitre les paramètre de la carte sans ouvrir une autre console, il
-# faut positionner le cuseur sur la ligne en dessus de ces explications puis
-# taper en commande (appuyer sur insertion pour être sûr :-) :
+# faut positionner le cuseur sur la ligne en dessous de ces explications puis
+# taper en mode commande (appuyer sur insertion pour être sûr :-) :
 # :r! ifconfig
 # Le résultat de la commande s'inscrit dans l'éditeur. Après utilisation penser
 # à supprimer ce qui est inutile.
+#
+# ================ 2 ==============================
 

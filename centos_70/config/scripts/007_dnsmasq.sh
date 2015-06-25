@@ -18,9 +18,9 @@ else
         echo "--------------------------------------------------------"
         echo ":: Ouverture du parefeu tcp-udp : 53 - udp : 67 et 68 ::"
         echo "--------------------------------------------------------"
-				echo ":: le fichier de configuration du parefeu va s'ouvrir pour
-  			permettre les modifications"
-  			bash -c chrono.sh
+	      echo ":: --> le fichier de configuration du parefeu va"
+        echo ":: --> s'ouvrir pour permettre les modifications"
+        $CWD/chrono.sh
   # Ouvre le fichier firewall pour permettre les modifications      
         vim /usr/local/sbin/firewall.sh
         
@@ -34,9 +34,9 @@ else
         echo "------------------------------"
         echo ":: Configuration de dnsmasq ::"
         echo "------------------------------"
-				echo ":: le fichier de configuration de dnsmasq va s'ouvrir pour
-  			permettre les modifications"
-  			bash -c chrono.sh
+	      echo ":: --> le fichier de configuration de dnsmasq va"
+        echo ":: --> s'ouvrir pour permettre les modifications"
+        $cwd/chrono.sh
         vim $CWD/../dnsmasq/dnsmasq.conf
 
   # Copie le fichier de configuration en "fichier.old"        
@@ -49,9 +49,9 @@ else
         echo "----------------------------------------"
         echo ":: Mise en place de l'encapsuleur tcp ::"
         echo "----------------------------------------"
-				echo ":: le fichier de configuration hosts.allow va s'ouvrir pour
-  			permettre les modifications"
-  			bash -c chrono.sh
+	      echo ":: --> le fichier de configuration hosts.allow"
+        echo ":: --> s'ouvrir pour permettre les modifications"
+        $cwd/chrono.sh
         vim $CWD/../firewall/hosts.allow
         cat $CWD/../firewall/hosts.allow > /etc/hosts.allow
         cat $CWD/../firewall/hosts.deny > /etc/hosts.deny
