@@ -19,7 +19,7 @@ else
      
 			 echo ":: --> le fichier de configuration du parefeu va"
        echo ":: --> s'ouvrir pour permettre les modifications"
-			 $CWD/chrono.sh
+			 $CWD/pause_script.sh
       # l'ouvrir, le modifier...
         vim $WAY
      	
@@ -39,8 +39,8 @@ else
         cp $CWD/../firewall/firewall.sh $WAY
       
 			 echo ":: --> le fichier de configuration du parefeu va"
-       echo ":: -- > s'ouvrir pour permettre les modifications"
-			 $CWD/chrono.sh
+       echo ":: --> s'ouvrir pour permettre les modifications"
+			 $CWD/pause_script.sh
       # l'ouvrir, le modifier...
         vim $WAY
 

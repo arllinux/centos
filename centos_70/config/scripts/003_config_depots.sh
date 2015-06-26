@@ -26,9 +26,9 @@ else
 	# Téléchargement du paquet rpmforge et installation
 		echo ":: 1 - Le navigateur lynx va se lancer"
 		echo ":: 2 - Il faut taper '/rpmforge' pour trouver le paquet"
-		echo ":: 3 - Confirmer ensuite par la touche d (download)"
-    echo ":: 4 - Valider en tapant sur entrée puis quitter Lynx 'q' puis 'o'"
-		$CWD/chrono.sh
+		echo ":: 3 - Confirmer ensuite le téléchargement par la touche d (download)"
+    echo ":: 4 - Valider en tapant sur entrée, puis quitter Lynx 'q' puis 'o'"
+		$CWD/pause_script.sh
 		lynx http://apt.sw.be/redhat/el7/en/x86_64/rpmforge/RPMS/
     paquet=$(echo rpmforge*)
 

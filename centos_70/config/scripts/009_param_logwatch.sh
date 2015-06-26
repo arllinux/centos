@@ -19,9 +19,9 @@ else
         echo "----------------------------------"
         echo ":: Modification des paramètres. ::"
         echo "----------------------------------"
-				echo ":: le fichier de configuration de logwatch va s'ouvrir pour
-  			permettre les modifications"
-  			bash -c chrono.sh
+	      echo ":: --> le fichier de configuration de logwatch va"
+        echo ":: --> s'ouvrir pour permettre les modifications"
+        $CWD/pause_script.sh
         vim /etc/logwatch/logwatch.conf
 
         echo "------------------------------"

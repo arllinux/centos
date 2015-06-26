@@ -14,7 +14,7 @@ else
   echo ":: Ouvrir le port du parefeu : 123 ::"
 	echo ":: --> le fichier de configuration du parefeu va"
   echo ":: --> s'ouvrir pour permettre les modifications"
-  $CWD/chrono.sh
+  $CWD/pause_script.sh
   # Ouvrir le fichier firewall.sh
   vim /usr/local/sbin/firewall.sh
 

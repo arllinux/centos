@@ -15,13 +15,16 @@ for IFACE in $IFACES; do
      cat $CWD/../eth/network >> /etc/sysconfig/network
 
 		 echo ":: --> le fichier de configuration de l'interface réseau va"
-     echo ":: -- > s'ouvrir pour permettre les modifications"
-		 $CWD/chrono.sh
+     echo ":: --> s'ouvrir pour permettre les modifications"
+     echo ":: >------------------------------------------------------<"
+     echo ""
+		 $CWD/pause_script.sh
      vim $WAY$PREFIX$IFACE
 
 		 echo ":: --> le fichier de configuration du réseau va"
-     echo ":: -- > s'ouvrir pour permettre les modifications"
-		 $CWD/chrono.sh
+     echo ":: --> s'ouvrir pour permettre les modifications"
+     echo ":: >-------------------------------------------<" 
+		 $CWD/pause_script.sh
      vim /etc/sysconfig/network
       if [ $STOP = "0" ]; then
          exit

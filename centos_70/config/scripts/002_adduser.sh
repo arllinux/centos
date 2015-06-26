@@ -4,7 +4,7 @@
 # JP Antinoux - juin 2015
 
 echo " :: --> Création d'un utilisateur simple"
-echo " :: >------------------------------------<"
+echo " :: >----------------------------------<"
 echo ""
 read -p " :: --> Indiquer le nom du nouvel utilisteur : " nom
 echo " :: >---------------------------------------------"
@@ -13,9 +13,18 @@ adduser $nom
 		if [ $? = 0 ]
 		then
 		passwd $nom
-		fi
-echo " :: L'utilisateur et son mot de passe ont été créé avec succès !"
-echo " :: >----------------------------------------------------------<
+      if [ $? = 0 ]
+      then
+        echo " :: --> Le mot de passe a été défini"
+        echo " :: >------------------------------<"
+        echo " :: L'utilisateur et son mot de passe ont été créé avec succès !"
+        echo " :: >----------------------------------------------------------<"
+      else
+        echo " :: !!! la création du mot de passe à échoué"
+        echo " :: >--------------------------------------<"
+        exit 1
+     fi 
+ 	fi
 
 exit 0
 

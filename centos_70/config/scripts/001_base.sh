@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 001_base.sh
-# JP Antinoux - décembre 2014
+# JP Antinoux - décembre 2014 - juin 2015
 
 FILE_U='invite_user'
 FILE_R='invite_root'
@@ -30,9 +30,9 @@ else
 	      cat $CWD/../bash/$FILE_R > "$RC_ROOT"
 
     # Installation de quelques outils en ligne de commande
-        echo "-----------------------------------------"
+        echo "----------------------------------"
         echo ":: Installation outils de base. ::"
-        echo "-----------------------------------------"
+        echo "----------------------------------"
         TOOLS=$(egrep -v '(^\#)' $CWD/../bases_install/paquets-base)
         yum -y install $TOOLS
 
@@ -51,9 +51,9 @@ else
         yum -y remove NetworkManager
 
     # Activation du service iptables (parefeu du noyau)
-        echo "-----------------------------------"
+        echo "------------------------------------"
         echo ":: Activation du service iptables ::"
-        echo "-----------------------------------"
+        echo "------------------------------------"
         systemctl enable iptables
         systemctl start iptables
 
@@ -67,9 +67,8 @@ else
         echo ":: Désactivation de SELinux ::"
         cat $CWD/../selinux/selinux > /etc/sysconfig/selinux
 
- 		 # Activer la coloration de l'invite root et utilisateur
-				bash -c source $RC_ROOT
-				bash -c source /home/$nom/.bashrc
+ 		 # Activer la coloration de l'invite root
+				bash -c source "$RC_ROOT"
 
     # Lien symbolique de eZServerMonitor.sh vers diag -a
         echo "------------------------------"

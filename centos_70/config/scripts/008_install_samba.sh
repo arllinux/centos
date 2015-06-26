@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# 010_install_samba.sh
+# 008_install_samba.sh
 #
-# JP Antinoux - Janvier 2015
+# JP Antinoux - Janvier 2015 - juin 2015
 
 #'''''''''''''''''''''''''''''''''''''''''''''''''''#
 # Modifier les paramètres avant de lancer le script #
@@ -53,21 +53,21 @@ if [ $USER != "root" ]
 			echo ":: --> le script de gestion de la corbeille va"
       echo ":: --> s'ouvrir pour visualiser sa mise en place"
       echo "------------------------------------------------"
-  		$CWD/chrono.sh
+  		$CWD/pause_script.sh
       vim /etc/cron.weekly/samba_trash.sh
 
       echo "----------------------------------------------"
     	echo ":: --> le fichier de configuration de samba va"
       echo ":: --> s'ouvrir pour permettre les modifications"
       echo "----------------------------------------------"
-      $CWD/chrono.sh
+      $CWD/pause_script.sh
       vim /etc/samba/smb.conf
 
       echo "------------------------------------------------"
 	    echo ":: --> le fichier de configuration du parefeu va"
       echo ":: --> s'ouvrir pour permettre les modifications"
       echo "------------------------------------------------"
-      $CWD/chrono.sh
+      $CWD/pause_script.sh
       vim /usr/local/sbin/firewall.sh
 
 			# Exécuter le script
