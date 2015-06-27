@@ -80,7 +80,7 @@ else
         vim /etc/resolv.conf
 fi
         echo "-------------------------------------------"
-        echo ":: Les serveur dns et dhcp sont en place ::"
+        echo ":: Les serveurs dns et dhcp sont en place ::"
         echo "-------------------------------------------"
 
 exit 0

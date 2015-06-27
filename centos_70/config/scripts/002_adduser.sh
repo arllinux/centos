@@ -24,6 +24,9 @@ adduser $nom
         echo " :: >--------------------------------------<"
         exit 1
      fi 
+    else
+      echo " :: !!! la création de l'utilisateur à échoué"
+      echo " :: >---------------------------------------<"
  	fi
 
 exit 0
