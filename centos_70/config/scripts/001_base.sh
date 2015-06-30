@@ -12,16 +12,20 @@ if [ $USER != "root" ] ;
     then
 	echo "Pour exécuter ce script il faut être l'utilisateur root !"
 else
-
-    # Vérification du nom d'utilisateur
+		# Configurer pour un utilisateur exitant (pour serveur dedibox)
+		read -p 'Avez-vous déjà un utilisateur simple à configurer ? : oui/non '
+		oui
+    if [ $oui = "oui" ] then
+		
+		# Vérification du nom d'utilisateur
        read -p 'Utilisateur (login) à personnaliser : ' nom
        while [ -z $nom ]; do
        echo "Veuillez saisir votre nom"
        read nom
        done
        cat /etc/passwd | grep bash | awk -F ":" '{print $1}' | grep -w $nom > /dev/null
- if [ $? = "0" ]
-   then
+ 				if [ $? = "0" ]
+   				then
        echo ":: Configuration invite de commande pour l'utilisateur courant. ::"
        cat $CWD/../bash/invite_users > /home/$nom/.bashrc
     
