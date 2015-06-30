@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 004_firewall_eth0.sh
-# JP Antinoux - janvier 2015
+# JP Antinoux - juin 2015
 
 CWD=$(pwd)
 WAY='/usr/local/sbin/firewall.sh'
@@ -16,7 +16,10 @@ else
   if [ -f $WAY ] ;
     
     then
-      
+     
+			 echo ":: --> le fichier de configuration du parefeu va"
+       echo ":: --> s'ouvrir pour permettre les modifications"
+			 $CWD/pause_script.sh
       # l'ouvrir, le modifier...
         vim $WAY
      	
@@ -27,14 +30,17 @@ else
         systemctl restart iptables.service
     
     else
-			#########################################
-     	# Si le script n'est pas encore en place#
-			#########################################
+			##########################################
+     	# Si le script n'est pas encore en place #
+			##########################################
 
       # Copier le fichier qui va permettre les réglages du parefeu
       # vers /usr/local/sbin
         cp $CWD/../firewall/firewall.sh $WAY
       
+			 echo ":: --> le fichier de configuration du parefeu va"
+       echo ":: --> s'ouvrir pour permettre les modifications"
+			 $CWD/pause_script.sh
       # l'ouvrir, le modifier...
         vim $WAY
 

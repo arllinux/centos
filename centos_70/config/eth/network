@@ -1,6 +1,11 @@
 # /etc/sysconfig/network
-#
+
+# Jean-Pierre Antinoux - juin 2015
+
+# Cette option permet de vérifier que le réseau est activé 
 NETWORKING=yes
+# Pas d'activation de l'IPV6
 NETWORKING_IPV6=no
+# Passerelle du réseau local : adapter à votre réseau
 GATEWAY=192.168.0.254
 

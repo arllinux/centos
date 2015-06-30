@@ -1,11 +1,7 @@
 #!/bin/bash
 
 # 007_dnsmasq.sh
-# JP Antinoux - janvier 2015
-
-#"""""""""""""""""""""""""""""""""""""""""""""""""""""""#
-# Modifier les paramètres avant de lancer le script !!! #
-#"""""""""""""""""""""""""""""""""""""""""""""""""""""""#
+# JP Antinoux - janvier 2015 - juin 2015
 
 CWD=$(pwd)
 
@@ -18,6 +14,9 @@ else
         echo "--------------------------------------------------------"
         echo ":: Ouverture du parefeu tcp-udp : 53 - udp : 67 et 68 ::"
         echo "--------------------------------------------------------"
+	      echo ":: --> le fichier de configuration du parefeu va"
+        echo ":: --> s'ouvrir pour permettre les modifications"
+        $CWD/pause_script.sh
   # Ouvre le fichier firewall pour permettre les modifications      
         vim /usr/local/sbin/firewall.sh
         
@@ -31,6 +30,9 @@ else
         echo "------------------------------"
         echo ":: Configuration de dnsmasq ::"
         echo "------------------------------"
+	      echo ":: --> le fichier de configuration de dnsmasq va"
+        echo ":: --> s'ouvrir pour permettre les modifications"
+        $CWD/pause_script.sh
         vim $CWD/../dnsmasq/dnsmasq.conf
 
   # Copie le fichier de configuration en "fichier.old"        
@@ -43,6 +45,9 @@ else
         echo "----------------------------------------"
         echo ":: Mise en place de l'encapsuleur tcp ::"
         echo "----------------------------------------"
+	      echo ":: --> le fichier de configuration hosts.allow"
+        echo ":: --> s'ouvrir pour permettre les modifications"
+        $CWD/pause_script.sh
         vim $CWD/../firewall/hosts.allow
         cat $CWD/../firewall/hosts.allow > /etc/hosts.allow
         cat $CWD/../firewall/hosts.deny > /etc/hosts.deny
@@ -57,9 +62,26 @@ else
         systemctl start dnsmasq.service
 
         echo "----------------------------------------"
-        echo ":: Modifier manuellement les fichiers : "
-        echo ":: /etc/hosts et /etc/resolv.conf :: "
+        echo ":: Vérification du fichier /etc/hosts ::"
         echo "----------------------------------------"
+	      echo ":: --> le fichier de configuration hosts"
+        echo ":: --> s'ouvrir pour permettre les modifications"
+        $CWD/pause_script.sh
+        cat $CWD/../dnsmasq/hosts > /etc/hosts
+        vim /etc/hosts
+
+        echo "----------------------------------------------"
+        echo ":: Vérification du fichier /etc/resolv.conf ::"
+        echo "----------------------------------------------"
+	      echo ":: --> le fichier de configuration resolv.conf"
+        echo ":: --> s'ouvrir pour permettre les modifications"
+        $CWD/pause_script.sh
+        cat $CWD/../dnsmasq/resolv.conf > /etc/resolv.conf
+        vim /etc/resolv.conf
 fi
+        echo "-------------------------------------------"
+        echo ":: Les serveurs dns et dhcp sont en place ::"
+        echo "-------------------------------------------"
 
 exit 0
+

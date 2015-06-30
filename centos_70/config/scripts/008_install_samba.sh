@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# 010_install_samba.sh
+# 008_install_samba.sh
 #
-# JP Antinoux - Janvier 2015
+# JP Antinoux - Janvier 2015 - juin 2015
 
 #'''''''''''''''''''''''''''''''''''''''''''''''''''#
 # Modifier les paramètres avant de lancer le script #
@@ -24,6 +24,8 @@ if [ $USER != "root" ]
       smbpasswd -a smbguest -d
 
   # Choix du nombre de répertoire que l'on veut créer
+	# Si vous désirez d'autres nom de répertoire, il faut les modifier avant de
+	# lancer le script
   read -p "Pour créer un seul répertoire taper 1 sinon taper 2 :" numrep
   if [ $numrep = 1 ]
     then
@@ -47,15 +49,25 @@ if [ $USER != "root" ]
 			# fichiers agés de 2 mois.
       cat $CWD/../samba/etc/cron.weekly/samba_trash.sh.template > /etc/cron.weekly/samba_trash.sh
       chmod 0755 /etc/cron.weekly/samba_trash.sh
+      echo "------------------------------------------------"
+			echo ":: --> le script de gestion de la corbeille va"
+      echo ":: --> s'ouvrir pour visualiser sa mise en place"
+      echo "------------------------------------------------"
+  		$CWD/pause_script.sh
+      vim /etc/cron.weekly/samba_trash.sh
 
-  echo "----------------------------------------------"
-  echo ":: Adaptation des fichiers de configuration ::"
-  echo "----------------------------------------------"
+      echo "----------------------------------------------"
+    	echo ":: --> le fichier de configuration de samba va"
+      echo ":: --> s'ouvrir pour permettre les modifications"
+      echo "----------------------------------------------"
+      $CWD/pause_script.sh
       vim /etc/samba/smb.conf
 
-  echo "---------------------------------"
-  echo ":: Ouvrir les ports pour Samba ::"
-  echo "---------------------------------"
+      echo "------------------------------------------------"
+	    echo ":: --> le fichier de configuration du parefeu va"
+      echo ":: --> s'ouvrir pour permettre les modifications"
+      echo "------------------------------------------------"
+      $CWD/pause_script.sh
       vim /usr/local/sbin/firewall.sh
 
 			# Exécuter le script
