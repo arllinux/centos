@@ -4,6 +4,7 @@
 # JP Antinoux - janvier 2015
 
 CWD=$(pwd)
+WAY='/usr/share/logwatch/default.conf/'
 
 if [ $USER != "root" ] ;
     then
@@ -14,15 +15,15 @@ else
         echo "--------------------------------"
         echo ":: Configuration de logwatch. ::"
         echo "--------------------------------"
-	      cat $CWD/../logwatch/logwatch.conf > /etc/logwatch/logwatch.conf
+	      cp $WAY/logwatch.conf $WAY/logwatch.conf_old 
+				cat $CWD/../logwatch/logwatch.conf > $WAY/logwatch.conf
 
         echo "----------------------------------"
         echo ":: Modification des paramètres. ::"
         echo "----------------------------------"
-	      echo ":: --> le fichier de configuration de logwatch va"
         echo ":: --> s'ouvrir pour permettre les modifications"
         $CWD/pause_script.sh
-        vim /etc/logwatch/logwatch.conf
+        vim $WAY/logwatch.conf
 
         echo "------------------------------"
         echo ":: Modifications terminées. ::"
