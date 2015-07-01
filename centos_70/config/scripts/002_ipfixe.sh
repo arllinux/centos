@@ -28,9 +28,11 @@ for IFACE in $IFACES; do
      vim /etc/sysconfig/network
       if [ $STOP = "0" ]; then
          exit
-       fi
-  fi  
+      fi
+   fi  
 done
+systemctl stop network
+systemctl start network
 
 exit 0
 
