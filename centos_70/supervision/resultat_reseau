@@ -7,19 +7,13 @@
 # Liste des fichiers de configuration du réseau sur CentOS 7
 #-----------------------------------------------------------
 # Fichier /etc/hostname
-centos7
+centos7serveur
 ---------------------------------------------
  
-# Fichier /etc/hosts
+# /etc/hosts
 #
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
-192.168.0.250 centos7 centos7.labo2.arles
-192.168.0.254 freebox freeboox.labo2.arles
-192.168.0.10 tplink tplink.labo2.arles
-192.168.0.250 freebsd.centos7 freebsd.centos7.labo2.arles
-192.168.0.250 slackware.centos7 slackware.centos7.labo2.arles
-192.168.0.250 phpinfo.centos7 phpinfo.centos7.labo2.arles
-192.168.0.250 dolibarr.centos7 dolibarr.centos7.labo2.arles
+192.168.0.2 centos7serveur
 ---------------------------------------------
  
 # Fichier /etc/host.conf
@@ -27,11 +21,17 @@ multi on
 ---------------------------------------------
  
 # Fichier /etc/sysconfig/network
+# Created by anaconda
 # /etc/sysconfig/network
-# 
+
+# Jean-Pierre Antinoux - juin 2015
+
+# Cette option permet de vérifier que le réseau est activé 
 NETWORKING=yes
+# Pas d'activation de l'IPV6
 NETWORKING_IPV6=no
-GATEWAY=192.168.0.254
+# Passerelle du réseau local : adapter à votre réseau
+GATEWAY=192.168.0.1
 
 ---------------------------------------------
  
@@ -42,23 +42,36 @@ link-local 169.254.0.0
 ---------------------------------------------
  
 # Fichier /etc/resolv.conf
-# vim /etc/resolv.conf
-#
-domain labo2.arles
-search labo2.arles
-nameserver 192.168.0.250
-
+# /etc/resolv.conf
+domain regards.arles
+search regards.arles
+nameserver 192.168.0.2
 ---------------------------------------------
  
-# Fichier /etc/sysconfig/network-scripts/ifcfg-enp2s0
-# ifcfg-enp2s0
-#
-DEVICE="enp2s0"
-HWADDR="00:24:1D:13:85:FE"
+# Fichier /etc/sysconfig/network-scripts/ifcfg-eth0
+# ifcfg-eth0
+
+# jpantinoux - juin 2015
+# Ici les paramètres à renseigner - En 2 lire les instructions pour faire
+# apparaitre les paramètres
+DEVICE="eth0"
+HWADDR="70:62:b8:94:5c:c4"
 NM_CONTROLLED="no"
 ONBOOT="yes"
 BOOTPROTO=static
-IPADDR=192.168.0.250
+IPADDR=192.168.0.2
 NETMASQ=255.255.255.0
+
+# ================ 2 ==============================
+#
+# ATTENTION
+# Pour connaitre les paramètre de la carte sans ouvrir une autre console, il
+# faut positionner le cuseur sur la ligne en dessous de ces explications puis
+# taper en mode commande (appuyer sur insertion pour être sûr :-) :
+# :r! ifconfig
+# Le résultat de la commande s'inscrit dans l'éditeur. Après utilisation penser
+# à supprimer ce qui est inutile.
+#
+# ================ 2 ==============================
 
 ---------------------------------------------

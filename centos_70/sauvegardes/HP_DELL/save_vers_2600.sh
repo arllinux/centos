@@ -1,10 +1,10 @@
 #!/bin/bash
-# 12/01/2015
+# 17/07/2015
 
-# save_vers_2600.sh (dans /root/bin du serveur HP Zac-CERBERE)
-# Lancement à 4 h
+# save_vers_2600.sh (dans /root/bin du serveur HP serveur7centos)
+# Lancement à 23 h 30
 # crontab -l
-# 00 04 * * 1-5 /root/bin/save_vers_dell_2600.sh
+# 30 23 * * 1-5 /root/bin/save_vers_dell_2600.sh
 # --\\\\\--
 
 # 1 - Ce script est lancé par la crond sur la machine A.
@@ -24,17 +24,19 @@
 
 Date=$(date +%d-%m-%Y)
 Heure=$(date +%T)
-SOURCEDIR='/mnt/partages/*'
-SOURCEDIR2='/mnt/sauve_2015_1/*'
-SOURCEDIR3='/mnt/sauve_2015_2/*'
-SOURCEDIR4='/mnt/compta_2015/*'
+SOURCEDIR='/srv/samba/partage2015/partages/*'
+SOURCEDIR2='/srv/samba/partage2015/sauve_2015_1/*'
+SOURCEDIR3='/srv/samba/partage2015/sauve_2015_2/*'
+SOURCEDIR4='/srv/samba/partage2015/compta_2015/*'
+SOURCEDIR5='/srv/samba/partage2015/confidentiel/*'
 DESTDIR='/mnt/raid3456/sauvegardes_2015/Dossier_partagé_2015'
 DESTDIR2='/mnt/raid3456/sauvegardes_2015/sauve_2015_1'
 DESTDIR3='/mnt/raid3456/sauvegardes_2015/sauve_2015_2'
 DESTDIR4='/mnt/raid3456/sauvegardes_2015/compta_2015'
+DESTDIR5='/mnt/raid3456/sauvegardes_2015/courrier_2015'
 SERVEUR="root@192.168.0.115"
 logfile='/root/bin/logs_sauvegardes/logfile_HP_DELL.txt'
-H=horairejour
+H='horairejour'
 # --\\\\\--
 
 # Le script présent dans la machine A vérifie si la machine B est connectée.
@@ -49,25 +51,27 @@ if [ $? = "0" ]
     if [ $? = "0" ]
 	then
 
-	# Si le script précédent c'est bien déroulé,
-	# vérifie si l'on se trouve sur la machine A (Zac-CERBERE).
-	  if [ $HOSTNAME = "Zac-CERBERE" ]
+	# Si le script précédent s'est bien déroulé,
+	# vérifie si l'on se trouve sur la machine A (centos7serveur).
+	  if [ $HOSTNAME = "centos7serveur" ]
 	    then
 
 		# Lance la syncro 
-		rsync -av --delete $SOURCEDIR $SERVEUR:$DESTDIR/$H.0/
+		rsync -av --delete $SOURCEDIR $SERVEUR:$DESTDIR/$H.0/ >> $logfile
 		echo -e "Dossier partagé 2015 sauvegardé" >> $logfile
-		rsync -av --delete $SOURCEDIR2 $SERVEUR:$DESTDIR2/$H.0/
+		rsync -av --delete $SOURCEDIR2 $SERVEUR:$DESTDIR2/$H.0/ >> $logfile 
 		echo -e "Dossier sauve_2015_1 sauvegardé" >> $logfile
-		rsync -av --delete $SOURCEDIR3 $SERVEUR:$DESTDIR3/$H.0/
+		rsync -av --delete $SOURCEDIR3 $SERVEUR:$DESTDIR3/$H.0/ >> $logfile
 		echo -e "Dossier sauve_2015_2 sauvegardé" >> $logfile
-		rsync -av --delete $SOURCEDIR4 $SERVEUR:$DESTDIR4/$H.0/
+		rsync -av --delete $SOURCEDIR4 $SERVEUR:$DESTDIR4/$H.0/ >> $logfile
 		echo -e "Dossier compta_2015 sauvegardé" >> $logfile
+		rsync -av --delete $SOURCEDIR5 $SERVEUR:$DESTDIR5/$H.0/ >> $logfile
+		echo -e "Dossier confidentiel sauvegardé" >> $logfile
 
 		# Se reconnecte à la machine B pour lancer
 		# "touch_3456.sh"
 		# qui va mettre à jour la date.
-		ssh $SERVEUR bash -c "/root/bin/touch_3456.sh"
+		# ssh $SERVEUR bash -c "/root/bin/touch_3456.sh"
 		Date=$(date +%d-%m-%Y)
 		Heure=$(date +%T)
 
