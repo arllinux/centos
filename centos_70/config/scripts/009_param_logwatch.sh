@@ -21,6 +21,7 @@ else
         echo "----------------------------------"
         echo ":: Modification des paramètres. ::"
         echo "----------------------------------"
+        echo ":: --> Le fichier logwatch.conf va"
         echo ":: --> s'ouvrir pour permettre les modifications"
         $CWD/pause_script.sh
         vim $WAY/logwatch.conf

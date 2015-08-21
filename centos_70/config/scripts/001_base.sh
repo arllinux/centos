@@ -12,7 +12,6 @@ if [ $USER != "root" ] ;
     then
 	echo "Pour exécuter ce script il faut être l'utilisateur root !"
 else
-<<<<<<< HEAD
 		# Configurer pour un utilisateur exitant (pour serveur dedibox)
 		read -p 'Avez-vous déjà un utilisateur simple à configurer ? : oui/non '
 		oui
@@ -29,10 +28,7 @@ else
    				then
        echo ":: Configuration invite de commande pour l'utilisateur courant. ::"
        cat $CWD/../bash/invite_users > /home/$nom/.bashrc
-    
-=======
 
->>>>>>> 13c427d3a449371f26973cdeab590468adbff008
     # Configuration de Vim
         echo "---------------------------"
         echo ":: Configuration de Vim. ::"
