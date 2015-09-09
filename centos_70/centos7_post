@@ -228,12 +228,7 @@ sinon
     # systemctl enable iptables.service
   - Tester si le service est actif
     # systemctl status iptables.service
-  - Voir ce qu'en pense le kernel
-    # tail -f /var/log/messages | grep firewall
----
-Feb 16 18:57:49 centos7 systemd: Starting firewall...
-Feb 16 18:57:50 centos7 systemd: Started firewall.
----
+
 ------------------------------------------------------------
 
 
