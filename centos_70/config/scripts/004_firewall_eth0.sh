@@ -14,9 +14,7 @@ else
 # Si le fichier "firewall.sh" est présent
 # Autrement dit : si ce n'est pas la première utilisation
   if [ -f $WAY ] ;
-    
     then
-     
 			 echo ":: --> le fichier de configuration du parefeu va"
        echo ":: --> s'ouvrir pour permettre les modifications"
 			 $CWD/pause_script.sh
