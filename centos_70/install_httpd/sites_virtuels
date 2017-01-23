@@ -1,0 +1,105 @@
+# Paraméter des hotes virtuels sous centos 7
+
+Source : https://www.digitalocean.com/community/tutorials/how-to-set-up-apache-virtual-hosts-on-centos-7
+
+1 - Create the Directory Structure
+
+# mkdir -p /var/www/example.com/public_html
+# mkdir -p /var/www/example2.com/public_html
+
+2 - Grant Permissions
+
+# chown -R apache:apache /var/www/example.com/public_html
+# chown -R apache:apache /var/www/example2.com/public_html
+
+# chmod -R 755 /var/www
+
+3 - Create Demo Pages for Each Virtual Host
+
+# vim /var/www/example.com/public_html/index.html
+
+<html>
+  <head>
+   <title>Welcome to Example.com!</title>
+  </head>
+  <body>
+   <h1>Success! The example.com virtual host is working!</h1>
+  </body>
+</html>
+
+# cp /var/www/example.com/public_html/index.html /var/www/example2.com/public_html/index.html
+
+# vim /var/www/example2.com/public_html/index.html
+
+<html>
+  <head>
+   <title>Welcome to Example2.com!</title>
+  </head>
+  <body>
+   <h1>Success! The example2.com virtual host is working!</h1>
+  </body>
+</html>
+
+4 - Create New Virtual Host Files
+
+# mkdir /etc/httpd/sites-available
+# mkdir /etc/httpd/sites-enabled
+
+# vim /etc/httpd/conf/httpd.conf
+
+*** Add this line to the end of the file:
+
+IncludeOptional sites-enabled/*.conf
+
+
+
+4.1 - Create the First Virtual Host File
+
+# vim /etc/httpd/sites-available/example.com.conf
+
+<VirtualHost *:80>
+
+   ServerName www.example.com
+   ServerAlias example.com
+   DocumentRoot /var/www/example.com/public_html
+   ErrorLog /var/www/example.com/error.log
+   CustomLog /var/www/example.com/requests.log combined
+</VirtualHost>
+
+4.2 - Copy First Virtual Host and Customize for Additional Domains
+
+# sudo cp /etc/httpd/sites-available/example.com.conf /etc/httpd/sites-available/example2.com.conf
+
+# vim /etc/httpd/sites-available/example2.com.conf
+
+<VirtualHost *:80>
+
+   ServerName www.example2.com
+   ServerAlias example2.com
+   DocumentRoot /var/www/example2.com/public_html
+   ErrorLog /var/www/example2.com/error.log
+   CustomLog /var/www/example2.com/requests.log combined
+</VirtualHost>
+
+5 - Enable the New Virtual Host Files
+
+# ln -s /etc/httpd/sites-available/example.com.conf /etc/httpd/sites-enabled/example.com.conf
+# ln -s /etc/httpd/sites-available/example2.com.conf /etc/httpd/sites-enabled/example2.com.conf
+
+# apachectl restart
+
+6 - Set Up Local Hosts File (Optional)
+
+# vim /etc/hosts
+
+127.0.0.1   localhost
+server_ip_address example.com
+server_ip_address example2.com
+
+7 - Test Your Results
+
+http://example.com
+
+Enjoy
+
+===/===
