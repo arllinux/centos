@@ -48,8 +48,8 @@ if [ $? = "0" ]
 	# Si le script précédent s'est bien déroulé,
 	# Lance la syncro 
 		rsync -av -e "ssh -p 18525" utilisateur@37.59.52.161:/home/utilisateur/archive.tar.bz2 .
-    Date=$(date +%d-%m-%Y)
-    Heure=$(date +%T)
+	        Date=$(date +%d-%m-%Y)
+    		Heure=$(date +%T)
 
 		echo -e "Sauvegarde terminée à  : $Heure le $Date\n" >> $logfile
 		echo -e "-------------------------------------------------------"
@@ -57,7 +57,7 @@ if [ $? = "0" ]
 	  echo -e "\n!!!!! Le dossier jour.0 est absent\nSauvegarde interrompue à $Heure le $Date" >> $logfile
 	  echo -e "---------------------------------------------------------------"
      fi			
-      else
+   else
     echo -e "\n!!!!! Serveur inaccessible : échoué à $Heure le $Date" >> $logfile
     echo -e "---------------------------------------------------------------"
 fi
