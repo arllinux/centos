@@ -6,9 +6,9 @@
 # Dans /root/bin du serveur Regards
 # sauvegarde sur 10 jours ouvrables.
 
-DEST=répertoire dans lequel il faut faire la rotation
+DEST='/home/jpantinoux/save_nextcloud'
 D=jour
-H=horairejour
+H=Hjour
 n=10
 x=11
 

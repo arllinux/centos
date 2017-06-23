@@ -1,8 +1,8 @@
 #!/bin/bash
-# 17/06/2017
+# 23/06/2017
 # JP Antinoux
 
-# save_apartir_regards.sh (dans /root/bin du serveur HP serveur7centos)
+# save_apartir_regards.sh (dans /root/bin du serveur HP serveur)
 # Lancement à 23 h 30
 # crontab -l
 # 30 23 * * 1-5 /root/bin/save_apartir_regards
@@ -21,22 +21,24 @@
 # 3 - lancement de rsync.
 #
 #     Les infos sur les opérations effectuées se trouvent dans le fichier
-#     "/root/bin/logs_sauvegardes/logfile_HP_DELL.txt" sur la machine A.
+#     "/root/bin/logfile_resspa13.ovh.txt" sur la machine A.
 # --\\\\\--
 
 Date=$(date +%d-%m-%Y)
 Heure=$(date +%T)
-SOURCEDIR='/srv/samba/partage2015/partages/*'
-DESTDIR='/mnt/raid3456/sauvegardes_2015/Dossier_partagé_2015'
-SERVEUR="utilisateur@37.59.58.161"
-logfile='/root/bin/logs_sauvegardes/logfile_HP_DELL.txt'
-H='horairejour'
+SERVEUR='root@37.59.52.161'
+SOURCE='/home/sauvegardes/var/*'
+logfile='/root/bin/logfile_resspa13.ovh.txt'
+WAYSAVE='/home/jpantinoux/save_nextcloud/'
+H='Hjour'
+
 # --\\\\\--
 
 # Le script vérifie si la machine B est connectée.
 
-echo -e "----\nLancement sauvegarde à : $Heure le $Date" >> $logfile
-  ping -c 1 37.59.58.161 > /dev/null
+		echo -e "Lancement sauvegarde à : $Heure le $Date" >> $logfile
+    echo -e "-----------------------------------------------------" >> $logfile
+  ping -c 1 37.59.52.161 > /dev/null
 if [ $? = "0" ]
   then
 
@@ -47,19 +49,21 @@ if [ $? = "0" ]
 
 	# Si le script précédent s'est bien déroulé,
 	# Lance la syncro 
-		rsync -av -e "ssh -p 18525" utilisateur@37.59.52.161:/home/utilisateur/archive.tar.bz2 .
-	        Date=$(date +%d-%m-%Y)
+  #	rsync -av -e "ssh -p 18525"	utilisateur@37.59.52.161:/home/utilisateur/archive.tar.bz2 .
+  # rsync -av --delete root@37.59.52.161:/home/sauvegardes/var/* /home/jpantinoux/save_nextcloud/Hjour.O
+  	rsync -av --delete $SERVEUR:$SOURCE $WAYSAVE$H.0 >> $logfile
+	      Date=$(date +%d-%m-%Y)
     		Heure=$(date +%T)
 
-		echo -e "Sauvegarde terminée à  : $Heure le $Date\n" >> $logfile
-		echo -e "-------------------------------------------------------"
+		echo -e "Sauvegarde terminée à  : $Heure le $Date" >> $logfile
+		echo -e "-----------------------------------------------------" >> $logfile
 	  		else
-	  echo -e "\n!!!!! Le dossier jour.0 est absent\nSauvegarde interrompue à $Heure le $Date" >> $logfile
-	  echo -e "---------------------------------------------------------------"
+	  echo -e "\n!!!!! Le dossier Hjour.0 est absent\nSauvegarde interrompue à $Heure le $Date" >> $logfile
+	  echo -e "---------------------------------------------------------------" >> $logfile	
      fi			
    else
     echo -e "\n!!!!! Serveur inaccessible : échoué à $Heure le $Date" >> $logfile
-    echo -e "---------------------------------------------------------------"
+    echo -e "---------------------------------------------------------------" >> $logfile
 fi
 exit 0
 
