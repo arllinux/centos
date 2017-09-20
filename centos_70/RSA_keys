@@ -46,7 +46,7 @@ La clé à changée : comment faire ?
 
 Si lors d'une tentative de connexion vous obtenez ce message en retour :
 
-[utilisateur@prunelle ~]$ ssh utilisateur:g .@192.168.0.2
+[utilisateur@prunelle ~]$ ssh utilisateur@192.168.0.2
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @

@@ -238,7 +238,7 @@ function network()
         echo -e "  ${GREEN}IP LAN (${INTERFACE})\t ${WHITE}$IP_LAN"
     done
 
-    echo -e "  ${GREEN}IP WAN\t ${WHITE}$IP_WAN"
+		echo -e "  ${GREEN}IP WAN\t {WHITE}$IP_WAN"
 }
 
 # Function : ping
