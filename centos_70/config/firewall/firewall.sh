@@ -75,7 +75,7 @@ ETH=192.168.0.250
        # $IPT -A INPUT -p icmp --icmp-type destination-unreachable -j ACCEPT
 
        # Connexions établies :
-       # $IPT -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+       # $IPT -A INPUT -m state --state ESTABLISHED -j ACCEPT
 
        # FTP local :
        # $MOD ip_conntrack_ftp
